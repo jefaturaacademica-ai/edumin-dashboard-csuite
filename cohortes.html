@@ -2245,7 +2245,7 @@
         <!-- Botones de Modo -->
         <div class="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 self-start lg:self-auto shadow-inner">
           <button id="btnChartModeStacked" onclick="setFlujoChartMode('stacked')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow">
-            <i class="fa-solid fa-layer-group text-xs"></i> <span>Composición Promesa</span>
+            <i class="fa-solid fa-layer-group text-xs"></i> <span>Composición Mensual</span>
           </button>
           <button id="btnChartModeDirect" onclick="setFlujoChartMode('direct')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800">
             <i class="fa-solid fa-chart-column text-xs"></i> <span>Comparativa Directa</span>
@@ -2327,7 +2327,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div class="text-xs font-bold text-white flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span id="flujoChartTitle">Composición Mensual: Promesa Comercial vs (Monto Ingreso + Cuotas Posteriores + Saldo)</span>
+            <span id="flujoChartTitle">Composición Mensual: Monto Ingreso (C1) + Cuotas Posteriores + Saldo Pendiente</span>
           </div>
           <div class="text-[11px] text-slate-400 flex items-center gap-2">
             <i class="fa-solid fa-circle-info text-cyan-400"></i>
@@ -3261,7 +3261,7 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
         if (mode === 'stacked') {
           btnStacked.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow';
           btnDirect.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800';
-          if (title) title.innerText = 'Composición Mensual: Promesa Comercial vs (Monto Ingreso + Cuotas Posteriores + Saldo)';
+          if (title) title.innerText = 'Composición Mensual: Monto Ingreso (C1) + Cuotas Posteriores + Saldo Pendiente';
         } else {
           btnDirect.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow';
           btnStacked.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800';
@@ -3316,10 +3316,12 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
       let datasets = [];
       let scales = {
         x: { 
+          stacked: true,
           ticks: { color: '#94a3b8', font: { weight: 'bold' } }, 
           grid: { color: 'rgba(255,255,255,0.05)' } 
         },
         y: { 
+          stacked: true,
           ticks: { 
             color: '#94a3b8', 
             callback: function(v) { return 'S/ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v); } 
@@ -3329,27 +3331,17 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
       };
 
       if (currentFlujoMode === 'stacked') {
-        scales.x.stacked = false;
+        scales.x.stacked = true;
         scales.y.stacked = true;
 
         datasets = [
-          {
-            label: 'Promesa Comercial (Monto Total a Pagar)',
-            data: months.map(m => stats[m].pactado),
-            backgroundColor: 'rgba(59, 130, 246, 0.45)',
-            borderColor: '#3b82f6',
-            borderWidth: 1.5,
-            stack: 'pactado_stack',
-            order: 2
-          },
           {
             label: 'Monto de Ingreso (Cuota 01)',
             data: months.map(m => stats[m].c1),
             backgroundColor: 'rgba(16, 185, 129, 0.85)',
             borderColor: '#10b981',
             borderWidth: 1,
-            stack: 'recaudo_stack',
-            order: 1
+            stack: 'recaudo_stack'
           },
           {
             label: 'Cobranza Cuotas 2, 3 y 4',
@@ -3357,8 +3349,7 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
             backgroundColor: 'rgba(6, 182, 212, 0.85)',
             borderColor: '#06b6d4',
             borderWidth: 1,
-            stack: 'recaudo_stack',
-            order: 1
+            stack: 'recaudo_stack'
           },
           {
             label: 'Saldo Pendiente por Cobrar',
@@ -3366,11 +3357,11 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
             backgroundColor: 'rgba(244, 63, 94, 0.75)',
             borderColor: '#f43f5e',
             borderWidth: 1,
-            stack: 'recaudo_stack',
-            order: 1
+            stack: 'recaudo_stack'
           }
         ];
       } else {
+        scales.x.stacked = false;
         scales.y.stacked = false;
         datasets = [
           {
@@ -3429,6 +3420,16 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
                 label: function(context) {
                   const val = context.parsed.y || 0;
                   return ' ' + context.dataset.label + ': S/ ' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                },
+                footer: function(tooltipItems) {
+                  if (currentFlujoMode === 'stacked') {
+                    let total = 0;
+                    tooltipItems.forEach(item => {
+                      total += (item.parsed.y || 0);
+                    });
+                    return '───────────────────\nTotal Promesa Comercial (Mes): S/ ' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                  }
+                  return '';
                 }
               }
             }
