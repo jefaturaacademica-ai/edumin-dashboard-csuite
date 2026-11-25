@@ -321,7 +321,7 @@
         <i class="fa-solid fa-table-columns text-amber-400"></i> Cuadro Gigante (Q10 vs Admin)
       </button>
       <button id="btnTabComparativo" onclick="switchMainTab('comparativo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
-        <i class="fa-solid fa-folder-tree text-amber-400"></i> Tri-Matrix & Fuentes
+        <i class="fa-solid fa-folder-tree text-amber-400"></i> Matriz Mensual & Fuentes
       </button>
       <button id="btnTabCohorte" onclick="switchMainTab('cohorte')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
         <i class="fa-solid fa-users-viewfinder text-blue-400"></i> Cohortes 2026
@@ -1256,166 +1256,63 @@
       </div>
     </div>
 
-
-    <!-- SUB-NAV / SELECTOR DE VISTAS DE LOS CUADROS -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 glass-card p-4">
-      <div class="flex items-center gap-2">
-        <span class="text-xs font-bold uppercase text-slate-400 tracking-wider">Modo de Visualización:</span>
-      </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button id="subBtnAdmin" onclick="switchMatrixView('admin')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5 border border-slate-700">
-          <i class="fa-solid fa-building-user text-rose-400"></i> 1. Cuadro Administración
-        </button>
-        <button id="subBtnReal" onclick="switchMatrixView('real')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5 border border-slate-700">
-          <i class="fa-solid fa-shield-halved text-emerald-400"></i> 2. Cuadro de Nosotros (Auditado)
-        </button>
-        <button id="subBtnDiff" onclick="switchMatrixView('diff')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5 border border-slate-700">
-          <i class="fa-solid fa-code-compare text-amber-400"></i> 3. Cuadro de Diferencias
-        </button>
-        <button id="subBtnAll" onclick="switchMatrixView('all')" class="px-3 py-1.5 rounded-lg text-xs subtab-active transition flex items-center gap-1.5 border border-blue-500">
-          <i class="fa-solid fa-table-cells-large text-blue-300"></i> Ver los 3 Cuadros en Cascada
-        </button>
-      </div>
-    </div>
-
-    <!-- CUADRO 1: ADMINISTRACIÓN -->
-    <div id="sectionMatrixAdmin" class="glass-card p-5 space-y-3 border border-rose-500/30">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-1 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold uppercase">Cuadro 1</span>
-          <h3 class="font-black text-white text-base">ADMINISTRACIÓN: Control de Ingresos 2026 y Calendario de Recaudación</h3>
+    <!-- ========================================================================= -->
+    <!-- CUADRO EJECUTIVO MENSUAL (NACIDO DIRECTAMENTE DEL DASHBOARD BI GERENCIAL) -->
+    <!-- ========================================================================= -->
+    <div class="glass-card p-5 space-y-4 border border-indigo-500/40 bg-gradient-to-r from-slate-900/90 via-indigo-950/20 to-slate-900/90 shadow-2xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-500 border border-indigo-400/40 flex items-center justify-center text-white text-lg shadow-lg shadow-indigo-500/25">
+            <i class="fa-solid fa-chart-column"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-black text-white uppercase tracking-wide">Cuadro Ejecutivo Mensual • Nacido del BI Gerencial</h3>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-mono font-bold flex items-center gap-1">
+                <i class="fa-solid fa-circle-nodes"></i> Consolidado 100% Real Q10
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">
+              Matriz consolidada mes a mes de los 295 alumnos auditados: ventas pactadas, cobrado efectivo en Q10, desglose de cuotas C1 a C4 y saldo deudor.
+            </p>
+          </div>
         </div>
-        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-3 py-1 rounded border border-rose-800">Fuente: Informe Fiorela Guevara (17/Nov/2026)</span>
+        <div class="flex items-center gap-2">
+          <button onclick="switchMainTab('bidashboard')" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-2 shadow-lg shadow-indigo-600/30 cursor-pointer">
+            <i class="fa-solid fa-chart-pie"></i> Ver en Dashboard BI
+          </button>
+        </div>
       </div>
 
-      <div class="overflow-x-auto rounded-lg border border-slate-800">
-        <table class="w-full text-left text-[11px] whitespace-nowrap">
-          <thead class="bg-slate-900/90 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-800">
+      <!-- TABLA CONSOLIDADA MENSUAL -->
+      <div class="overflow-x-auto rounded-xl border border-slate-800 shadow-xl bg-slate-950/60">
+        <table class="w-full text-left text-xs whitespace-nowrap">
+          <thead class="bg-slate-950 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-800 text-[11px]">
             <tr>
-              <th class="py-2.5 px-3">Mes (2026)</th>
-              <th class="py-2.5 px-3 text-right">Total Vendido</th>
-              <th class="py-2.5 px-3 text-right">Al Contado</th>
-              <th class="py-2.5 px-3 text-right">Primera Cuota</th>
-              <th class="py-2.5 px-3 text-right">Financiamiento</th>
-              <th class="py-2.5 px-3 text-right text-amber-300">Pendiente de Pago</th>
-              <th class="py-2.5 px-3 text-right text-rose-400">Pendiente Vencido</th>
-              <th class="py-2.5 px-3 text-right text-sky-300">Pendiente por Vencer</th>
-              <th class="py-2.5 px-3 text-right text-slate-400">Pendiente Impago (Ret/Perd)</th>
-              <th class="py-2.5 px-3 text-right font-bold text-emerald-400">Total Pagado (Cuotas)</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold border-l border-slate-800">Ene</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Feb</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Mar</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Abr</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">May</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jun</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jul</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Ago</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Sep</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Oct</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Nov</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Dic</th>
+              <th class="py-3.5 px-4">Mes de Ingreso (2026)</th>
+              <th class="py-3.5 px-3 text-center">Matriculados</th>
+              <th class="py-3.5 px-3 text-right">Ventas Pactadas</th>
+              <th class="py-3.5 px-3 text-right text-emerald-400 font-black">Recaudado Q10</th>
+              <th class="py-3.5 px-3 text-right text-emerald-300 font-bold">Cuota 01 (Inicial)</th>
+              <th class="py-3.5 px-3 text-right text-blue-300 font-bold">Cuota 02</th>
+              <th class="py-3.5 px-3 text-right text-indigo-300 font-bold">Cuota 03</th>
+              <th class="py-3.5 px-3 text-right text-purple-300 font-bold">Cuota 04</th>
+              <th class="py-3.5 px-3 text-right text-rose-400 font-black">Saldo Deudor</th>
+              <th class="py-3.5 px-4 text-center">Eficacia Cobranza</th>
+              <th class="py-3.5 px-3 text-center">Acción</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-800" id="matrixAdminBody">
+          <tbody class="divide-y divide-slate-800/80 font-mono text-[12px]" id="biMonthlyTableBody">
+            <!-- Filas dinámicas generadas desde GIANT_DATA -->
           </tbody>
-          <tfoot class="bg-slate-900 font-bold border-t border-slate-700 text-white" id="matrixAdminFoot">
-          </tfoot>
-        </table>
-      </div>
-    </div>
-
-    <!-- CUADRO 2: NUESTRO AUDITADO -->
-    <div id="sectionMatrixReal" class="glass-card p-5 space-y-3 border border-emerald-500/30">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold uppercase">Cuadro 2</span>
-          <h3 class="font-black text-white text-base">AUDITORÍA NUESTRA: Control de Ingresos y Calendario Realmente Cobrado</h3>
-        </div>
-        <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded border border-emerald-800">Fuente: VENTAS ASINCRÓNICOS + Boletas y Facturas Reales</span>
-      </div>
-
-      <div class="overflow-x-auto rounded-lg border border-slate-800">
-        <table class="w-full text-left text-[11px] whitespace-nowrap">
-          <thead class="bg-slate-900/90 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-800">
-            <tr>
-              <th class="py-2.5 px-3">Mes (2026)</th>
-              <th class="py-2.5 px-3 text-right">Total Vendido</th>
-              <th class="py-2.5 px-3 text-right">Al Contado</th>
-              <th class="py-2.5 px-3 text-right">Primera Cuota</th>
-              <th class="py-2.5 px-3 text-right">Financiamiento</th>
-              <th class="py-2.5 px-3 text-right text-amber-300">Pendiente de Pago</th>
-              <th class="py-2.5 px-3 text-right text-rose-400">Pendiente Vencido</th>
-              <th class="py-2.5 px-3 text-right text-sky-300">Pendiente por Vencer</th>
-              <th class="py-2.5 px-3 text-right text-slate-400">Pendiente Impago (Ret/Perd)</th>
-              <th class="py-2.5 px-3 text-right font-bold text-emerald-400">Total Recaudado Real</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold border-l border-slate-800">Ene</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Feb</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Mar</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Abr</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">May</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jun</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jul</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Ago</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Sep</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Oct</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Nov</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Dic</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800" id="matrixRealBody">
-          </tbody>
-          <tfoot class="bg-slate-900 font-bold border-t border-slate-700 text-white" id="matrixRealFoot">
-          </tfoot>
-        </table>
-      </div>
-    </div>
-
-    <!-- CUADRO 3: DIFERENCIAS -->
-    <div id="sectionMatrixDiff" class="glass-card p-5 space-y-3 border border-amber-500/30">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase">Cuadro 3</span>
-          <h3 class="font-black text-white text-base">CUADRO DE DIFERENCIAS (Administración - Nosotros)</h3>
-        </div>
-        <span class="text-xs font-mono text-amber-400 bg-amber-950/60 px-3 py-1 rounded border border-amber-800">Cálculo: Administración - Real</span>
-      </div>
-
-      <div class="overflow-x-auto rounded-lg border border-slate-800">
-        <table class="w-full text-left text-[11px] whitespace-nowrap">
-          <thead class="bg-slate-900/90 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-800">
-            <tr>
-              <th class="py-2.5 px-3">Mes (2026)</th>
-              <th class="py-2.5 px-3 text-right">Dif. Venta</th>
-              <th class="py-2.5 px-3 text-right">Dif. Contado</th>
-              <th class="py-2.5 px-3 text-right">Dif. Cuota 1</th>
-              <th class="py-2.5 px-3 text-right">Dif. Financ.</th>
-              <th class="py-2.5 px-3 text-right">Dif. Pendiente</th>
-              <th class="py-2.5 px-3 text-right">Dif. Vencido</th>
-              <th class="py-2.5 px-3 text-right">Dif. Por Vencer</th>
-              <th class="py-2.5 px-3 text-right">Dif. Retirados</th>
-              <th class="py-2.5 px-3 text-right font-bold text-amber-300">Dif. Pagado Total</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold border-l border-slate-800">Ene</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Feb</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Mar</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Abr</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">May</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jun</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Jul</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Ago</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Sep</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Oct</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Nov</th>
-              <th class="py-2.5 px-2.5 text-center bg-slate-950 text-slate-400 font-semibold">Dic</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800" id="matrixDiffBody">
-          </tbody>
-          <tfoot class="bg-slate-900 font-bold border-t border-slate-700 text-white" id="matrixDiffFoot">
+          <tfoot class="bg-slate-950 font-bold border-t-2 border-indigo-500/50 text-white text-[12px] font-mono shadow-inner" id="biMonthlyTableFoot">
+            <!-- Totales consolidados -->
           </tfoot>
         </table>
       </div>
     </div>
   </section>
+
 
   <!-- ========================================================================= -->
   <!-- TAB 3: COHORTES 2026 (EN VIVO VS ASINCRÓNICOS)                            -->
@@ -3832,6 +3729,1133 @@ function drilldownToCuadroGiganteFromBi() {
       }
     }
 
+    function renderBiMonthlyMatrix() {
+      const tbody = document.getElementById('biMonthlyTableBody');
+      const tfoot = document.getElementById('biMonthlyTableFoot');
+      if (!tbody || !tfoot) return;
+      
+      tbody.innerHTML = '';
+      tfoot.innerHTML = '';
+
+      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+      const stats = {};
+      months.forEach(m => {
+        stats[m] = { count: 0, pactado: 0, pagado: 0, c1: 0, c2: 0, c3: 0, c4: 0, deuda: 0 };
+      });
+
+      GIANT_DATA.forEach(r => {
+        let m = r.mes_ingreso;
+        if (m === 'Setiembre') m = 'Septiembre';
+        if (stats[m]) {
+          stats[m].count++;
+          const p = Number(r.pactado_comercial || r.pactado_q10 || 0);
+          stats[m].pactado += p;
+          stats[m].pagado += Number(r.pagado_q10 || 0);
+          stats[m].c1 += Number(r.c1_pagado || 0);
+          stats[m].c2 += Number(r.c2_pagado || 0);
+          stats[m].c3 += Number(r.c3_pagado || 0);
+          stats[m].c4 += Number(r.c4_pagado || 0);
+          stats[m].deuda += Number(r.deuda_q10 || 0);
+        }
+      });
+
+      let totCount = 0, totPact = 0, totPag = 0, totC1 = 0, totC2 = 0, totC3 = 0, totC4 = 0, totDeu = 0;
+
+      months.forEach(m => {
+        const d = stats[m];
+        totCount += d.count;
+        totPact += d.pactado;
+        totPag += d.pagado;
+        totC1 += d.c1;
+        totC2 += d.c2;
+        totC3 += d.c3;
+        totC4 += d.c4;
+        totDeu += d.deuda;
+
+        const efic = d.pactado > 0 ? ((d.pagado / d.pactado) * 100) : 0;
+        const eficBadge = efic >= 90 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' :
+                         (efic >= 75 ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' :
+                         'bg-rose-500/20 text-rose-300 border border-rose-500/40');
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-indigo-950/30 transition border-b border-slate-800/60';
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+            <span>${m}</span>
+          </td>
+          <td class="py-3 px-3 text-center text-slate-200 font-bold">${d.count}</td>
+          <td class="py-3 px-3 text-right text-slate-300">${fmtPEN(d.pactado)}</td>
+          <td class="py-3 px-3 text-right text-emerald-400 font-bold">${fmtPEN(d.pagado)}</td>
+          <td class="py-3 px-3 text-right text-emerald-300">${fmtPEN(d.c1)}</td>
+          <td class="py-3 px-3 text-right text-blue-300">${fmtPEN(d.c2)}</td>
+          <td class="py-3 px-3 text-right text-indigo-300">${fmtPEN(d.c3)}</td>
+          <td class="py-3 px-3 text-right text-purple-300">${fmtPEN(d.c4)}</td>
+          <td class="py-3 px-3 text-right ${d.deuda > 0 ? 'text-rose-400 font-bold' : 'text-slate-500'}">${fmtPEN(d.deuda)}</td>
+          <td class="py-3 px-4 text-center">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black ${eficBadge}">${efic.toFixed(1)}%</span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <button onclick="filterBiFromMatrix('${m}')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1 mx-auto shadow-sm cursor-pointer" title="Ver en Dashboard BI">
+              <i class="fa-solid fa-filter text-[9px]"></i> Filtrar
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totEfic = totPact > 0 ? ((totPag / totPact) * 100) : 0;
+      tfoot.innerHTML = `
+        <tr class="bg-slate-950 font-black text-white border-t-2 border-indigo-500/50">
+          <td class="py-3.5 px-4 uppercase tracking-wider text-indigo-300">TOTAL GENERAL 2026</td>
+          <td class="py-3.5 px-3 text-center text-white font-black">${totCount}</td>
+          <td class="py-3.5 px-3 text-right text-slate-200">${fmtPEN(totPact)}</td>
+          <td class="py-3.5 px-3 text-right text-emerald-400 font-black text-sm">${fmtPEN(totPag)}</td>
+          <td class="py-3.5 px-3 text-right text-emerald-300">${fmtPEN(totC1)}</td>
+          <td class="py-3.5 px-3 text-right text-blue-300">${fmtPEN(totC2)}</td>
+          <td class="py-3.5 px-3 text-right text-indigo-300">${fmtPEN(totC3)}</td>
+          <td class="py-3.5 px-3 text-right text-purple-300">${fmtPEN(totC4)}</td>
+          <td class="py-3.5 px-3 text-right text-rose-400 font-black">${fmtPEN(totDeu)}</td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">${totEfic.toFixed(1)}%</span>
+          </td>
+          <td class="py-3.5 px-3 text-center text-slate-400 text-[10px]">100% BASE</td>
+        </tr>
+      `;
+    }
+
+    function filterBiFromMatrix(month) {
+      biFilterMonths.clear();
+      biFilterMonths.add(month);
+      updateMonthPillsUI();
+      applyBiFilters();
+      switchMainTab('bidashboard');
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('edumin_theme_mode');
+      if (savedTheme === 'light') {
+        toggleTheme();
+      }
+    }
+
+
+    // =========================================================================
+// BI EXECUTIVE DASHBOARD JAVASCRIPT ENGINE (POWER BI STYLE)
+// =========================================================================
+
+let biFilterYear = '2026';
+let biFilterMonths = new Set(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre']);
+let biFilterAsesora = 'ALL';
+let biFilterModalidad = 'ALL';
+let biFilterEstado = 'ALL';
+let biFilterCanal = 'ALL';
+
+let biCharts = {};
+let currentBiFilteredData = [];
+let activeDrilldown = null;
+let drilldownDebtOnly = false;
+
+function initBiDashboard() {
+  if (Object.keys(biCharts).length > 0) return;
+  createBiCharts();
+  applyBiFilters();
+}
+
+function createBiCharts() {
+  const isLight = document.body.classList.contains('light-mode');
+  const textColor = isLight ? '#334155' : '#cbd5e1';
+  const gridColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)';
+
+  // Chart 0: Cuotas Stacked (Pactado vs Pagado por Cuota)
+  const ctxCuotas = document.getElementById('biChartCuotasStacked');
+  if (ctxCuotas) {
+    biCharts.cuotasStacked = new Chart(ctxCuotas, {
+      type: 'bar',
+      data: {
+        labels: ['Cuota 01 (Inicial)', 'Cuota 02', 'Cuota 03', 'Cuota 04'],
+        datasets: [
+          {
+            label: 'Cobrado Real (Q10)',
+            data: [0, 0, 0, 0],
+            backgroundColor: '#10b981',
+            hoverBackgroundColor: '#059669',
+            borderRadius: 4
+          },
+          {
+            label: 'Saldo Deudor Pendiente',
+            data: [0, 0, 0, 0],
+            backgroundColor: '#f43f5e',
+            hoverBackgroundColor: '#e11d48',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { color: textColor, font: { size: 11, weight: 'bold' }, boxWidth: 12 }
+          },
+          tooltip: {
+            callbacks: {
+              afterBody: function(items) {
+                const idx = items[0].dataIndex;
+                const d = items[0].chart.data.datasets;
+                const pag = d[0].data[idx] || 0;
+                const deu = d[1].data[idx] || 0;
+                const tot = pag + deu;
+                const pct = tot > 0 ? ((pag / tot) * 100).toFixed(1) : '0';
+                return [
+                  `Total Pactado: S/ ${Number(tot).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`,
+                  `Efic. Cobranza: ${pct}%`,
+                  '👉 Haz clic para desdoblar alumnos y gráficos'
+                ];
+              }
+            }
+          }
+        },
+        scales: {
+          x: { stacked: true, ticks: { color: textColor, font: { size: 11, weight: 'bold' } }, grid: { display: false } },
+          y: { stacked: true, ticks: { color: textColor, font: { size: 10 }, callback: v => 'S/ ' + (v>=1000 ? (v/1000).toFixed(0)+'k' : v) }, grid: { color: gridColor } }
+        },
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const cuotaKey = ['c1', 'c2', 'c3', 'c4'][idx];
+            drilldownToCuota(cuotaKey);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 1: Cantidad de Alumnos por Mes (Bar)
+  const ctx1 = document.getElementById('biChart1AlumnosMes');
+  if (ctx1) {
+    biCharts.c1 = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'],
+        datasets: [{
+          label: 'Alumnos',
+          data: [],
+          backgroundColor: 'rgba(99, 102, 241, 0.75)',
+          borderColor: '#6366f1',
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+          y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } }
+        },
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+            toggleBiMonth(months[idx]);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Top Diplomados (Horizontal Bar)
+  const ctx2 = document.getElementById('biChart2TopDiplomados');
+  if (ctx2) {
+    biCharts.c2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Recaudado (S/)',
+          data: [],
+          backgroundColor: 'rgba(16, 185, 129, 0.75)',
+          borderColor: '#10b981',
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } },
+          y: { ticks: { color: textColor, font: { size: 9, weight: 'bold' } }, grid: { display: false } }
+        },
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const dipName = biCharts.c2.data.labels[idx];
+            drilldownToDiplomado(dipName);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 3: Canales / Origen (Doughnut)
+  const ctx3 = document.getElementById('biChart3Canales');
+  if (ctx3) {
+    biCharts.c3 = new Chart(ctx3, {
+      type: 'doughnut',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          backgroundColor: ['#06b6d4', '#f97316', '#10b981', '#8b5cf6', '#3b82f6', '#ec4899', '#facc15', '#64748b'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { color: textColor, font: { size: 9 }, boxWidth: 10 }
+          }
+        },
+        cutout: '65%',
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const canalName = biCharts.c3.data.labels[idx];
+            drilldownToCanal(canalName);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 4: Modalidad (Bar)
+  const ctx4 = document.getElementById('biChart4Modalidad');
+  if (ctx4) {
+    biCharts.c4 = new Chart(ctx4, {
+      type: 'bar',
+      data: {
+        labels: ['Al Contado', 'En Cuotas'],
+        datasets: [{
+          label: 'Monto Cobrado (S/)',
+          data: [],
+          backgroundColor: ['#14b8a6', '#6366f1'],
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 10, weight: 'bold' } }, grid: { display: false } },
+          y: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } }
+        },
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const mod = idx === 0 ? 'CONTADO' : 'CUOTAS';
+            setBiModalidad(mod);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 5: Tendencia Recaudación (Line)
+  const ctx5 = document.getElementById('biChart5Tendencia');
+  if (ctx5) {
+    biCharts.c5 = new Chart(ctx5, {
+      type: 'line',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'],
+        datasets: [
+          {
+            label: 'Pactado',
+            data: [],
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.1)',
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 3
+          },
+          {
+            label: 'Cobrado Real',
+            data: [],
+            borderColor: '#34d399',
+            backgroundColor: 'rgba(52, 211, 153, 0.1)',
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: textColor, font: { size: 9 }, boxWidth: 10 } }
+        },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } },
+          y: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+
+  // Chart 6: Asesoras (Horizontal Bar)
+  const ctx6 = document.getElementById('biChart6Asesoras');
+  if (ctx6) {
+    biCharts.c6 = new Chart(ctx6, {
+      type: 'bar',
+      data: {
+        labels: ['LEARSY', 'YSKELIA'],
+        datasets: [
+          {
+            label: 'Cobrado Real (S/)',
+            data: [],
+            backgroundColor: '#f97316',
+            borderRadius: 4
+          },
+          {
+            label: 'Saldo Deudor (S/)',
+            data: [],
+            backgroundColor: '#ef4444',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: textColor, font: { size: 9 }, boxWidth: 10 } }
+        },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } },
+          y: { ticks: { color: textColor, font: { size: 10, weight: 'bold' } }, grid: { display: false } }
+        },
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const asName = ['LEARSY', 'YSKELIA'][idx];
+            drilldownToAsesora(asName);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 7: Salud Cartera (Pie)
+  const ctx7 = document.getElementById('biChart7SaludCartera');
+  if (ctx7) {
+    biCharts.c7 = new Chart(ctx7, {
+      type: 'doughnut',
+      data: {
+        labels: ['Al Día (Sin Deuda)', 'Con Saldo Deudor'],
+        datasets: [{
+          data: [],
+          backgroundColor: ['#10b981', '#f43f5e'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: textColor, font: { size: 9 }, boxWidth: 10 }
+          }
+        },
+        cutout: '60%',
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const idx = elements[0].index;
+            const est = idx === 0 ? 'AL_DIA' : 'CON_DEUDA';
+            drilldownToEstado(est);
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 8: Composición de Cobros (1ra Cuota vs Fin)
+  const ctx8 = document.getElementById('biChart8Composicion');
+  if (ctx8) {
+    biCharts.c8 = new Chart(ctx8, {
+      type: 'bar',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'],
+        datasets: [
+          {
+            label: '1ra Cuota (Inicial)',
+            data: [],
+            backgroundColor: 'rgba(129, 140, 248, 0.8)',
+            borderWidth: 0,
+            borderRadius: 3
+          },
+          {
+            label: 'Financiamiento Q10',
+            data: [],
+            backgroundColor: 'rgba(6, 182, 212, 0.8)',
+            borderWidth: 0,
+            borderRadius: 3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: textColor, font: { size: 9 }, boxWidth: 10 } }
+        },
+        scales: {
+          x: { stacked: true, ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } },
+          y: { stacked: true, ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+}
+
+function applyBiFilters() {
+  const canalVal = document.getElementById('biSelectCanal') ? document.getElementById('biSelectCanal').value : 'ALL';
+  biFilterCanal = canalVal;
+
+  const filtered = GIANT_DATA.filter(r => {
+    // Mes
+    if (!biFilterMonths.has(r.mes_ingreso || '')) return false;
+
+    // Asesora
+    if (biFilterAsesora !== 'ALL' && (r.asesora || '') !== biFilterAsesora) return false;
+
+    // Modalidad
+    const isContado = (r.financiamiento_q10 === 0 && (r.deuda_q10 || 0) === 0);
+    if (biFilterModalidad === 'CONTADO' && !isContado) return false;
+    if (biFilterModalidad === 'CUOTAS' && isContado) return false;
+
+    // Estado
+    const hasDeuda = (r.deuda_q10 || 0) > 0;
+    if (biFilterEstado === 'AL_DIA' && hasDeuda) return false;
+    if (biFilterEstado === 'CON_DEUDA' && !hasDeuda) return false;
+
+    // Canal
+    if (biFilterCanal !== 'ALL' && (r.origen || '') !== biFilterCanal) return false;
+
+    return true;
+  });
+
+  currentBiFilteredData = filtered;
+
+  // 1. Update KPI Scorecards
+  const totalAlumnos = filtered.length;
+  const sumPactado = filtered.reduce((acc, x) => acc + (x.pactado_comercial || x.pactado_q10 || 0), 0);
+  const sumRecaudado = filtered.reduce((acc, x) => acc + (x.pagado_q10 || 0), 0);
+  const sumDeuda = filtered.reduce((acc, x) => acc + (x.deuda_q10 || 0), 0);
+  const countDeuda = filtered.filter(x => (x.deuda_q10 || 0) > 0).length;
+  const sumFinanciamiento = filtered.reduce((acc, x) => acc + (x.financiamiento_q10 || 0), 0);
+  const contadoCount = filtered.filter(x => x.financiamiento_q10 === 0 && (x.deuda_q10 || 0) === 0).length;
+  const sumContado = filtered.filter(x => x.financiamiento_q10 === 0 && (x.deuda_q10 || 0) === 0).reduce((acc, x) => acc + (x.pagado_q10 || 0), 0);
+  const ticketPromedio = totalAlumnos > 0 ? (sumPactado / totalAlumnos) : 0;
+  const eficaciaCobranza = sumPactado > 0 ? ((sumRecaudado / sumPactado) * 100) : 0;
+
+  // Render cards
+  const elPact = document.getElementById('biKpiPactado'); if (elPact) elPact.innerText = fmtPEN(sumPactado);
+  const elPactSub = document.getElementById('biKpiPactadoSub'); if (elPactSub) elPactSub.innerText = `${totalAlumnos} Alumnos`;
+  const elRec = document.getElementById('biKpiRecaudado'); if (elRec) elRec.innerText = fmtPEN(sumRecaudado);
+  const elDeu = document.getElementById('biKpiDeuda'); if (elDeu) elDeu.innerText = fmtPEN(sumDeuda);
+  const elDeuSub = document.getElementById('biKpiDeudaSub'); if (elDeuSub) elDeuSub.innerText = `${countDeuda} Con Saldo`;
+  const elEfic = document.getElementById('biKpiEfic'); if (elEfic) elEfic.innerText = eficaciaCobranza.toFixed(1) + '%';
+  const elAlu = document.getElementById('biKpiAlumnos'); if (elAlu) elAlu.innerText = totalAlumnos;
+  const elCont = document.getElementById('biKpiContado'); if (elCont) elCont.innerText = fmtPEN(sumContado);
+  const elContSub = document.getElementById('biKpiContadoSub'); if (elContSub) elContSub.innerText = `${contadoCount} Alumnos`;
+  const elFin = document.getElementById('biKpiFin'); if (elFin) elFin.innerText = fmtPEN(sumFinanciamiento);
+  const elTick = document.getElementById('biKpiTicket'); if (elTick) elTick.innerText = fmtPEN(ticketPromedio);
+
+  const elBtnCount = document.getElementById('biFilteredCountBtn');
+  if (elBtnCount) elBtnCount.innerText = totalAlumnos;
+
+  const elBadge = document.getElementById('biActiveFiltersBadge');
+  if (elBadge) {
+    const pct = ((totalAlumnos / GIANT_DATA.length) * 100).toFixed(0);
+    elBadge.innerText = `Mostrando ${totalAlumnos} de ${GIANT_DATA.length} alumnos (${pct}% de la base) en ${biFilterMonths.size} meses`;
+  }
+
+  // 2. Update Cuotas Breakdown (Pactado vs Pagado vs Saldo)
+  let c1Pact = 0, c1Pag = 0, c1Deu = 0, c1Count = 0;
+  let c2Pact = 0, c2Pag = 0, c2Deu = 0, c2Count = 0;
+  let c3Pact = 0, c3Pag = 0, c3Deu = 0, c3Count = 0;
+  let c4Pact = 0, c4Pag = 0, c4Deu = 0, c4Count = 0;
+
+  filtered.forEach(r => {
+    if ((r.c1 || 0) > 0) { c1Count++; c1Pact += r.c1; c1Pag += (r.c1_pagado || 0); c1Deu += (r.c1_debe || 0); }
+    if ((r.c2 || 0) > 0) { c2Count++; c2Pact += r.c2; c2Pag += (r.c2_pagado || 0); c2Deu += (r.c2_debe || 0); }
+    if ((r.c3 || 0) > 0) { c3Count++; c3Pact += r.c3; c3Pag += (r.c3_pagado || 0); c3Deu += (r.c3_debe || 0); }
+    if ((r.c4 || 0) > 0) { c4Count++; c4Pact += r.c4; c4Pag += (r.c4_pagado || 0); c4Deu += (r.c4_debe || 0); }
+  });
+
+  const updateCuotaCard = (idPact, idPag, idDeu, idAlu, idBadge, pact, pag, deu, count) => {
+    const ep = document.getElementById(idPact); if (ep) ep.innerText = fmtPEN(pact);
+    const eg = document.getElementById(idPag); if (eg) eg.innerText = fmtPEN(pag);
+    const ed = document.getElementById(idDeu); if (ed) ed.innerText = fmtPEN(deu);
+    const ea = document.getElementById(idAlu); if (ea) ea.innerHTML = `${count} alumnos <i class="fa-solid fa-chevron-right text-[8px]"></i>`;
+    const eb = document.getElementById(idBadge);
+    if (eb) {
+      const pct = pact > 0 ? ((pag / pact) * 100).toFixed(1) : '0';
+      eb.innerText = pct + '%';
+      eb.className = Number(pct) >= 90 
+        ? 'text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono'
+        : (Number(pct) >= 45 
+            ? 'text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40 font-mono'
+            : 'text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-mono');
+    }
+  };
+
+  updateCuotaCard('c1Pactado', 'c1Pagado', 'c1Debe', 'c1Alumnos', 'c1EficBadge', c1Pact, c1Pag, c1Deu, c1Count);
+  updateCuotaCard('c2Pactado', 'c2Pagado', 'c2Debe', 'c2Alumnos', 'c2EficBadge', c2Pact, c2Pag, c2Deu, c2Count);
+  updateCuotaCard('c3Pactado', 'c3Pagado', 'c3Debe', 'c3Alumnos', 'c3EficBadge', c3Pact, c3Pag, c3Deu, c3Count);
+  updateCuotaCard('c4Pactado', 'c4Pagado', 'c4Debe', 'c4Alumnos', 'c4EficBadge', c4Pact, c4Pag, c4Deu, c4Count);
+
+  // Update biCharts.cuotasStacked
+  if (biCharts.cuotasStacked) {
+    biCharts.cuotasStacked.data.datasets[0].data = [c1Pag, c2Pag, c3Pag, c4Pag];
+    biCharts.cuotasStacked.data.datasets[1].data = [c1Deu, c2Deu, c3Deu, c4Deu];
+    biCharts.cuotasStacked.update();
+  }
+
+  // 3. Update Standard Charts (1, 2, 3, 4, 5, 6, 7, 8)
+  const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+  const c1Data = monthNames.map(m => filtered.filter(x => x.mes_ingreso === m).length);
+  const c5Pact = monthNames.map(m => filtered.filter(x => x.mes_ingreso === m).reduce((a, b) => a + (b.pactado_comercial || b.pactado_q10 || 0), 0));
+  const c5Rec = monthNames.map(m => filtered.filter(x => x.mes_ingreso === m).reduce((a, b) => a + (b.pagado_q10 || 0), 0));
+  const c8C1 = monthNames.map(m => filtered.filter(x => x.mes_ingreso === m).reduce((a, b) => a + (b.pagado_comercial || 0), 0));
+  const c8Fin = monthNames.map(m => filtered.filter(x => x.mes_ingreso === m).reduce((a, b) => a + (b.financiamiento_q10 || 0), 0));
+
+  if (biCharts.c1) {
+    biCharts.c1.data.datasets[0].data = c1Data;
+    biCharts.c1.update();
+  }
+  if (biCharts.c5) {
+    biCharts.c5.data.datasets[0].data = c5Pact;
+    biCharts.c5.data.datasets[1].data = c5Rec;
+    biCharts.c5.update();
+  }
+  if (biCharts.c8) {
+    biCharts.c8.data.datasets[0].data = c8C1;
+    biCharts.c8.data.datasets[1].data = c8Fin;
+    biCharts.c8.update();
+  }
+
+  // Top Diplomados
+  const dipMap = {};
+  filtered.forEach(x => {
+    const d = x.diplomado_comercial || 'Sin Diplomado';
+    dipMap[d] = (dipMap[d] || 0) + (x.pagado_q10 || 0);
+  });
+  const topDips = Object.entries(dipMap).sort((a,b) => b[1] - a[1]).slice(0, 6);
+  if (biCharts.c2) {
+    biCharts.c2.data.labels = topDips.map(x => x[0].length > 18 ? x[0].substring(0, 18) + '...' : x[0]);
+    biCharts.c2.data.datasets[0].data = topDips.map(x => x[1]);
+    biCharts.c2.update();
+  }
+
+  // Canales
+  const chMap = {};
+  filtered.forEach(x => {
+    const ch = x.origen || 'Otros';
+    chMap[ch] = (chMap[ch] || 0) + 1;
+  });
+  const topChs = Object.entries(chMap).sort((a,b) => b[1] - a[1]).slice(0, 6);
+  if (biCharts.c3) {
+    biCharts.c3.data.labels = topChs.map(x => x[0]);
+    biCharts.c3.data.datasets[0].data = topChs.map(x => x[1]);
+    biCharts.c3.update();
+  }
+
+  // Modalidad
+  let sumCont = 0, sumCuot = 0;
+  filtered.forEach(x => {
+    const isCont = (x.financiamiento_q10 === 0 && (x.deuda_q10 || 0) === 0);
+    if (isCont) sumCont += (x.pagado_q10 || 0);
+    else sumCuot += (x.pagado_q10 || 0);
+  });
+  if (biCharts.c4) {
+    biCharts.c4.data.datasets[0].data = [sumCont, sumCuot];
+    biCharts.c4.update();
+  }
+
+  // Asesoras
+  let lRec = 0, lDeu = 0, yRec = 0, yDeu = 0;
+  filtered.forEach(x => {
+    if (x.asesora === 'LEARSY') {
+      lRec += (x.pagado_q10 || 0);
+      lDeu += (x.deuda_q10 || 0);
+    } else if (x.asesora === 'YSKELIA') {
+      yRec += (x.pagado_q10 || 0);
+      yDeu += (x.deuda_q10 || 0);
+    }
+  });
+  if (biCharts.c6) {
+    biCharts.c6.data.datasets[0].data = [lRec, yRec];
+    biCharts.c6.data.datasets[1].data = [lDeu, yDeu];
+    biCharts.c6.update();
+  }
+
+  // Salud Cartera
+  const alDiaCount = filtered.filter(x => (x.deuda_q10 || 0) === 0).length;
+  const conDeudaCount = filtered.filter(x => (x.deuda_q10 || 0) > 0).length;
+  if (biCharts.c7) {
+    biCharts.c7.data.datasets[0].data = [alDiaCount, conDeudaCount];
+    biCharts.c7.update();
+  }
+
+  // Re-render active drilldown if open
+  if (activeDrilldown) {
+    if (activeDrilldown.type === 'cuota') {
+      drilldownToCuota(activeDrilldown.key, false);
+    } else if (activeDrilldown.type === 'diplomado') {
+      drilldownToDiplomado(activeDrilldown.key, false);
+    } else if (activeDrilldown.type === 'canal') {
+      drilldownToCanal(activeDrilldown.key, false);
+    } else if (activeDrilldown.type === 'asesora') {
+      drilldownToAsesora(activeDrilldown.key, false);
+    } else if (activeDrilldown.type === 'estado') {
+      drilldownToEstado(activeDrilldown.key, false);
+    }
+  }
+}
+
+// =============================================================================
+// DRILL-DOWN / DESDOBLE INTERACTIVO (ALUMNOS & SUB-GRÁFICOS)
+// =============================================================================
+
+function openDrilldown(type, key, title, subtitle, students, scroll = true) {
+  activeDrilldown = { type, key, title, subtitle, students };
+  const section = document.getElementById('biDrilldownSection');
+  if (!section) return;
+  section.classList.remove('hidden');
+
+  const bType = document.getElementById('drilldownBadgeType');
+  if (bType) bType.innerText = (type === 'cuota' ? key.toUpperCase() : type.toUpperCase() + ': ' + key);
+  
+  const bTitle = document.getElementById('drilldownTitle');
+  if (bTitle) bTitle.innerText = title;
+
+  const bSub = document.getElementById('drilldownSubtitle');
+  if (bSub) bSub.innerText = subtitle;
+
+  const sCount = document.getElementById('drilldownCount');
+  if (sCount) sCount.innerText = students.length;
+
+  renderDrilldownCharts(students);
+  filterDrilldownTable();
+
+  if (scroll) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function closeDrilldown() {
+  activeDrilldown = null;
+  const section = document.getElementById('biDrilldownSection');
+  if (section) section.classList.add('hidden');
+}
+
+function drilldownToCuota(key, scroll = true) {
+  const cuotaNames = { 'c1': 'Cuota 01 (Inicial)', 'c2': 'Cuota 02', 'c3': 'Cuota 03', 'c4': 'Cuota 04' };
+  const label = cuotaNames[key] || key.toUpperCase();
+  const students = currentBiFilteredData.filter(r => (r[key] || 0) > 0);
+  openDrilldown('cuota', key, `Auditoría Forense: ${label}`, `Mostrando ${students.length} alumnos con ${label} en los meses filtrados`, students, scroll);
+}
+
+function drilldownToDiplomado(dipName, scroll = true) {
+  const students = currentBiFilteredData.filter(r => (r.diplomado_comercial || '').toUpperCase().includes(dipName.toUpperCase()) || dipName.toUpperCase().includes((r.diplomado_comercial || '').toUpperCase().substring(0, 15)));
+  openDrilldown('diplomado', dipName, `Diplomado: ${dipName}`, `Rendimiento financiero y cartera de ${dipName} (${students.length} alumnos)`, students, scroll);
+}
+
+function drilldownToCanal(canalName, scroll = true) {
+  const students = currentBiFilteredData.filter(r => (r.origen || '').toUpperCase() === canalName.toUpperCase());
+  openDrilldown('canal', canalName, `Canal de Captación: ${canalName}`, `Ventas y recaudación por ${canalName} (${students.length} alumnos)`, students, scroll);
+}
+
+function drilldownToAsesora(asName, scroll = true) {
+  const students = currentBiFilteredData.filter(r => (r.asesora || '').toUpperCase() === asName.toUpperCase());
+  openDrilldown('asesora', asName, `Asesora Comercial: ${asName}`, `Cartera y cobros gestionados por ${asName} (${students.length} alumnos)`, students, scroll);
+}
+
+function drilldownToEstado(estName, scroll = true) {
+  const isDebt = estName === 'CON_DEUDA';
+  const students = currentBiFilteredData.filter(r => isDebt ? (r.deuda_q10 || 0) > 0 : (r.deuda_q10 || 0) === 0);
+  const label = isDebt ? 'Alumnos Con Saldo Deudor Pendiente' : 'Alumnos Al Día (Sin Deuda)';
+  openDrilldown('estado', estName, label, `Lista puntual y estado financiero en Q10 (${students.length} alumnos)`, students, scroll);
+}
+
+function toggleDrilldownOnlyDebt() {
+  drilldownDebtOnly = !drilldownDebtOnly;
+  const btn = document.getElementById('btnDrilldownDebt');
+  if (btn) {
+    btn.className = drilldownDebtOnly
+      ? 'px-2.5 py-1 text-xs font-bold rounded-lg bg-rose-600 text-white border border-rose-400 transition cursor-pointer'
+      : 'px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-rose-300 border border-slate-700 hover:bg-slate-700 transition cursor-pointer';
+  }
+  filterDrilldownTable();
+}
+
+function filterDrilldownTable() {
+  if (!activeDrilldown) return;
+  const q = (document.getElementById('drilldownSearch')?.value || '').toLowerCase().trim();
+  let list = activeDrilldown.students;
+
+  if (drilldownDebtOnly) {
+    list = list.filter(r => (r.deuda_q10 || 0) > 0);
+  }
+
+  if (q) {
+    list = list.filter(r => 
+      (r.nombre_comercial || '').toLowerCase().includes(q) ||
+      (r.dni || '').includes(q) ||
+      (r.diplomado_comercial || '').toLowerCase().includes(q) ||
+      (r.asesora || '').toLowerCase().includes(q) ||
+      (r.pagare_q10 || '').includes(q)
+    );
+  }
+
+  const sCount = document.getElementById('drilldownCount');
+  if (sCount) sCount.innerText = list.length;
+
+  renderDrilldownTableRows(list);
+}
+
+function renderDrilldownCharts(students) {
+  const isLight = document.body.classList.contains('light-mode');
+  const textColor = isLight ? '#334155' : '#cbd5e1';
+  const gridColor = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)';
+
+  // Chart 1: Diplomados in drilldown
+  const dipMap = {};
+  students.forEach(s => {
+    const d = s.diplomado_comercial || 'Otros';
+    dipMap[d] = (dipMap[d] || 0) + (s.pagado_q10 || 0);
+  });
+  const topDips = Object.entries(dipMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
+
+  const ctxD = document.getElementById('drilldownChartDiplomados');
+  if (ctxD) {
+    if (biCharts.drillDip) biCharts.drillDip.destroy();
+    biCharts.drillDip = new Chart(ctxD, {
+      type: 'bar',
+      data: {
+        labels: topDips.map(x => x[0].length > 15 ? x[0].substring(0, 15) + '...' : x[0]),
+        datasets: [{
+          label: 'Recaudado (S/)',
+          data: topDips.map(x => x[1]),
+          backgroundColor: '#818cf8',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } },
+          y: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Asesoras in drilldown
+  let lRec = 0, lDeu = 0, yRec = 0, yDeu = 0;
+  students.forEach(s => {
+    if (s.asesora === 'LEARSY') { lRec += (s.pagado_q10 || 0); lDeu += (s.deuda_q10 || 0); }
+    else if (s.asesora === 'YSKELIA') { yRec += (s.pagado_q10 || 0); yDeu += (s.deuda_q10 || 0); }
+  });
+
+  const ctxA = document.getElementById('drilldownChartAsesoras');
+  if (ctxA) {
+    if (biCharts.drillAse) biCharts.drillAse.destroy();
+    biCharts.drillAse = new Chart(ctxA, {
+      type: 'bar',
+      data: {
+        labels: ['LEARSY', 'YSKELIA'],
+        datasets: [
+          { label: 'Cobrado', data: [lRec, yRec], backgroundColor: '#10b981', borderRadius: 4 },
+          { label: 'Deuda', data: [lDeu, yDeu], backgroundColor: '#f43f5e', borderRadius: 4 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: textColor, font: { size: 9 }, boxWidth: 10 } } },
+        scales: {
+          x: { ticks: { color: textColor, font: { size: 10, weight: 'bold' } }, grid: { display: false } },
+          y: { ticks: { color: textColor, font: { size: 9 }, callback: v => `S/ ${v/1000}k` }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+}
+
+function renderDrilldownTableRows(students) {
+  const tbody = document.getElementById('drilldownTableBody');
+  if (!tbody) return;
+
+  if (students.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="12" class="p-6 text-center text-slate-500 font-sans">No se encontraron alumnos con los criterios seleccionados</td></tr>`;
+    return;
+  }
+
+  let html = '';
+  students.forEach((s, i) => {
+    const hasDeuda = (s.deuda_q10 || 0) > 0;
+    const badgeEstado = hasDeuda
+      ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">DEUDOR</span>`
+      : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AL DÍA</span>`;
+    
+    const pactVal = s.pactado_comercial || s.pactado_q10 || 0;
+    const pagVal = s.pagado_q10 || 0;
+    const deuVal = s.deuda_q10 || 0;
+
+    html += `
+      <tr class="hover:bg-slate-800/40 transition">
+        <td class="p-2 text-slate-500">${i + 1}</td>
+        <td class="p-2 font-bold text-white">${s.dni}</td>
+        <td class="p-2 font-medium text-slate-200 truncate max-w-[160px]">${s.nombre_comercial || s.nombre_admin || '-'}</td>
+        <td class="p-2 text-slate-300 truncate max-w-[140px]">${s.diplomado_comercial || '-'}</td>
+        <td class="p-2">${s.asesora === 'LEARSY' ? '<span class="text-indigo-400 font-bold">LEARSY</span>' : '<span class="text-amber-400 font-bold">YSKELIA</span>'}</td>
+        <td class="p-2 text-slate-400">${s.mes_ingreso || '-'}</td>
+        <td class="p-2 text-right font-bold text-white">${fmtPEN(pactVal)}</td>
+        <td class="p-2 text-right font-bold text-emerald-400">${fmtPEN(pagVal)}</td>
+        <td class="p-2 text-right font-bold ${hasDeuda ? 'text-rose-400' : 'text-slate-500'}">${fmtPEN(deuVal)}</td>
+        <td class="p-2 text-center text-slate-300 font-mono text-[10px]">${s.pagare_q10 || '-'}</td>
+        <td class="p-2 text-center">${badgeEstado}</td>
+        <td class="p-2 text-center">
+          <button onclick="fillAndConsultBot('${s.dni}')" class="px-2 py-0.5 rounded bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 text-[10px] font-bold transition flex items-center gap-1 mx-auto" title="Consultar en Bot Q10">
+            <i class="fa-solid fa-bolt text-[9px]"></i> Bot
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
+
+// =============================================================================
+// SLICER CONTROLS & MULTI-MONTH SELECTION
+// =============================================================================
+
+function setBiYear(yr) {
+  biFilterYear = yr;
+  const b26 = document.getElementById('biYear-2026');
+  const bAll = document.getElementById('biYear-ALL');
+  if (b26) b26.className = (yr === '2026') ? 'px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow shadow-blue-600/30 border border-blue-400 transition cursor-pointer text-center' : 'px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 border border-slate-700 hover:text-white transition cursor-pointer text-center';
+  if (bAll) bAll.className = (yr === 'ALL') ? 'px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow shadow-blue-600/30 border border-blue-400 transition cursor-pointer text-center' : 'px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 border border-slate-700 hover:text-white transition cursor-pointer text-center';
+  applyBiFilters();
+}
+
+function toggleBiMonth(m) {
+  const allMonthsList = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+  if (biFilterMonths.size === allMonthsList.length) {
+    // User wants to isolate this month
+    biFilterMonths = new Set([m]);
+  } else if (biFilterMonths.size === 1 && biFilterMonths.has(m)) {
+    // Clicked the only selected month -> restore all
+    biFilterMonths = new Set(allMonthsList);
+  } else {
+    if (biFilterMonths.has(m)) {
+      biFilterMonths.delete(m);
+      if (biFilterMonths.size === 0) biFilterMonths = new Set(allMonthsList);
+    } else {
+      biFilterMonths.add(m);
+    }
+  }
+  updateBiMonthsUI();
+  applyBiFilters();
+}
+
+function selectAllBiMonths() {
+  const allMonthsList = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+  biFilterMonths = new Set(allMonthsList);
+  updateBiMonthsUI();
+  applyBiFilters();
+}
+
+function selectBiSemester(sem) {
+  if (sem === 1) {
+    biFilterMonths = new Set(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio']);
+  } else {
+    biFilterMonths = new Set(['Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre']);
+  }
+  updateBiMonthsUI();
+  applyBiFilters();
+}
+
+function updateBiMonthsUI() {
+  const allMonthsList = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+  allMonthsList.forEach(m => {
+    const btn = document.getElementById(`biMonth-${m}`);
+    if (btn) {
+      if (biFilterMonths.has(m)) {
+        btn.className = ['Agosto', 'Septiembre', 'Octubre', 'Noviembre'].includes(m)
+          ? 'bi-month-btn active px-1.5 py-1 text-[11px] font-bold rounded bg-cyan-600 text-white border border-cyan-400 text-center transition cursor-pointer'
+          : 'bi-month-btn active px-1.5 py-1 text-[11px] font-bold rounded bg-blue-600 text-white border border-blue-400 text-center transition cursor-pointer';
+      } else {
+        btn.className = 'bi-month-btn px-1.5 py-1 text-[11px] font-semibold rounded bg-slate-800 text-slate-500 border border-slate-700 text-center hover:text-slate-300 transition cursor-pointer';
+      }
+    }
+  });
+
+  const countBadge = document.getElementById('biSelectedMonthsCount');
+  if (countBadge) {
+    countBadge.innerText = `${biFilterMonths.size} de ${allMonthsList.length} meses`;
+  }
+}
+function setBiAsesora(as) {
+  biFilterAsesora = as;
+  ['ALL', 'YSKELIA', 'LEARSY'].forEach(k => {
+    const b = document.getElementById(`biAsesora-${k}`);
+    if (b) {
+      b.className = (k === as)
+        ? 'bi-asesora-btn active px-2 py-1 text-[11px] font-bold rounded-lg bg-amber-500 text-slate-950 shadow border border-amber-400 text-center transition cursor-pointer'
+        : 'bi-asesora-btn px-2 py-1 text-[11px] font-semibold rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-center hover:bg-slate-700 transition cursor-pointer';
+    }
+  });
+  applyBiFilters();
+}
+
+function setBiModalidad(mod) {
+  biFilterModalidad = mod;
+  ['ALL', 'CONTADO', 'CUOTAS'].forEach(k => {
+    const b = document.getElementById(`biMod-${k}`);
+    if (b) {
+      b.className = (k === mod)
+        ? 'bi-mod-btn active px-1.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-600 text-white border border-emerald-400 text-center transition cursor-pointer'
+        : 'bi-mod-btn px-1.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-center hover:bg-slate-700 transition cursor-pointer';
+    }
+  });
+  applyBiFilters();
+}
+
+function setBiEstado(est) {
+  biFilterEstado = est;
+  ['ALL', 'AL_DIA', 'CON_DEUDA'].forEach(k => {
+    const b = document.getElementById(`biEst-${k}`);
+    if (b) {
+      b.className = (k === est)
+        ? 'bi-est-btn active px-1.5 py-1 text-[11px] font-bold rounded-lg bg-rose-600 text-white border border-rose-400 text-center transition cursor-pointer'
+        : 'bi-est-btn px-1.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-center hover:bg-slate-700 transition cursor-pointer';
+    }
+  });
+  applyBiFilters();
+}
+
+function resetBiFilters() {
+  biFilterYear = '2026';
+  biFilterMonths = new Set(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre']);
+  biFilterAsesora = 'ALL';
+  biFilterModalidad = 'ALL';
+  biFilterEstado = 'ALL';
+  biFilterCanal = 'ALL';
+
+  const selCanal = document.getElementById('biSelectCanal');
+  if (selCanal) selCanal.value = 'ALL';
+
+  setBiYear('2026');
+  setBiAsesora('ALL');
+  setBiModalidad('ALL');
+  setBiEstado('ALL');
+  updateBiMonthsUI();
+  applyBiFilters();
+}
+
+function drilldownToCuadroGiganteFromBi() {
+  // Sync Cuadro Gigante months filter
+  activeMonths = new Set(biFilterMonths);
+  if (typeof updateMonthPillsUI === 'function') updateMonthPillsUI();
+
+  // If debt filter was selected in BI, sync to Cuadro Gigante
+  if (biFilterEstado === 'CON_DEUDA') {
+    currentGiantFilter = 'CON_DEUDA';
+  } else {
+    currentGiantFilter = 'ALL';
+  }
+
+  // Switch to Cuadro Gigante
+  switchMainTab('cuadrogigante');
+  if (typeof filterGiantTable === 'function') filterGiantTable();
+  window.scrollTo({ top: 350, behavior: 'smooth' });
+}
+
+
+    // Initialize on load
+    
+    // =========================================================================
+    // TRI-MATRIX RENDERING & DATA SOURCES LOGIC
+    // =========================================================================
+    const MATRICES = {"admin_rows": [{"mes": "Enero", "vendido": 15724.0, "contado": 10154.0, "c1": 2730.0, "financiamiento": 2840.0, "pend_pago": 930.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 930.0, "total_pagado": 1910.0, "cal": [15724.0, 1580.0, 0.0, 330.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Febrero", "vendido": 11190.0, "contado": 2170.0, "c1": 3795.0, "financiamiento": 5225.0, "pend_pago": 1605.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 1605.0, "total_pagado": 3620.0, "cal": [0.0, 11190.0, 2110.0, 970.0, 270.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Marzo", "vendido": 13535.0, "contado": 3160.0, "c1": 2895.0, "financiamiento": 7480.0, "pend_pago": 3365.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 3365.0, "total_pagado": 4115.0, "cal": [0.0, 0.0, 13535.0, 1597.0, 1384.0, 634.0, 0.0, 500.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Abril", "vendido": 15380.0, "contado": 2200.0, "c1": 4325.0, "financiamiento": 8855.0, "pend_pago": 4640.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 4640.0, "total_pagado": 4215.0, "cal": [0.0, 0.0, 0.0, 15380.0, 1505.0, 1710.0, 0.0, 1000.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Mayo", "vendido": 18401.0, "contado": 5220.0, "c1": 3861.0, "financiamiento": 9320.0, "pend_pago": 3332.0, "vencido": 680.0, "por_vencer": 0.0, "ret_perd": 2652.0, "total_pagado": 5988.0, "cal": [0.0, 0.0, 0.0, 0.0, 18401.0, 1941.5, 1930.75, 1140.75, 650.0, 325.0, 0.0, 0.0]}, {"mes": "Junio", "vendido": 12891.0, "contado": 7919.0, "c1": 1990.0, "financiamiento": 2982.0, "pend_pago": 2740.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 2740.0, "total_pagado": 242.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 12891.0, 242.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Julio", "vendido": 10662.0, "contado": 6792.0, "c1": 1490.0, "financiamiento": 2380.0, "pend_pago": 540.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 540.0, "total_pagado": 1840.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10662.0, 1540.0, 300.0, 0.0, 0.0, 0.0]}, {"mes": "Agosto", "vendido": 13170.0, "contado": 8650.0, "c1": 2715.0, "financiamiento": 1805.0, "pend_pago": 525.0, "vencido": 525.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": 1280.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 13170.0, 550.0, 490.0, 240.0, 0.0]}, {"mes": "Septiembre", "vendido": 19793.0, "contado": 8013.0, "c1": 4050.0, "financiamiento": 7730.0, "pend_pago": 5580.0, "vencido": 2780.0, "por_vencer": 1750.0, "ret_perd": 1050.0, "total_pagado": 2150.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 19793.0, 2150.0, 0.0, 0.0]}, {"mes": "Octubre", "vendido": 20799.0, "contado": 9829.0, "c1": 3925.0, "financiamiento": 7045.0, "pend_pago": 4085.0, "vencido": 750.0, "por_vencer": 3335.0, "ret_perd": 0.0, "total_pagado": 2960.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 20799.0, 2960.0, 0.0]}, {"mes": "Noviembre", "vendido": 14175.0, "contado": 4595.0, "c1": 3150.0, "financiamiento": 6430.0, "pend_pago": 6430.0, "vencido": 0.0, "por_vencer": 6430.0, "ret_perd": 0.0, "total_pagado": 0.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 14175.0, 0.0]}], "real_rows": [{"mes": "Enero", "vendido": 15724.0, "contado": 10154.0, "c1": 2730.0, "financiamiento": 2840.0, "pend_pago": 930.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 930.0, "total_pagado": 14794.0, "cal": [12884.0, 1580.0, 0.0, 330.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Febrero", "vendido": 11190.0, "contado": 2170.0, "c1": 3795.0, "financiamiento": 5225.0, "pend_pago": 1605.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 1605.0, "total_pagado": 9585.0, "cal": [0.0, 5965.0, 2110.0, 970.0, 270.0, 0.0, 270.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Marzo", "vendido": 13535.0, "contado": 3160.0, "c1": 2895.0, "financiamiento": 7480.0, "pend_pago": 3365.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 3365.0, "total_pagado": 10170.0, "cal": [0.0, 0.0, 6055.0, 1597.0, 1384.0, 634.0, 0.0, 500.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Abril", "vendido": 15380.0, "contado": 2200.0, "c1": 4325.0, "financiamiento": 8855.0, "pend_pago": 4640.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 4640.0, "total_pagado": 10740.0, "cal": [0.0, 0.0, 0.0, 6525.0, 1505.0, 1710.0, 0.0, 1000.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Mayo", "vendido": 18401.0, "contado": 5220.0, "c1": 3861.0, "financiamiento": 9320.0, "pend_pago": 3332.0, "vencido": 680.0, "por_vencer": 0.0, "ret_perd": 2652.0, "total_pagado": 15069.0, "cal": [0.0, 0.0, 0.0, 0.0, 9081.0, 1941.5, 1930.75, 1140.75, 650.0, 325.0, 0.0, 0.0]}, {"mes": "Junio", "vendido": 12891.0, "contado": 7919.0, "c1": 1990.0, "financiamiento": 2982.0, "pend_pago": 2740.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 2740.0, "total_pagado": 10151.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 9909.0, 242.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Julio", "vendido": 10662.0, "contado": 6792.0, "c1": 1490.0, "financiamiento": 2380.0, "pend_pago": 540.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 540.0, "total_pagado": 10122.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8282.0, 1540.0, 300.0, 0.0, 0.0, 0.0]}, {"mes": "Agosto", "vendido": 13170.0, "contado": 8650.0, "c1": 2715.0, "financiamiento": 1805.0, "pend_pago": 525.0, "vencido": 525.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": 12645.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 11365.0, 550.0, 490.0, 240.0, 0.0]}, {"mes": "Septiembre", "vendido": 19793.0, "contado": 8013.0, "c1": 4050.0, "financiamiento": 7730.0, "pend_pago": 5580.0, "vencido": 2780.0, "por_vencer": 1750.0, "ret_perd": 1050.0, "total_pagado": 14213.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12063.0, 2150.0, 0.0, 0.0]}, {"mes": "Octubre", "vendido": 20799.0, "contado": 9829.0, "c1": 3925.0, "financiamiento": 7045.0, "pend_pago": 4085.0, "vencido": 750.0, "por_vencer": 3335.0, "ret_perd": 0.0, "total_pagado": 16714.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 13754.0, 2960.0, 0.0]}, {"mes": "Noviembre", "vendido": 14175.0, "contado": 4595.0, "c1": 3150.0, "financiamiento": 6430.0, "pend_pago": 6430.0, "vencido": 0.0, "por_vencer": 6430.0, "ret_perd": 0.0, "total_pagado": 7745.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7745.0, 0.0]}], "diff_rows": [{"mes": "Enero", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -12884.0, "cal": [2840.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Febrero", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -5965.0, "cal": [0.0, 5225.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Marzo", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -6055.0, "cal": [0.0, 0.0, 7480.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Abril", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -6525.0, "cal": [0.0, 0.0, 0.0, 8855.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Mayo", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -9081.0, "cal": [0.0, 0.0, 0.0, 0.0, 9320.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Junio", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -9909.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 2982.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Julio", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -8282.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2380.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Agosto", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -11365.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1805.0, 0.0, 0.0, 0.0, 0.0]}, {"mes": "Septiembre", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -12063.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7730.0, 0.0, 0.0, 0.0]}, {"mes": "Octubre", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -13754.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7045.0, 0.0, 0.0]}, {"mes": "Noviembre", "vendido": 0.0, "contado": 0.0, "c1": 0.0, "financiamiento": 0.0, "pend_pago": 0.0, "vencido": 0.0, "por_vencer": 0.0, "ret_perd": 0.0, "total_pagado": -7745.0, "cal": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6430.0, 0.0]}], "flujo_real": [{"mes": "Enero 2026", "m": "Ene", "contado": 10154.0, "c1": 2730.0, "c2": 0.0, "c3": 0.0, "c4": 0.0, "total": 12884.0}, {"mes": "Febrero 2026", "m": "Feb", "contado": 2710.0, "c1": 3595.0, "c2": 1580.0, "c3": 0.0, "c4": 0.0, "total": 7885.0}, {"mes": "Marzo 2026", "m": "Mar", "contado": 3160.0, "c1": 2895.0, "c2": 2145.0, "c3": 375.0, "c4": 0.0, "total": 8575.0}, {"mes": "Abril 2026", "m": "Abr", "contado": 2200.0, "c1": 4325.0, "c2": 2834.0, "c3": 550.0, "c4": 0.0, "total": 9909.0}, {"mes": "Mayo 2026", "m": "May", "contado": 5220.0, "c1": 4126.0, "c2": 1085.0, "c3": 1234.0, "c4": 250.0, "total": 11915.0}, {"mes": "Junio 2026", "m": "Jun", "contado": 7894.0, "c1": 1990.0, "c2": 2132.0, "c3": 915.0, "c4": 709.0, "total": 13640.0}, {"mes": "Julio 2026", "m": "Jul", "contado": 6792.0, "c1": 1490.0, "c2": 1635.0, "c3": 1235.0, "c4": 0.0, "total": 11152.0}, {"mes": "Agosto 2026", "m": "Ago", "contado": 8650.0, "c1": 2715.0, "c2": 1920.0, "c3": 1695.0, "c4": 850.0, "total": 15830.0}, {"mes": "Setiembre 2026", "m": "Set", "contado": 8013.0, "c1": 4050.0, "c2": 1500.0, "c3": 770.0, "c4": 0.0, "total": 14333.0}, {"mes": "Octubre 2026", "m": "Oct", "contado": 9829.0, "c1": 3925.0, "c2": 2340.0, "c3": 250.0, "c4": 325.0, "total": 16669.0}, {"mes": "Noviembre 2026", "m": "Nov", "contado": 2448.0, "c1": 2810.0, "c2": 480.0, "c3": 240.0, "c4": 0.0, "total": 5978.0}], "cohort_matrix": [{"mes": "Enero", "matriculados": 23, "pactado": 15724.0, "recaudado": 15724.0, "contado": 15, "c1": 1, "c2": 6, "c3": 1, "finalizaron": 23, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Febrero", "matriculados": 19, "pactado": 11190.0, "recaudado": 11190.0, "contado": 5, "c1": 1, "c2": 10, "c3": 3, "finalizaron": 19, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Marzo", "matriculados": 14, "pactado": 13535.0, "recaudado": 13535.0, "contado": 5, "c1": 0, "c2": 1, "c3": 8, "finalizaron": 14, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Abril", "matriculados": 15, "pactado": 15380.0, "recaudado": 15380.0, "contado": 3, "c1": 0, "c2": 2, "c3": 10, "finalizaron": 15, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Mayo", "matriculados": 23, "pactado": 16803.0, "recaudado": 16803.0, "contado": 7, "c1": 0, "c2": 10, "c3": 6, "finalizaron": 23, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Junio", "matriculados": 32, "pactado": 14489.0, "recaudado": 13704.0, "contado": 26, "c1": 1, "c2": 0, "c3": 5, "finalizaron": 31, "deben_n": 1, "deben_monto": 785.0, "efi": "94.6%"}, {"mes": "Julio", "matriculados": 22, "pactado": 10662.0, "recaudado": 9662.0, "contado": 17, "c1": 1, "c2": 2, "c3": 2, "finalizaron": 21, "deben_n": 1, "deben_monto": 1000.0, "efi": "90.6%"}, {"mes": "Agosto", "matriculados": 42, "pactado": 13170.0, "recaudado": 13170.0, "contado": 35, "c1": 1, "c2": 4, "c3": 2, "finalizaron": 42, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Septiembre", "matriculados": 41, "pactado": 19793.0, "recaudado": 19793.0, "contado": 29, "c1": 0, "c2": 4, "c3": 8, "finalizaron": 41, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Octubre", "matriculados": 38, "pactado": 20799.0, "recaudado": 20799.0, "contado": 24, "c1": 0, "c2": 7, "c3": 7, "finalizaron": 38, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}, {"mes": "Noviembre", "matriculados": 22, "pactado": 14724.0, "recaudado": 14724.0, "contado": 13, "c1": 0, "c2": 1, "c3": 8, "finalizaron": 22, "deben_n": 0, "deben_monto": 0.0, "efi": "100.0%"}]};
+
+    const ADMIN_ROWS = MATRICES.admin_rows || [];
+    const REAL_ROWS = MATRICES.real_rows || [];
+    const DIFF_ROWS = MATRICES.diff_rows || [];
+
+    function fmtMatrix(val) {
+      if (val === 0 || !val) return '-';
+      return 'S/ ' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function switchMatrixView(mode) {
+      const secAdmin = document.getElementById('sectionMatrixAdmin');
+      const secReal = document.getElementById('sectionMatrixReal');
+      const secDiff = document.getElementById('sectionMatrixDiff');
+
+      const btnAdmin = document.getElementById('subBtnAdmin');
+      const btnReal = document.getElementById('subBtnReal');
+      const btnDiff = document.getElementById('subBtnDiff');
+      const btnAll = document.getElementById('subBtnAll');
+
+      [btnAdmin, btnReal, btnDiff, btnAll].forEach(b => {
+        if (b) b.className = 'px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-1.5 cursor-pointer';
+      });
+
+      if (mode === 'admin') {
+        if (secAdmin) secAdmin.classList.remove('hidden');
+        if (secReal) secReal.classList.add('hidden');
+        if (secDiff) secDiff.classList.add('hidden');
+        if (btnAdmin) btnAdmin.className = 'px-3 py-1.5 rounded-lg text-xs bg-rose-600 text-white font-bold border border-rose-400 transition flex items-center gap-1.5 cursor-pointer shadow';
+      } else if (mode === 'real') {
+        if (secAdmin) secAdmin.classList.add('hidden');
+        if (secReal) secReal.classList.remove('hidden');
+        if (secDiff) secDiff.classList.add('hidden');
+        if (btnReal) btnReal.className = 'px-3 py-1.5 rounded-lg text-xs bg-emerald-600 text-white font-bold border border-emerald-400 transition flex items-center gap-1.5 cursor-pointer shadow';
+      } else if (mode === 'diff') {
+        if (secAdmin) secAdmin.classList.add('hidden');
+        if (secReal) secReal.classList.add('hidden');
+        if (secDiff) secDiff.classList.remove('hidden');
+        if (btnDiff) btnDiff.className = 'px-3 py-1.5 rounded-lg text-xs bg-amber-600 text-white font-bold border border-amber-400 transition flex items-center gap-1.5 cursor-pointer shadow';
+      } else {
+        if (secAdmin) secAdmin.classList.remove('hidden');
+        if (secReal) secReal.classList.remove('hidden');
+        if (secDiff) secDiff.classList.remove('hidden');
+        if (btnAll) btnAll.className = 'px-3 py-1.5 rounded-lg text-xs bg-blue-600 text-white font-bold border border-blue-400 transition flex items-center gap-1.5 cursor-pointer shadow';
+      }
+    }
+
     function renderMatrixAdmin() {
       const tbody = document.getElementById('matrixAdminBody');
       if (!tbody) return;
@@ -4020,10 +5044,7 @@ function drilldownToCuadroGiganteFromBi() {
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderMatrixAdmin();
-      renderMatrixReal();
-      renderMatrixDiff();
-      switchMatrixView('all');
+      renderBiMonthlyMatrix();
       initTheme();
       initBiDashboard();
       renderGiantTable(GIANT_DATA);
