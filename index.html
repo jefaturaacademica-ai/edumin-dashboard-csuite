@@ -354,29 +354,29 @@
       </div>
     </div>
 
-    <!-- MAIN NAVIGATION TABS -->
-    <div class="flex flex-wrap items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 no-print">
-      <button id="btnTabBiDashboard" onclick="switchMainTab('bidashboard')" class="px-3.5 py-2 rounded-lg tab-active transition flex items-center gap-2 text-xs font-bold text-emerald-300 border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 shadow-lg shadow-emerald-500/10 cursor-pointer">
-        <i class="fa-solid fa-chart-pie text-emerald-400"></i> Dashboard BI Gerencial
-      </button>
-      <button id="btnTabCuadrogigante" onclick="switchMainTab('cuadrogigante')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-amber-300 border border-transparent hover:bg-slate-800 cursor-pointer">
-        <i class="fa-solid fa-table-columns text-amber-400"></i> Cuadro Gigante (Q10 vs Admin)
-      </button>
-      <button id="btnTabComparativo" onclick="switchMainTab('comparativo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
-        <i class="fa-solid fa-folder-tree text-amber-400"></i> Matriz Mensual & Fuentes
-      </button>
-      <button id="btnTabCohorte" onclick="switchMainTab('cohorte')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
-        <i class="fa-solid fa-users-viewfinder text-blue-400"></i> Cohortes 2026
-      </button>
-      <button id="btnTabCartera" onclick="switchMainTab('cartera')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
-        <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> Control Cartera & Deudores
-      </button>
-      <button id="btnTabFlujo" onclick="switchMainTab('flujo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold" title="Promesa Comercial vs Recaudo de Ingreso & Cuotas">
-        <i class="fa-solid fa-scale-balanced text-cyan-400"></i> Promesa vs Recaudo Real
-      </button>
-      <button id="btnTabPowerBI" onclick="switchMainTab('powerbi')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow cursor-pointer" title="Vista Idéntica a Microsoft Power BI Service">
-        <i class="fa-solid fa-chart-pie text-amber-400"></i> Power BI Ejecutivo
-      </button>
+    <!-- MAIN NAVIGATION TABS (CON RUTAS DIRECTAS / LINKS EXTRAS) -->
+    <nav class="flex flex-wrap items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 no-print" aria-label="Navegación de Secciones">
+      <a href="/bi-gerencial" id="btnTabBiDashboard" onclick="switchMainTab('bidashboard', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer">
+        <i class="fa-solid fa-chart-pie text-emerald-400"></i> <span>Dashboard BI Gerencial</span>
+      </a>
+      <a href="/cuadro-gigante" id="btnTabCuadrogigante" onclick="switchMainTab('cuadrogigante', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer">
+        <i class="fa-solid fa-table-columns text-amber-400"></i> <span>Cuadro Gigante (Q10 vs Admin)</span>
+      </a>
+      <a href="/matriz-mensual" id="btnTabComparativo" onclick="switchMainTab('comparativo', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer">
+        <i class="fa-solid fa-folder-tree text-amber-400"></i> <span>Matriz Mensual & Fuentes</span>
+      </a>
+      <a href="/cohortes" id="btnTabCohorte" onclick="switchMainTab('cohorte', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer">
+        <i class="fa-solid fa-users-viewfinder text-blue-400"></i> <span>Cohortes 2026</span>
+      </a>
+      <a href="/cartera" id="btnTabCartera" onclick="switchMainTab('cartera', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer">
+        <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> <span>Control Cartera & Deudores</span>
+      </a>
+      <a href="/promesa-recaudo" id="btnTabFlujo" onclick="switchMainTab('flujo', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer" title="Promesa Comercial vs Recaudo de Ingreso & Cuotas">
+        <i class="fa-solid fa-scale-balanced text-cyan-400"></i> <span>Promesa vs Recaudo Real</span>
+      </a>
+      <a href="/power-bi" id="btnTabPowerBI" onclick="switchMainTab('powerbi', true, event)" class="px-3.5 py-2 rounded-lg tab-active transition flex items-center gap-2 text-xs font-bold text-emerald-300 border border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/10 cursor-pointer" title="Vista Idéntica a Microsoft Power BI Service">
+        <i class="fa-solid fa-chart-pie text-amber-400"></i> <span>Power BI Ejecutivo</span>
+      </a>
 
       <div class="h-6 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
 
@@ -431,19 +431,22 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- TAB 0: DASHBOARD BI GERENCIAL (EXECUTIVE BI POWER-BI STYLE)               -->
-  <!-- ========================================================================= -->
-  <section id="viewBiDashboard" class="space-y-6">
-
-  <!-- ========================================================================= -->
-  <!-- BI EXECUTIVE DASHBOARD: LAYOUT PRINCIPAL (SLICERS LATERALES + CONTENIDO)   -->
-  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE LAYOUT (PERSISTENT SLICERS SIDEBAR + DYNAMIC ACTIVE VIEW) -->
   <div class="flex flex-col lg:flex-row gap-5 items-start">
 
-    <!-- ======================================================================= -->
-    <!-- PANEL LATERAL DE SLICERS / FILTROS (ESTILO POWER BI / EXCEL PRO)        -->
-    <!-- ======================================================================= -->
-    <aside class="w-full lg:w-72 shrink-0 glass-card p-4 space-y-4 border border-blue-500/30 sticky top-4">
+    <!-- PERSISTENT SLICERS SIDEBAR -->
+
+    <!-- BOTÓN TOGGLE SLICERS EN MOBILE -->
+    <div class="lg:hidden w-full mb-3">
+      <button onclick="toggleGlobalSlicersMobile()" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-slate-900 border border-blue-500/40 text-blue-300 flex items-center justify-between shadow-lg">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-sliders text-blue-400"></i> Slicers & Filtros Dinámicos</span>
+        <span class="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400"><span id="mobileSlicersCountBadge">297</span> Alumnos <i id="mobileSlicersIcon" class="fa-solid fa-chevron-down text-slate-400 ml-1"></i></span>
+      </button>
+    </div>
+
+    <!-- PANEL LATERAL DE SLICERS (PERSISTENTE EN TODAS LAS PESTAÑAS) -->
+    <div id="slicersPanelContainer" class="hidden lg:block w-full lg:w-72 shrink-0">
+      <aside id="globalSlicersPanel" class="w-full lg:w-72 shrink-0 glass-card p-4 space-y-4 border border-blue-500/30 sticky top-4 z-20 transition-all duration-300">
       
       <!-- HEADER FILTROS -->
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -569,8 +572,15 @@
       </div>
 
     </aside>
+    </div>
 
-    <!-- ======================================================================= -->
+
+    <!-- DYNAMIC ACTIVE TAB CONTAINER (CAMBIA SEGÚN LA PESTAÑA / URL SIN PERDER LOS SLICERS) -->
+    <main class="flex-1 w-full min-w-0 space-y-6">
+
+      <!-- TAB 0: DASHBOARD BI GERENCIAL -->
+      <section id="viewBiDashboard" class="space-y-6 hidden">
+        <!-- ======================================================================= -->
     <!-- CONTENIDO PRINCIPAL BI: SCORECARDS + CUOTAS APILADAS + GRID DE GRÁFICOS -->
     <!-- ======================================================================= -->
     <div class="flex-1 space-y-5 min-w-0">
@@ -950,13 +960,7 @@
         </div>
 
       </div>
-
-    </div>
-
-  </div>
-
-</section>
-
+      </section>
 
   <!-- ========================================================================= -->
   <!-- TAB 1: CUADRO GIGANTE COMPARATIVO (COMERCIAL / Q10 vs ADMINISTRACIÓN)     -->
@@ -2467,7 +2471,69 @@
       return 'S/ ' + Number(val || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function switchMainTab(tab) {
+    
+    // =========================================================================
+    // URL ROUTING & DEEP LINKING SUPPORT (PÁGINAS Y RUTAS INDEPENDIENTES)
+    // =========================================================================
+    const TAB_ROUTES = {
+      'bidashboard': '/bi-gerencial',
+      'cuadrogigante': '/cuadro-gigante',
+      'comparativo': '/matriz-mensual',
+      'cohorte': '/cohortes',
+      'cartera': '/cartera',
+      'flujo': '/promesa-recaudo',
+      'powerbi': '/power-bi'
+    };
+
+    const ROUTE_TO_TAB = {
+      '/': 'powerbi',
+      '/index': 'powerbi',
+      '/index.html': 'powerbi',
+      '/bi-gerencial': 'bidashboard',
+      '/bi-gerencial.html': 'bidashboard',
+      '/cuadro-gigante': 'cuadrogigante',
+      '/cuadro-gigante.html': 'cuadrogigante',
+      '/matriz-mensual': 'comparativo',
+      '/matriz-mensual.html': 'comparativo',
+      '/cohortes': 'cohorte',
+      '/cohortes.html': 'cohorte',
+      '/cartera': 'cartera',
+      '/cartera.html': 'cartera',
+      '/promesa-recaudo': 'flujo',
+      '/promesa-recaudo.html': 'flujo',
+      '/power-bi': 'powerbi',
+      '/power-bi.html': 'powerbi'
+    };
+
+    function toggleGlobalSlicersMobile() {
+      const p = document.getElementById('slicersPanelContainer');
+      const icon = document.getElementById('mobileSlicersIcon');
+      if (p) {
+        p.classList.toggle('hidden');
+        if (icon) {
+          icon.classList.toggle('fa-chevron-down');
+          icon.classList.toggle('fa-chevron-up');
+        }
+      }
+    }
+
+    function isStudentInMonth(s, pref) {
+      const m = (s.mes_ingreso || '').toLowerCase();
+      if (pref === 'set' || pref === 'sep') {
+        return m.includes('sep') || m.includes('set');
+      }
+      return m.startsWith(pref);
+    }
+function switchMainTab(tab, updateUrl = true, evt = null) {
+      if (evt) { evt.preventDefault(); }
+      currentMainTab = tab;
+      
+      if (updateUrl && TAB_ROUTES[tab]) {
+        try {
+          window.history.pushState({ tab: tab }, '', TAB_ROUTES[tab]);
+        } catch(e) {}
+      }
+
       currentMainTab = tab;
       const views = {
         'bidashboard': 'viewBiDashboard',
@@ -3921,6 +3987,19 @@ function applyBiFilters() {
     elBadge.innerText = `Mostrando ${totalAlumnos} de ${GIANT_DATA.length} alumnos (${pct}% de la base) en ${biFilterMonths.size} meses`;
   }
 
+  // Global Cross-filtering: Also update Power BI view and Cuadro Gigante in real-time
+  window.CURRENT_FILTERED_DATA = filtered;
+  try {
+    if (typeof updatePowerBIWithFilteredData === 'function') {
+      updatePowerBIWithFilteredData(filtered);
+    }
+    if (typeof renderGiantTable === 'function') {
+      renderGiantTable(filtered);
+    }
+  } catch(e) {
+    console.warn('Cross-tab update note:', e);
+  }
+
   // 2. Update Cuotas Breakdown (Pactado vs Pagado vs Saldo)
   let c1Pact = 0, c1Pag = 0, c1Deu = 0, c1Count = 0;
   let c2Pact = 0, c2Pag = 0, c2Deu = 0, c2Count = 0;
@@ -4980,6 +5059,82 @@ function drilldownToCuadroGiganteFromBi() {
       'Oct': 'Octubre', 'Nov': 'Noviembre'
     };
 
+    
+    function updatePowerBIWithFilteredData(filtered) {
+      const data = filtered || window.CURRENT_FILTERED_DATA || window.GIANT_DATA || [];
+      const nTotal = data.length;
+      const totPromesa = data.reduce((a, b) => a + (parseFloat(b.pactado_comercial) || 0), 0);
+      const totC1 = data.reduce((a, b) => a + (parseFloat(b.pagado_comercial) || 0), 0);
+      const totPagadoQ10 = data.reduce((a, b) => a + (parseFloat(b.pagado_q10) || 0), 0);
+      const totDeuda = data.reduce((a, b) => a + (parseFloat(b.deuda_q10) || 0), 0);
+      const totCuotas = Math.max(0, totPagadoQ10 - totC1);
+
+      const pctC1 = totPromesa > 0 ? (totC1 / totPromesa * 100) : 0;
+      const pctCuotas = totPromesa > 0 ? (totCuotas / totPromesa * 100) : 0;
+      const pctPagado = totPromesa > 0 ? (totPagadoQ10 / totPromesa * 100) : 0;
+
+      const elPromesa = document.getElementById('pbiKpiPromesa');
+      if (elPromesa) elPromesa.textContent = 'S/ ' + totPromesa.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      const elCount = document.getElementById('pbiKpiAlumnosCount');
+      if (elCount) elCount.textContent = nTotal + ' Alumnos';
+      const elC1 = document.getElementById('pbiKpiC1');
+      if (elC1) elC1.textContent = 'S/ ' + totC1.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      const elC1Pct = document.getElementById('pbiKpiC1Pct');
+      if (elC1Pct) elC1Pct.textContent = pctC1.toFixed(1) + '% de la Promesa';
+      const elCuotas = document.getElementById('pbiKpiCuotas');
+      if (elCuotas) elCuotas.textContent = 'S/ ' + totCuotas.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      const elCuotasPct = document.getElementById('pbiKpiCuotasPct');
+      if (elCuotasPct) elCuotasPct.textContent = pctCuotas.toFixed(1) + '% Financiado';
+      const elPagado = document.getElementById('pbiKpiPagado');
+      if (elPagado) elPagado.textContent = 'S/ ' + totPagadoQ10.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      const elPagadoPct = document.getElementById('pbiKpiPagadoPct');
+      if (elPagadoPct) elPagadoPct.textContent = pctPagado.toFixed(1) + '% Cobrado';
+      const elEficCenter = document.getElementById('pbiKpiEficCenter');
+      if (elEficCenter) elEficCenter.textContent = pctPagado.toFixed(1) + '%';
+      const elDeuda = document.getElementById('pbiKpiDeuda');
+      if (elDeuda) elDeuda.textContent = 'Saldo: S/ ' + totDeuda.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      drawSemiCircleGauge('gaugeIngresoCanvas', totPromesa > 0 ? (totC1 / totPromesa) : 0, '#10b981');
+      drawSemiCircleGauge('gaugeCuotasCanvas', totPromesa > 0 ? (totCuotas / totPromesa) : 0, '#06b6d4');
+      drawSemiCircleGauge('gaugeRecaudoCanvas', totPromesa > 0 ? (totPagadoQ10 / totPromesa) : 0, '#3b82f6');
+
+      // Update Funnel
+      const c1P = data.filter(s => (parseFloat(s.c1_pagado || s.pagado_comercial) || 0) > 0).length;
+      const c1F = nTotal - c1P;
+      const c2P = data.filter(s => (parseFloat(s.pagado_q10) || 0) > (parseFloat(s.pagado_comercial) || 0)).length;
+      const sinD = data.filter(s => (parseFloat(s.deuda_q10) || 0) <= 0).length;
+      const conD = data.filter(s => (parseFloat(s.deuda_q10) || 0) > 0).length;
+
+      const fCount1 = document.getElementById('pbiFunnelCount1');
+      const fVal1 = document.getElementById('pbiFunnelVal1');
+      if (fCount1) fCount1.innerHTML = `${nTotal} (100.0%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal1) fVal1.textContent = 'S/ ' + totPromesa.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount2 = document.getElementById('pbiFunnelCount2');
+      const fVal2 = document.getElementById('pbiFunnelVal2');
+      if (fCount2) fCount2.innerHTML = `${c1P} (${nTotal > 0 ? (c1P/nTotal*100).toFixed(1) : 0}%) • <span class="text-rose-400 font-bold">${c1F} faltan</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal2) fVal2.textContent = 'S/ ' + totC1.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount3 = document.getElementById('pbiFunnelCount3');
+      const fVal3 = document.getElementById('pbiFunnelVal3');
+      if (fCount3) fCount3.innerHTML = `${c2P} (${nTotal > 0 ? (c2P/nTotal*100).toFixed(1) : 0}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal3) fVal3.textContent = 'S/ ' + totCuotas.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount4 = document.getElementById('pbiFunnelCount4');
+      if (fCount4) fCount4.innerHTML = `${sinD} (${nTotal > 0 ? (sinD/nTotal*100).toFixed(1) : 0}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+
+      const fCount5 = document.getElementById('pbiFunnelCount5');
+      const fVal5 = document.getElementById('pbiFunnelVal5');
+      if (fCount5) fCount5.innerHTML = `${conD} (${nTotal > 0 ? (conD/nTotal*100).toFixed(1) : 0}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal5) fVal5.textContent = 'S/ ' + totDeuda.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      // Update Treemap & Charts
+      initPowerBITreemap(data);
+      initPowerBIAreaChart(data);
+      initPowerBI100StackedChart(data);
+      initPowerBIAsesoraChart(data);
+    }
+
     function initPowerBIView() {
       const data = window.GIANT_DATA || (typeof GIANT_DATA !== 'undefined' ? GIANT_DATA : []);
       const nTotal = data.length;
@@ -5133,7 +5288,7 @@ function drilldownToCuadroGiganteFromBi() {
       const prefixes = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'oct', 'nov'];
       
       const dataMonthly = prefixes.map(pref => {
-        return data.filter(s => (s.mes_ingreso || '').toLowerCase().startsWith(pref))
+        return data.filter(s => isStudentInMonth(s, pref))
                    .reduce((sum, s) => sum + (parseFloat(s.pagado_q10) || 0), 0);
       });
 
@@ -5208,7 +5363,7 @@ function drilldownToCuadroGiganteFromBi() {
       const saldoPct = [];
 
       prefixes.forEach(pref => {
-        const mStudents = data.filter(s => (s.mes_ingreso || '').toLowerCase().startsWith(pref));
+        const mStudents = data.filter(s => isStudentInMonth(s, pref));
         const mPromesa = mStudents.reduce((sum, s) => sum + (parseFloat(s.pactado_comercial) || 0), 0);
         const mC1 = mStudents.reduce((sum, s) => sum + (parseFloat(s.pagado_comercial) || 0), 0);
         const mPagQ10 = mStudents.reduce((sum, s) => sum + (parseFloat(s.pagado_q10) || 0), 0);

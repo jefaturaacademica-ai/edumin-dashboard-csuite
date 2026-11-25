@@ -1,6 +1,36 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/cuadro-gigante",
+      "destination": "/cuadro-gigante.html"
+    },
+    {
+      "source": "/cohortes",
+      "destination": "/cohortes.html"
+    },
+    {
+      "source": "/power-bi",
+      "destination": "/power-bi.html"
+    },
+    {
+      "source": "/matriz-mensual",
+      "destination": "/matriz-mensual.html"
+    },
+    {
+      "source": "/cartera",
+      "destination": "/cartera.html"
+    },
+    {
+      "source": "/promesa-recaudo",
+      "destination": "/promesa-recaudo.html"
+    },
+    {
+      "source": "/bi-gerencial",
+      "destination": "/bi-gerencial.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
