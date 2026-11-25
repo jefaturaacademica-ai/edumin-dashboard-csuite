@@ -8,36 +8,51 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    /* Microsoft Power BI Corporate Font & Canvas Theme */
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap');
+    
     body {
-      background-color: #080d1a;
-      color: #cbd5e1;
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #1a1a1a;
+      color: #e1dfdd;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     .font-mono {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Segoe UI', 'Segoe UI Semibold', 'DIN Pro', -apple-system, BlinkMacSystemFont, monospace !important;
+      font-feature-settings: 'tnum';
+      font-variant-numeric: tabular-nums;
     }
+    /* Power BI Visual Container (Clean geometric cards with subtle elevation) */
     .glass-card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 1rem;
+      background: #252423;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      box-shadow: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.13), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.11);
     }
     .glass-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.22);
     }
+    /* Microsoft Power BI Navigation Tabs */
     .tab-active {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: rgba(59, 130, 246, 0.5);
-      color: #60a5fa;
+      background: #0078D4 !important;
+      border-color: #0078D4 !important;
+      color: #ffffff !important;
+      font-weight: 600;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 120, 212, 0.3);
     }
     .tab-inactive {
-      border-color: transparent;
-      color: #94a3b8;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #a19f9d;
+      font-weight: 500;
+      border-radius: 4px;
     }
     .tab-inactive:hover {
-      color: #f1f5f9;
-      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
@@ -200,6 +215,33 @@
       background: #cbd5e1 !important;
     }
   
+    
+    /* Engineer Chatbot Styles */
+    #engineerChatPanel {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+    .chat-bubble-bot {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px 12px 12px 2px;
+      color: #f1f5f9;
+    }
+    .chat-bubble-user {
+      background: #0284c7;
+      border-radius: 12px 12px 2px 12px;
+      color: #ffffff;
+    }
+    body.light-mode #engineerChatPanel {
+      background: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15) !important;
+    }
+    body.light-mode .chat-bubble-bot {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-6px); }
@@ -4243,7 +4285,412 @@ function drilldownToCuadroGiganteFromBi() {
     
 
 
+
+    // =========================================================================
+    // INGENIERO BOT NLP & INTERACTION ENGINE
+    // =========================================================================
+    let engineerChatHistory = [];
+    let isEngineerChatInitialized = false;
+
+    function toggleEngineerChat() {
+      const panel = document.getElementById('engineerChatPanel');
+      const bubble = document.getElementById('engineerBotBubble');
+      if (!panel) return;
+      
+      const isHidden = panel.classList.contains('hidden');
+      if (isHidden) {
+        panel.classList.remove('hidden');
+        if (bubble) bubble.classList.add('hidden');
+        if (!isEngineerChatInitialized) {
+          initEngineerChat();
+        }
+        const input = document.getElementById('engineerChatInput');
+        if (input) setTimeout(() => input.focus(), 150);
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function initEngineerChat() {
+      isEngineerChatInitialized = true;
+      const welcome = `¡Hola! Soy el <strong>Ing. Marcelo</strong>, Consultor Forense & de Cartera de EDUMIN.<br><br>
+        Tengo acceso directo a los <strong>295 expedientes auditados</strong> del 2026. Puedes consultarme por:<br>
+        • 👤 <strong>Cualquier Alumno:</strong> Escribe su nombre o DNI.<br>
+        • 💰 <strong>Promesa vs Recaudo:</strong> Monto de ingreso (C1), cuotas y pactado.<br>
+        • ⚠️ <strong>Deudores:</strong> Quiénes deben y qué diplomados concentran la deuda.<br>
+        • 🎓 <strong>Diplomados:</strong> Rendimiento y recaudación por especialidad.<br><br>
+        ¿Qué dato o expediente deseas que auditemos primero?`;
+      addEngineerChatMessage('bot', welcome);
+    }
+
+    function addEngineerChatMessage(sender, htmlText) {
+      const container = document.getElementById('engineerChatMessages');
+      if (!container) return;
+
+      const div = document.createElement('div');
+      div.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start items-start gap-2';
+
+      if (sender === 'user') {
+        div.innerHTML = `
+          <div class="chat-bubble-user px-3.5 py-2.5 max-w-[85%] text-xs shadow-md">
+            ${htmlText}
+          </div>
+        `;
+      } else {
+        div.innerHTML = `
+          <div class="w-6 h-6 rounded-full bg-slate-800 border border-amber-400/80 flex-shrink-0 flex items-center justify-center p-0.5 mt-0.5">
+            <i class="fa-solid fa-helmet-safety text-amber-400 text-[10px]"></i>
+          </div>
+          <div class="chat-bubble-bot p-3 max-w-[90%] text-xs shadow-md space-y-2">
+            ${htmlText}
+          </div>
+        `;
+      }
+
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendQuickPrompt(text) {
+      const input = document.getElementById('engineerChatInput');
+      if (input) input.value = text;
+      handleEngineerChatSubmit(null);
+    }
+
+    function clearEngineerChat() {
+      const container = document.getElementById('engineerChatMessages');
+      if (container) container.innerHTML = '';
+      initEngineerChat();
+    }
+
+    function handleEngineerChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('engineerChatInput');
+      if (!input) return;
+      const q = input.value.trim();
+      if (!q) return;
+
+      addEngineerChatMessage('user', q);
+      input.value = '';
+
+      // Mostrar indicador de pensando
+      const container = document.getElementById('engineerChatMessages');
+      const typingDiv = document.createElement('div');
+      typingDiv.id = 'engineerBotTyping';
+      typingDiv.className = 'flex justify-start items-center gap-2 text-slate-400 text-[11px]';
+      typingDiv.innerHTML = `
+        <div class="w-6 h-6 rounded-full bg-slate-800 border border-amber-400/80 flex-shrink-0 flex items-center justify-center p-0.5">
+          <i class="fa-solid fa-helmet-safety text-amber-400 text-[10px]"></i>
+        </div>
+        <span class="flex items-center gap-1">
+          <span class="animate-pulse">Ing. Marcelo consultando base forense</span>
+          <span class="animate-bounce">...</span>
+        </span>
+      `;
+      container.appendChild(typingDiv);
+      container.scrollTop = container.scrollHeight;
+
+      setTimeout(() => {
+        const el = document.getElementById('engineerBotTyping');
+        if (el) el.remove();
+        const response = processEngineerQuery(q);
+        addEngineerChatMessage('bot', response);
+      }, 350);
+    }
+
+    // Motor de Respuestas Analíticas del Ingeniero
+    function processEngineerQuery(query) {
+      const q = query.toLowerCase().trim();
+
+      // 1. Búsqueda por DNI (números de 7 u 8 dígitos) o si parece DNI
+      const dniMatch = q.match(/\d{7,9}/);
+      if (dniMatch) {
+        const dni = dniMatch[0];
+        const student = GIANT_DATA.find(s => s.dni && String(s.dni).includes(dni));
+        if (student) {
+          return formatStudentAuditResponse(student);
+        } else {
+          return `No encontré ningún expediente con el DNI <strong>${dni}</strong> en los 295 alumnos auditados. Por favor verifica si tiene algún dígito faltante.`;
+        }
+      }
+
+      // 2. Búsqueda por nombre de alumno (si incluye "buscar a", "alumno", o 2+ palabras)
+      if (q.includes('alumno') || q.includes('busca') || q.includes('quien es') || q.includes('quièn es') || q.includes('expediente')) {
+        const terms = q.replace(/buscar|busca|alumno|quien|quièn|es|a|el|de|expediente/gi, '').trim().split(' ').filter(w => w.length > 2);
+        if (terms.length > 0) {
+          const matches = GIANT_DATA.filter(s => {
+            const full = (s.nombre || '').toLowerCase();
+            return terms.every(t => full.includes(t));
+          });
+          if (matches.length === 1) {
+            return formatStudentAuditResponse(matches[0]);
+          } else if (matches.length > 1) {
+            let list = matches.slice(0, 5).map(m => `• <strong>${m.nombre}</strong> (DNI: ${m.dni}) - ${m.diplomado} - Deuda: S/ ${Number(m.deuda_q10||0).toFixed(2)}`).join('<br>');
+            return `Encontré <strong>${matches.length} alumnos</strong> que coinciden con tu búsqueda:<br><br>${list}<br><br>Escribe el DNI específico para auditar su expediente completo.`;
+          }
+        }
+      }
+
+      // 3. Pregunta sobre Promesa Comercial vs Recaudo de Ingreso
+      if (q.includes('promesa') || q.includes('pactado') || q.includes('recaudo') || q.includes('cuota 01') || q.includes('cuota 1') || q.includes('ingreso inicial') || q.includes('ingresaron')) {
+        return `Estimado, el análisis de la <strong>Promesa Comercial vs Recaudación</strong> es el siguiente:<br><br>
+          📌 <strong>Promesa Total Pactada (Comercial):</strong> S/ 166,810.00 (monto total que deben pagar los 295 alumnos).<br>
+          📌 <strong>Monto de Ingreso (Cuota 01):</strong> S/ 104,763.00 (62.8% de la promesa, monto con el que entraron a ser alumnos).<br>
+          📌 <strong>Cobranza de Cuotas Posteriores (C2, C3, C4):</strong> S/ 30,042.00 (18.0% recaudado tras el ingreso).<br>
+          📌 <strong>Total Recaudado Real Efectivo:</strong> S/ 134,805.00 (<strong>80.8% de efectividad global</strong>).<br>
+          📌 <strong>Saldo Pendiente por Cobrar:</strong> S/ 31,405.00 (adeudado por 110 alumnos).<br><br>
+          <em>El mayor recaudo de ingreso se registró en Octubre (S/ 13,794.00) y Enero (S/ 12,884.00).</em>`;
+      }
+
+      // 4. Preguntas de Deuda y Mayores Deudores
+      if (q.includes('deuda') || q.includes('deudores') || q.includes('moros') || q.includes('deben') || q.includes('cobrar') || q.includes('saldo')) {
+        const debtors = GIANT_DATA.filter(s => Number(s.deuda_q10 || 0) > 0)
+                                 .sort((a, b) => Number(b.deuda_q10 || 0) - Number(a.deuda_q10 || 0));
+        const totalDebt = debtors.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
+        const top5 = debtors.slice(0, 5).map((s, idx) => `
+          <strong>${idx + 1}. ${s.nombre}</strong><br>
+          &nbsp;&nbsp;&nbsp;DNI: ${s.dni} • ${s.diplomado}<br>
+          &nbsp;&nbsp;&nbsp;Deuda: <span class="text-rose-400 font-bold">S/ ${Number(s.deuda_q10).toFixed(2)}</span> (Pactado: S/ ${Number(s.pactado_comercial||s.pactado_q10||0).toFixed(2)})
+        `).join('<br>');
+
+        return `Auditoría de Cartera Deudora:<br><br>
+          🚨 <strong>Total Deuda Pendiente:</strong> S/ ${totalDebt.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
+          👥 <strong>Alumnos con Saldo Deudor:</strong> ${debtors.length} de 295 alumnos (${((debtors.length/295)*100).toFixed(1)}%).<br><br>
+          <strong>Top 5 Mayores Deudores:</strong><br>${top5}<br><br>
+          <em>Recomendación de Ingeniería: Priorizar gestión de cobranza sobre las cuotas 2 y 3 de estos expedientes.</em>`;
+      }
+
+      // 5. Preguntas sobre Diplomados específicos
+      const dipNames = [...new Set(GIANT_DATA.map(s => s.diplomado).filter(Boolean))];
+      const matchedDip = dipNames.find(d => q.includes(d.toLowerCase()));
+      if (matchedDip || q.includes('diplomado') || q.includes('programa')) {
+        const targetDip = matchedDip || dipNames[0];
+        const dipStudents = GIANT_DATA.filter(s => s.diplomado === targetDip);
+        const count = dipStudents.length;
+        const pactado = dipStudents.reduce((acc, s) => acc + Number(s.pactado_comercial || s.pactado_q10 || 0), 0);
+        const pagado = dipStudents.reduce((acc, s) => acc + Number(s.pagado_q10 || 0), 0);
+        const deuda = dipStudents.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
+        const c1 = dipStudents.reduce((acc, s) => acc + Number(s.c1_pagado || 0), 0);
+        const efic = pactado > 0 ? ((pagado / pactado) * 100).toFixed(1) : '0.0';
+
+        return `Auditoría del Diplomado <strong>${targetDip}</strong>:<br><br>
+          • <strong>Alumnos Registrados:</strong> ${count}<br>
+          • <strong>Promesa Total (Pactado):</strong> S/ ${pactado.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+          • <strong>Monto de Ingreso (C1):</strong> S/ ${c1.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+          • <strong>Total Recaudado Real:</strong> S/ ${pagado.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+          • <strong>Saldo Pendiente:</strong> <span class="${deuda > 0 ? 'text-rose-400 font-bold' : 'text-slate-400'}">S/ ${deuda.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span><br>
+          • <strong>Efectividad de Recaudo:</strong> <span class="text-emerald-400 font-bold">${efic}%</span><br><br>
+          <em>¿Deseas auditar la lista de alumnos de este programa?</em>`;
+      }
+
+      // 6. Preguntas por Mes (Enero, Febrero, etc.)
+      const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'setiembre', 'octubre', 'noviembre', 'diciembre'];
+      const matchedMonth = monthNames.find(m => q.includes(m));
+      if (matchedMonth || q.includes('mes')) {
+        const searchMonth = matchedMonth ? (matchedMonth === 'setiembre' ? 'septiembre' : matchedMonth) : 'octubre';
+        const mStudents = GIANT_DATA.filter(s => (s.mes_ingreso || '').toLowerCase().replace('setiembre', 'septiembre') === searchMonth);
+        if (mStudents.length > 0) {
+          const count = mStudents.length;
+          const pactado = mStudents.reduce((acc, s) => acc + Number(s.pactado_comercial || s.pactado_q10 || 0), 0);
+          const pagado = mStudents.reduce((acc, s) => acc + Number(s.pagado_q10 || 0), 0);
+          const c1 = mStudents.reduce((acc, s) => acc + Number(s.c1_pagado || 0), 0);
+          const c2_4 = mStudents.reduce((acc, s) => acc + (Number(s.c2_pagado||0) + Number(s.c3_pagado||0) + Number(s.c4_pagado||0)), 0);
+          const deuda = mStudents.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
+          const efic = pactado > 0 ? ((pagado / pactado) * 100).toFixed(1) : '0.0';
+
+          const capMonth = searchMonth.charAt(0).toUpperCase() + searchMonth.slice(1);
+          return `Balance del Mes de <strong>${capMonth} 2026</strong>:<br><br>
+            • <strong>Alumnos Ingresados:</strong> ${count}<br>
+            • <strong>Promesa Comercial Total:</strong> S/ ${pactado.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+            • <strong>Monto de Ingreso Inicial (C1):</strong> S/ ${c1.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+            • <strong>Cuotas Posteriores (C2-C4):</strong> S/ ${c2_4.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+            • <strong>Total Recaudado Real:</strong> S/ ${pagado.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+            • <strong>Saldo por Cobrar:</strong> S/ ${deuda.toLocaleString('en-US', { minimumFractionDigits: 2 })}<br>
+            • <strong>Efectividad del Mes:</strong> <span class="text-emerald-400 font-bold">${efic}%</span>`;
+        }
+      }
+
+      // 7. Preguntas de Discrepancias / Auditoría Forense
+      if (q.includes('diferencia') || q.includes('discrepancia') || q.includes('identico') || q.includes('retirado') || q.includes('omitido') || q.includes('auditoria')) {
+        return `Resultado de la <strong>Auditoría Forense Q10 vs Administración</strong>:<br><br>
+          ✅ <strong>143 Idénticos:</strong> Montos y cuotas 100% conciliados.<br>
+          ⚠️ <strong>137 Diferencia de Pago:</strong> Discrepancias entre comprobantes administrativos y registros Q10.<br>
+          🛑 <strong>11 Retirados / Condonados:</strong> Alumnos dados de baja con condonación de saldo.<br>
+          🔍 <strong>4 Omitidos en Admin:</strong> Registrados en Q10 pero sin ficha administrativa previa.<br><br>
+          <em>Puedes consultar la pestaña "Control Cartera & Deudores" para filtrar cada categoría.</em>`;
+      }
+
+      // Respuesta Genérica de Ingeniero Consultor
+      return `Como Ingeniero Consultor del sistema de cartera, puedo indicarte que el sistema consolida <strong>295 expedientes</strong> con un total pactado de <strong>S/ 166,810.00</strong> y una recaudación efectiva de <strong>S/ 134,805.00</strong> (80.8% de cumplimiento).<br><br>
+        ¿Te gustaría que busquemos a un <strong>alumno en particular</strong> (escribe su nombre o DNI), auditemos las <strong>deudas</strong> o revisemos las <strong>métricas de un diplomado</strong>?`;
+    }
+
+    function formatStudentAuditResponse(s) {
+      const pactado = Number(s.pactado_comercial || s.pactado_q10 || 0);
+      const c1 = Number(s.c1_pagado || 0);
+      const c2 = Number(s.c2_pagado || 0);
+      const c3 = Number(s.c3_pagado || 0);
+      const c4 = Number(s.c4_pagado || 0);
+      const pagado = Number(s.pagado_q10 || 0);
+      const deuda = Number(s.deuda_q10 || 0);
+
+      const statusBadge = deuda > 0 ? 
+        `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">DEUDOR (Saldo: S/ ${deuda.toFixed(2)})</span>` : 
+        `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">AL DÍA (100% Pagado)</span>`;
+
+      return `<strong>Expediente Forense de Alumno:</strong><br><br>
+        👤 <strong>Nombre:</strong> ${s.nombre}<br>
+        🆔 <strong>DNI:</strong> ${s.dni} • 📅 <strong>Ingreso:</strong> ${s.mes_ingreso||'-'}<br>
+        🎓 <strong>Diplomado:</strong> ${s.diplomado||'-'}<br>
+        🏷️ <strong>Pagaré Q10:</strong> ${s.pagare_q10||'N/A'}<br>
+        📋 <strong>Categoría:</strong> ${s.categoria||'-'}<br><br>
+        <strong>Desglose Financiero:</strong><br>
+        • Promesa Total Pactada: <strong>S/ ${pactado.toFixed(2)}</strong><br>
+        • Monto de Ingreso (C1): <strong class="text-emerald-400">S/ ${c1.toFixed(2)}</strong><br>
+        • Cuota 2: S/ ${c2.toFixed(2)} | Cuota 3: S/ ${c3.toFixed(2)} | Cuota 4: S/ ${c4.toFixed(2)}<br>
+        • Total Pagado Real Q10: <strong class="text-white">S/ ${pagado.toFixed(2)}</strong><br>
+        • Estado: ${statusBadge}`;
+    }
+
   </script>
   </div><!-- end #dashboardApp -->
+
+  <!-- ========================================================================= -->
+  <!-- INGENIERO BOT: ASISTENTE FORENSE & BI EN TIEMPO REAL                       -->
+  <!-- ========================================================================= -->
+  <div id="engineerBotWidget" class="fixed bottom-5 right-5 z-50 flex flex-col items-end pointer-events-auto">
+    <!-- Bubble de bienvenida -->
+    <div id="engineerBotBubble" class="mb-2 bg-slate-900 border border-amber-500/50 text-white text-xs px-3.5 py-2 rounded-xl shadow-2xl flex items-center gap-2 cursor-pointer hover:border-amber-400 transition" onclick="toggleEngineerChat()">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span class="font-bold">¿Dudas con los números?</span>
+      <span class="text-amber-400 font-semibold flex items-center gap-1">Pregúntale al Ing. de Cartera <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+      <button onclick="event.stopPropagation(); document.getElementById('engineerBotBubble').classList.add('hidden')" class="text-slate-400 hover:text-white ml-1.5 text-xs">&times;</button>
+    </div>
+
+    <!-- Botón Flotante con Avatar de Ingeniero -->
+    <button id="engineerChatBtn" onclick="toggleEngineerChat()" class="relative group w-14 h-14 rounded-full bg-gradient-to-tr from-slate-950 via-slate-900 to-amber-950 border-2 border-amber-400 shadow-2xl shadow-amber-500/40 hover:scale-110 active:scale-95 transition flex items-center justify-center cursor-pointer p-1" title="Abrir Asistente Ingeniero de Cartera EDUMIN">
+      <!-- Indicador En Línea -->
+      <span class="absolute -top-1 -right-1 flex h-4 w-4">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-slate-900"></span>
+      </span>
+      <!-- Avatar SVG de Ingeniero -->
+      <div class="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+        <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <path d="M 24 40 C 24 22, 76 22, 76 40 L 80 43 C 80 44, 76 46, 50 46 C 24 46, 20 44, 20 43 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M 46 22 L 54 22 L 53 40 L 47 40 Z" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="47" y="32" width="6" height="5" rx="1" fill="#f59e0b"/>
+  <ellipse cx="50" cy="52" rx="18" ry="16" fill="#fed7aa"/>
+  <path d="M 32 44 Q 30 52 33 56 Q 34 48 35 45 Z" fill="#475569"/>
+  <path d="M 68 44 Q 70 52 67 56 Q 66 48 65 45 Z" fill="#475569"/>
+  <ellipse cx="44" cy="51" rx="2" ry="2.2" fill="#1e293b"/>
+  <ellipse cx="56" cy="51" rx="2" ry="2.2" fill="#1e293b"/>
+  <path d="M 41 46 Q 44 45 47 46" stroke="#475569" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 53 46 Q 56 45 59 46" stroke="#475569" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 45 59 Q 50 63 55 59" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 32 47 Q 30 58 42 62" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <circle cx="43" cy="62" r="2" fill="#0284c7"/>
+  <rect x="45" y="65" width="10" height="7" fill="#fed7aa"/>
+  <path d="M 22 88 L 32 68 L 68 68 L 78 88 Z" fill="#ea580c"/>
+  <polygon points="43,68 57,68 50,78" fill="#1e3a8a"/>
+  <line x1="36" y1="68" x2="33" y2="88" stroke="#f1f5f9" stroke-width="3"/>
+  <line x1="64" y1="68" x2="67" y2="88" stroke="#f1f5f9" stroke-width="3"/>
+  <line x1="28" y1="80" x2="72" y2="80" stroke="#f1f5f9" stroke-width="2.5"/>
+</svg>
+      </div>
+    </button>
+  </div>
+
+  <!-- Ventana Flotante del Chat de Ingeniero (Power BI / Copilot Layout) -->
+  <div id="engineerChatPanel" class="fixed bottom-24 right-5 z-50 w-[400px] max-w-[calc(100vw-2rem)] h-[570px] max-h-[calc(100vh-7.5rem)] bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl shadow-2xl flex flex-col overflow-hidden hidden transition-all duration-300">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/60 p-3.5 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full border-2 border-amber-400 bg-slate-800 flex items-center justify-center p-0.5 shadow-md">
+          <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+  <path d="M 24 40 C 24 22, 76 22, 76 40 L 80 43 C 80 44, 76 46, 50 46 C 24 46, 20 44, 20 43 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M 46 22 L 54 22 L 53 40 L 47 40 Z" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="47" y="32" width="6" height="5" rx="1" fill="#f59e0b"/>
+  <ellipse cx="50" cy="52" rx="18" ry="16" fill="#fed7aa"/>
+  <path d="M 32 44 Q 30 52 33 56 Q 34 48 35 45 Z" fill="#475569"/>
+  <path d="M 68 44 Q 70 52 67 56 Q 66 48 65 45 Z" fill="#475569"/>
+  <ellipse cx="44" cy="51" rx="2" ry="2.2" fill="#1e293b"/>
+  <ellipse cx="56" cy="51" rx="2" ry="2.2" fill="#1e293b"/>
+  <path d="M 41 46 Q 44 45 47 46" stroke="#475569" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 53 46 Q 56 45 59 46" stroke="#475569" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 45 59 Q 50 63 55 59" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 32 47 Q 30 58 42 62" stroke="#64748b" stroke-width="1.5" fill="none"/>
+  <circle cx="43" cy="62" r="2" fill="#0284c7"/>
+  <rect x="45" y="65" width="10" height="7" fill="#fed7aa"/>
+  <path d="M 22 88 L 32 68 L 68 68 L 78 88 Z" fill="#ea580c"/>
+  <polygon points="43,68 57,68 50,78" fill="#1e3a8a"/>
+  <line x1="36" y1="68" x2="33" y2="88" stroke="#f1f5f9" stroke-width="3"/>
+  <line x1="64" y1="68" x2="67" y2="88" stroke="#f1f5f9" stroke-width="3"/>
+  <line x1="28" y1="80" x2="72" y2="80" stroke="#f1f5f9" stroke-width="2.5"/>
+</svg>
+        </div>
+        <div>
+          <div class="text-sm font-bold text-white flex items-center gap-1.5">
+            <span>Ing. Marcelo Cartera</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/40">BI EDUMIN</span>
+          </div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Consultor Forense • 295 Registros Activos</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="clearEngineerChat()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 text-xs transition cursor-pointer" title="Limpiar conversación">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+        <button onclick="toggleEngineerChat()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 text-xs transition cursor-pointer" title="Cerrar">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mensajes -->
+    <div id="engineerChatMessages" class="flex-1 p-3.5 overflow-y-auto custom-scrollbar space-y-3 text-xs leading-relaxed">
+      <!-- El bot inserta los mensajes aquí -->
+    </div>
+
+    <!-- Quick Prompts Pills -->
+    <div class="px-3 py-2 bg-slate-950/70 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto custom-scrollbar no-wrap">
+      <button onclick="sendQuickPrompt('¿Cuánto es la promesa comercial total y el recaudo inicial?')" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition cursor-pointer">
+        💰 Promesa vs Ingreso
+      </button>
+      <button onclick="sendQuickPrompt('¿Quiénes son los mayores deudores?')" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition cursor-pointer">
+        ⚠️ Top Deudores
+      </button>
+      <button onclick="sendQuickPrompt('¿Cómo le fue al diplomado de Geomecánica?')" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition cursor-pointer">
+        🎓 Diplomados
+      </button>
+      <button onclick="sendQuickPrompt('¿Cuál fue el mes con mayor recaudo en 2026?')" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white border border-slate-700 whitespace-nowrap transition cursor-pointer">
+        📅 Mejor Mes
+      </button>
+    </div>
+
+    <!-- Input Bar -->
+    <form onsubmit="handleEngineerChatSubmit(event)" class="p-2.5 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+      <input 
+        type="text" 
+        id="engineerChatInput" 
+        placeholder="Pregúntame por alumnos, DNI, deudas, diplomados..." 
+        class="flex-1 bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-amber-400 placeholder:text-slate-500"
+        autocomplete="off"
+      />
+      <button 
+        type="submit" 
+        class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black px-3.5 py-2.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow-md cursor-pointer"
+        title="Enviar consulta"
+      >
+        <i class="fa-solid fa-paper-plane text-xs"></i>
+      </button>
+    </form>
+  </div>
+
 </body>
 </html>
