@@ -261,8 +261,8 @@
       <div class="absolute -top-24 -left-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-blue-500/30 border border-white/20 mb-4">
-        <i class="fa-solid fa-shield-halved"></i>
+      <div class="mx-auto w-24 h-24 rounded-2xl bg-black flex items-center justify-center p-2 shadow-2xl border border-slate-700 mb-4">
+        <img src="edumin_logo.png" alt="Logo EDUMIN" class="w-full h-full object-contain" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuh9J6Ebj7XRdXGu0o4UVYCYwi2Bx8M6cb7oUuv5CR3g&s=10'" />
       </div>
 
       <h2 class="text-2xl font-black text-white tracking-tight">EDUMIN C-Suite</h2>
@@ -335,8 +335,8 @@
   <!-- ========================================================================= -->
   <header class="glass-card p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b-2 border-blue-500/40">
     <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-blue-500/25 border border-white/20">
-        E
+      <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center p-1.5 shadow-xl border border-slate-700 flex-shrink-0">
+        <img src="edumin_logo.png" alt="EDUMIN Logo" class="w-full h-full object-contain" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuh9J6Ebj7XRdXGu0o4UVYCYwi2Bx8M6cb7oUuv5CR3g&s=10'" />
       </div>
       <div>
         <div class="flex items-center gap-2 flex-wrap">
@@ -373,6 +373,9 @@
       </button>
       <button id="btnTabFlujo" onclick="switchMainTab('flujo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold" title="Promesa Comercial vs Recaudo de Ingreso & Cuotas">
         <i class="fa-solid fa-scale-balanced text-cyan-400"></i> Promesa vs Recaudo Real
+      </button>
+      <button id="btnTabPowerBI" onclick="switchMainTab('powerbi')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 shadow cursor-pointer" title="Vista Idéntica a Microsoft Power BI Service">
+        <i class="fa-solid fa-chart-pie text-amber-400"></i> Power BI Ejecutivo
       </button>
 
       <div class="h-6 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
@@ -1866,6 +1869,250 @@
   <!-- ========================================================================= -->
   <!-- TAB 5: PROMESA COMERCIAL VS RECAUDO REAL & CUOTAS                         -->
   <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- TAB 6: POWER BI EJECUTIVO (IDÉNTICO A MICROSOFT POWER BI SERVICE)         -->
+  <!-- ========================================================================= -->
+  <section id="viewPowerBI" class="space-y-6 hidden">
+    <!-- Power BI App Bar / Ribbon -->
+    <div class="bg-[#181818] border border-[#323130] rounded-lg p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 text-white shadow-lg">
+      <div class="flex items-center gap-3">
+        <!-- Power BI Yellow Grid Logo -->
+        <div class="w-8 h-8 rounded bg-[#f2c811] flex items-center justify-center text-black font-black text-xs shadow">
+          <i class="fa-solid fa-chart-simple text-sm"></i>
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-slate-400 flex items-center gap-1.5">
+            <span>My Workspace</span>
+            <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+            <span class="text-white font-bold">EDUMIN 2026 • Opportunity & Revenue Analysis</span>
+          </div>
+          <div class="text-[11px] text-amber-400 font-mono">Power BI Service • Dataset en vivo: 295 Registros Conciliados</div>
+        </div>
+      </div>
+
+      <!-- Power BI Search Bar & Actions -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="relative w-64 cursor-pointer" onclick="toggleEngineerChat()">
+          <i class="fa-regular fa-comment-dots absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input type="text" readonly placeholder="Ask a question about your data..." class="w-full bg-[#252423] border border-[#383838] rounded text-xs pl-8 pr-3 py-1.5 text-slate-300 placeholder:text-slate-400 cursor-pointer hover:border-amber-400 transition" />
+        </div>
+        <button onclick="toggleEngineerChat()" class="px-2.5 py-1.5 rounded bg-[#252423] hover:bg-[#323130] border border-[#383838] text-xs text-slate-200 flex items-center gap-1.5 transition cursor-pointer" title="Consultas IA Copilot">
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-400 text-xs"></i> Copilot
+        </button>
+        <button onclick="exportToCSV()" class="px-2.5 py-1.5 rounded bg-[#252423] hover:bg-[#323130] border border-[#383838] text-xs text-slate-200 flex items-center gap-1.5 transition cursor-pointer" title="Exportar datos">
+          <i class="fa-solid fa-file-export text-xs"></i> Export
+        </button>
+      </div>
+    </div>
+
+    <!-- Power BI Top Gauges & KPI Row (Exact replica of Reference Image 1) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      <!-- KPI 1: Promesa Total -->
+      <div class="glass-card p-4 flex flex-col justify-between">
+        <div class="text-xs font-semibold text-slate-400">Promesa Comercial Total</div>
+        <div class="text-2xl font-black text-white font-mono mt-1">S/ 166,810.00</div>
+        <div class="mt-2 text-[10px] text-blue-400 font-semibold flex items-center justify-between border-t border-slate-800 pt-1.5">
+          <span>Target 100%</span>
+          <span>295 Alumnos</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: Semi-Circle Gauge Ingreso Inicial C1 -->
+      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+        <div class="text-xs font-semibold text-slate-400 w-full text-left">Monto de Ingreso (C1)</div>
+        <div class="text-xl font-black text-emerald-400 font-mono mt-1">S/ 104,763.00</div>
+        <!-- Gauge Canvas -->
+        <div class="w-28 h-14 relative my-1">
+          <canvas id="gaugeIngresoCanvas" width="112" height="56"></canvas>
+        </div>
+        <div class="text-[10px] text-emerald-300 font-bold">62.8% de la Promesa</div>
+      </div>
+
+      <!-- KPI 3: Semi-Circle Gauge Cuotas Financiadas -->
+      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+        <div class="text-xs font-semibold text-slate-400 w-full text-left">Cuotas Financiadas (C2-C4)</div>
+        <div class="text-xl font-black text-cyan-400 font-mono mt-1">S/ 30,042.00</div>
+        <!-- Gauge Canvas -->
+        <div class="w-28 h-14 relative my-1">
+          <canvas id="gaugeCuotasCanvas" width="112" height="56"></canvas>
+        </div>
+        <div class="text-[10px] text-cyan-300 font-bold">18.0% Financiado</div>
+      </div>
+
+      <!-- KPI 4: Semi-Circle Gauge Recaudo Real Efectivo -->
+      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+        <div class="text-xs font-semibold text-slate-400 w-full text-left">Total Recaudado Real</div>
+        <div class="text-xl font-black text-white font-mono mt-1">S/ 134,805.00</div>
+        <!-- Gauge Canvas -->
+        <div class="w-28 h-14 relative my-1">
+          <canvas id="gaugeRecaudoCanvas" width="112" height="56"></canvas>
+        </div>
+        <div class="text-[10px] text-emerald-400 font-bold">80.8% Cobrado</div>
+      </div>
+
+      <!-- KPI 5: Radial Donut Tasa de Cumplimiento -->
+      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
+        <div class="text-xs font-semibold text-slate-400 w-full text-left">Efectividad de Cartera</div>
+        <div class="w-20 h-20 relative my-0.5 flex items-center justify-center">
+          <canvas id="donutEficCanvas" width="80" height="80"></canvas>
+          <div class="absolute text-xs font-black text-white font-mono">80.8%</div>
+        </div>
+        <div class="text-[10px] text-rose-400 font-bold">Saldo: S/ 31,405.00</div>
+      </div>
+    </div>
+
+    <!-- Power BI Visuals Grid Row 1: Smooth Area Trend & Treemap -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <!-- Monthly Trend Area Chart (Purple Smooth Curve like Image 1) -->
+      <div class="lg:col-span-7 glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#7c3aed]"></span>
+              <span>Monthly Revenue Trend (Evolución Mensual en Soles)</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Curva continua de recaudación real mensual en 2026</p>
+          </div>
+          <span class="text-[10px] text-indigo-300 font-mono font-bold">Ene - Nov 2026</span>
+        </div>
+        <div class="h-64 w-full relative">
+          <canvas id="pbiMonthlyAreaChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Treemap: Participación por Diplomado (like Image 1 "Hire by Source") -->
+      <div class="lg:col-span-5 glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-table-cells-large text-indigo-400"></i>
+              <span>Revenue by Program (Treemap de Diplomados)</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Concentración de venta por diplomado</p>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">295 Alumnos</span>
+        </div>
+        <!-- Treemap Visual Container -->
+        <div id="pbiTreemapContainer" class="h-64 grid grid-cols-3 grid-rows-3 gap-1.5 p-1 rounded-lg bg-slate-950/60 border border-slate-800 text-white text-xs">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Power BI Visuals Grid Row 2: Funnel Chart & 100% Stacked Bar -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <!-- Funnel Chart (like Image 1 & 2) -->
+      <div class="lg:col-span-5 glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-filter text-amber-400"></i>
+              <span>Recruitment & Payment Funnel (Embudo de Cartera)</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Tasa de conversión de matrícula a cancelación de cuotas</p>
+          </div>
+          <span class="text-[10px] text-emerald-400 font-bold font-mono">80.8% Recaudo</span>
+        </div>
+        <!-- Funnel bars -->
+        <div class="space-y-2 pt-2">
+          <div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-300">1. Alumnos Matriculados</span>
+              <span class="text-white font-mono">295 (100.0%)</span>
+            </div>
+            <div class="w-full bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-700 shadow">
+              S/ 166,810.00
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-300">2. Cuota 01 Ingreso Pagada</span>
+              <span class="text-emerald-400 font-mono">292 (99.0%)</span>
+            </div>
+            <div class="w-[90%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-600 shadow">
+              S/ 104,763.00
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-300">3. Cuota 02 Financiada Pagada</span>
+              <span class="text-cyan-400 font-mono">109 (56.9%)</span>
+            </div>
+            <div class="w-[75%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-500 shadow">
+              S/ 19,742.00
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-300">4. Alumnos 100% al Día (Saldo 0)</span>
+              <span class="text-emerald-300 font-mono">185 (62.7%)</span>
+            </div>
+            <div class="w-[60%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-emerald-600 shadow">
+              Sin Deuda
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-300">5. Alumnos con Saldo Pendiente</span>
+              <span class="text-rose-400 font-mono">110 (37.3%)</span>
+            </div>
+            <div class="w-[45%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-rose-600 shadow">
+              S/ 31,405.00
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 100% Stacked Bar Chart by Month (like Image 2 & 3) -->
+      <div class="lg:col-span-7 glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-cyan-400"></i>
+              <span>100% Stacked Monthly Composition (Proporción Relativa)</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Distribución porcentual: Ingreso Inicial (C1) vs Cuotas vs Saldo Deudor</p>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">Ene - Nov</span>
+        </div>
+        <div class="h-64 w-full relative">
+          <canvas id="pbi100StackedChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Power BI Visuals Grid Row 3: Horizontal Grouped Bar Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <!-- Clustered Bar: Asesora Comercial & Modalidad -->
+      <div class="glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div class="text-xs font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-user-tie text-blue-400"></i>
+            <span>Ventas y Recaudación por Asesora Comercial</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">Yskelia vs Learsy</span>
+        </div>
+        <div class="h-56 w-full relative">
+          <canvas id="pbiAsesoraChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Clustered Bar: Auditoría Forense Q10 vs Admin -->
+      <div class="glass-card p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div class="text-xs font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass-chart text-rose-400"></i>
+            <span>Conciliación Forense Q10 vs Administración</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">295 Casos</span>
+        </div>
+        <div class="h-56 w-full relative">
+          <canvas id="pbiAuditoriaChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="viewFlujo" class="space-y-6 hidden">
     <div class="glass-card p-5 space-y-6">
       <!-- Encabezado y Switch de Vistas -->
@@ -2117,7 +2364,8 @@
         'comparativo': 'viewComparativo',
         'cohorte': 'viewCohorte',
         'cartera': 'viewCartera',
-        'flujo': 'viewFlujo'
+        'flujo': 'viewFlujo',
+        'powerbi': 'viewPowerBI'
       };
       const btns = {
         'bidashboard': 'btnTabBiDashboard',
@@ -2125,7 +2373,8 @@
         'comparativo': 'btnTabComparativo',
         'cohorte': 'btnTabCohorte',
         'cartera': 'btnTabCartera',
-        'flujo': 'btnTabFlujo'
+        'flujo': 'btnTabFlujo',
+        'powerbi': 'btnTabPowerBI'
       };
 
       Object.entries(views).forEach(([k, id]) => {
@@ -2149,6 +2398,7 @@
 
       if (tab === 'flujo') initFlujoChart();
       if (tab === 'bidashboard') initBiDashboard();
+      if (tab === 'powerbi') initPowerBIView();
     }
 
 
@@ -4578,6 +4828,323 @@ function drilldownToCuadroGiganteFromBi() {
         • Cuota 2: S/ ${c2.toFixed(2)} | Cuota 3: S/ ${c3.toFixed(2)} | Cuota 4: S/ ${c4.toFixed(2)}<br>
         • Total Pagado Real Q10: <strong class="text-white">S/ ${pagado.toFixed(2)}</strong><br>
         • Estado: ${statusBadge}`;
+    }
+
+
+    // =========================================================================
+    // POWER BI VISUALS INITIALIZER & ENGINES
+    // =========================================================================
+    let pbiGaugesInitialized = false;
+    let pbiAreaChartInstance = null;
+    let pbiStacked100Instance = null;
+    let pbiAsesoraInstance = null;
+    let pbiAuditoriaInstance = null;
+
+    function initPowerBIView() {
+      initPowerBIGauges();
+      initPowerBITreemap();
+      initPowerBIAreaChart();
+      initPowerBI100StackedChart();
+      initPowerBIAsesoraChart();
+      initPowerBIAuditoriaChart();
+    }
+
+    function drawSemiCircleGauge(canvasId, pct, color) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h - 6;
+      const r = Math.min(cx, cy) - 4;
+      const lineWidth = 8;
+
+      // Background Track
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, Math.PI, 0, false);
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineCap = 'round';
+      ctx.stroke();
+
+      // Filled Arc
+      const endAngle = Math.PI + (Math.PI * Math.min(pct, 1.0));
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, Math.PI, endAngle, false);
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = color;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    function initPowerBIGauges() {
+      const pctIngreso = 104763 / 166810; // 62.8%
+      const pctCuotas = 30042 / 166810;   // 18.0%
+      const pctRecaudo = 134805 / 166810; // 80.8%
+
+      drawSemiCircleGauge('gaugeIngresoCanvas', pctIngreso, '#10b981');
+      drawSemiCircleGauge('gaugeCuotasCanvas', pctCuotas, '#06b6d4');
+      drawSemiCircleGauge('gaugeRecaudoCanvas', pctRecaudo, '#3b82f6');
+
+      // Donut Chart
+      const donutCanvas = document.getElementById('donutEficCanvas');
+      if (donutCanvas && !donutCanvas.dataset.rendered) {
+        donutCanvas.dataset.rendered = 'true';
+        new Chart(donutCanvas, {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [80.8, 19.2],
+              backgroundColor: ['#10b981', '#f43f5e'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: false,
+            cutout: '72%',
+            plugins: { legend: { display: false }, tooltip: { enabled: false } }
+          }
+        });
+      }
+    }
+
+    function initPowerBITreemap() {
+      const container = document.getElementById('pbiTreemapContainer');
+      if (!container || container.children.length > 0) return;
+
+      // Group diplomados by total revenue
+      const dipMap = {};
+      GIANT_DATA.forEach(s => {
+        const dip = s.diplomado_comercial || s.diplomado_admin || s.diplomado || 'Otros';
+        if (!dipMap[dip]) dipMap[dip] = { count: 0, total: 0 };
+        dipMap[dip].count++;
+        dipMap[dip].total += Number(s.pagado_q10 || 0);
+      });
+
+      const sortedDips = Object.entries(dipMap)
+        .sort((a, b) => b[1].total - a[1].total)
+        .slice(0, 6);
+
+      const colors = [
+        'bg-[#581c87] hover:bg-[#6b21a8]', // Deep purple
+        'bg-[#6b21a8] hover:bg-[#7e22ce]', // Purple
+        'bg-[#1e3a8a] hover:bg-[#1d4ed8]', // Navy
+        'bg-[#0f766e] hover:bg-[#115e59]', // Teal
+        'bg-[#374151] hover:bg-[#4b5563]', // Slate
+        'bg-[#1e293b] hover:bg-[#334155]'  // Dark slate
+      ];
+
+      const spans = ['col-span-2 row-span-2', 'col-span-1 row-span-2', 'col-span-1 row-span-1', 'col-span-1 row-span-1', 'col-span-1 row-span-1'];
+
+      container.innerHTML = '';
+      sortedDips.forEach(([name, data], idx) => {
+        const spanClass = spans[idx] || 'col-span-1 row-span-1';
+        const colorClass = colors[idx] || colors[colors.length - 1];
+        const div = document.createElement('div');
+        div.className = `${spanClass} ${colorClass} p-2.5 rounded flex flex-col justify-between transition cursor-pointer border border-white/10`;
+        div.title = `${name}: S/ ${data.total.toLocaleString('en-US', { minimumFractionDigits: 2 })} (${data.count} alumnos)`;
+        div.innerHTML = `
+          <div class="font-bold text-[11px] truncate leading-tight">${name}</div>
+          <div class="mt-1">
+            <div class="font-black text-sm font-mono leading-none">S/ ${Math.round(data.total).toLocaleString('en-US')}</div>
+            <div class="text-[9px] opacity-75 mt-0.5">${data.count} alumnos</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function initPowerBIAreaChart() {
+      if (pbiAreaChartInstance) return;
+      const ctx = document.getElementById('pbiMonthlyAreaChart');
+      if (!ctx) return;
+
+      const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'];
+      const dataMonthly = [14794, 10335, 10815, 10740, 13738, 11749, 9872, 12595, 15313, 16014, 8840];
+
+      pbiAreaChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Recaudado Real Q10 (S/)',
+            data: dataMonthly,
+            borderColor: '#8b5cf6',
+            backgroundColor: 'rgba(139, 92, 246, 0.25)',
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.42,
+            pointBackgroundColor: '#8b5cf6',
+            pointBorderColor: '#ffffff',
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(24, 24, 27, 0.95)',
+              titleColor: '#c4b5fd',
+              callbacks: {
+                label: function(ctx) { return ' Recaudación: S/ ' + ctx.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2 }); }
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+            y: { 
+              ticks: { 
+                color: '#94a3b8',
+                callback: function(v) { return 'S/ ' + (v/1000).toFixed(0) + 'k'; }
+              },
+              grid: { color: 'rgba(255,255,255,0.06)' }
+            }
+          }
+        }
+      });
+    }
+
+    function initPowerBI100StackedChart() {
+      if (pbiStacked100Instance) return;
+      const ctx = document.getElementById('pbi100StackedChart');
+      if (!ctx) return;
+
+      const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'];
+      // Exact percentages
+      const c1Pct = [82, 53, 45, 42, 54, 68, 78, 86, 61, 66, 58];
+      const c2_4Pct = [12, 39, 35, 27, 28, 13, 14, 10, 16, 11, 0];
+      const saldoPct = [6, 8, 20, 31, 18, 19, 8, 4, 23, 23, 42];
+
+      pbiStacked100Instance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: 'Monto de Ingreso (C1) %',
+              data: c1Pct,
+              backgroundColor: '#10b981'
+            },
+            {
+              label: 'Cuotas Posteriores (C2-C4) %',
+              data: c2_4Pct,
+              backgroundColor: '#06b6d4'
+            },
+            {
+              label: 'Saldo Deudor %',
+              data: saldoPct,
+              backgroundColor: '#f43f5e'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { 
+              labels: { color: '#cbd5e1', boxWidth: 12, font: { size: 10, weight: 'bold' } } 
+            },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%'; }
+              }
+            }
+          },
+          scales: {
+            x: { stacked: true, ticks: { color: '#94a3b8' }, grid: { display: false } },
+            y: { 
+              stacked: true, 
+              max: 100, 
+              ticks: { 
+                color: '#94a3b8',
+                callback: function(v) { return v + '%'; }
+              }, 
+              grid: { color: 'rgba(255,255,255,0.06)' } 
+            }
+          }
+        }
+      });
+    }
+
+    function initPowerBIAsesoraChart() {
+      if (pbiAsesoraInstance) return;
+      const ctx = document.getElementById('pbiAsesoraChart');
+      if (!ctx) return;
+
+      pbiAsesoraInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['YSKELIA', 'LEARSY'],
+          datasets: [
+            {
+              label: 'Promesa Comercial (Pactado)',
+              data: [98400, 68410],
+              backgroundColor: 'rgba(59, 130, 246, 0.5)',
+              borderColor: '#3b82f6',
+              borderWidth: 1
+            },
+            {
+              label: 'Total Recaudado Real',
+              data: [81200, 53605],
+              backgroundColor: 'rgba(16, 185, 129, 0.7)',
+              borderColor: '#10b981',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#cbd5e1', boxWidth: 12 } }
+          },
+          scales: {
+            x: { 
+              ticks: { 
+                color: '#94a3b8',
+                callback: function(v) { return 'S/ ' + (v/1000).toFixed(0) + 'k'; }
+              }, 
+              grid: { color: 'rgba(255,255,255,0.06)' } 
+            },
+            y: { ticks: { color: '#cbd5e1', font: { weight: 'bold' } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function initPowerBIAuditoriaChart() {
+      if (pbiAuditoriaInstance) return;
+      const ctx = document.getElementById('pbiAuditoriaChart');
+      if (!ctx) return;
+
+      pbiAuditoriaInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Idénticos (100% Conciliado)', 'Dif. de Cuotas / Pagos', 'Retirados / Condonados', 'Omitidos en Admin'],
+          datasets: [{
+            label: 'Alumnos Auditados',
+            data: [143, 137, 11, 4],
+            backgroundColor: ['#10b981', '#f59e0b', '#64748b', '#f43f5e']
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+            y: { ticks: { color: '#cbd5e1', font: { size: 11 } }, grid: { display: false } }
+          }
+        }
+      });
     }
 
   </script>
