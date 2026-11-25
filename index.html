@@ -1872,7 +1872,7 @@
     <!-- ========================================================================= -->
   <!-- TAB 6: POWER BI EJECUTIVO (IDÉNTICO A MICROSOFT POWER BI SERVICE)         -->
   <!-- ========================================================================= -->
-  <section id="viewPowerBI" class="space-y-6 hidden">
+  <section id="viewPowerBI" class="space-y-5 hidden">
     <!-- Power BI App Bar / Ribbon -->
     <div class="bg-[#181818] border border-[#323130] rounded-lg p-3 flex flex-col md:flex-row md:items-center justify-between gap-3 text-white shadow-lg">
       <div class="flex items-center gap-3">
@@ -1905,59 +1905,92 @@
       </div>
     </div>
 
-    <!-- Power BI Top Gauges & KPI Row (Exact replica of Reference Image 1) -->
+    <!-- Active Cross-Filter Ribbon (Filtrado Cruzado Activo) -->
+    <div id="pbiFilterRibbon" class="hidden bg-gradient-to-r from-blue-950/80 via-indigo-950/70 to-slate-900 border border-blue-500/50 rounded-lg p-2.5 px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg animate-fadeIn">
+      <div class="flex items-center gap-2.5 text-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+        <span class="text-slate-300 font-bold">Filtro Cruzado Activo:</span>
+        <span id="pbiFilterBadge" class="font-black text-white px-2.5 py-0.5 rounded bg-blue-600 text-[11px] shadow border border-blue-400 font-mono">-</span>
+        <span id="pbiFilterCount" class="text-blue-300 font-semibold text-[11px]">(0 alumnos)</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openPbiCurrentFilterDrilldown()" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow cursor-pointer">
+          <i class="fa-solid fa-users-viewfinder text-[11px]"></i> Ver Lista de Alumnos
+        </button>
+        <button onclick="clearPbiCrossFilter()" class="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs flex items-center gap-1 transition border border-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-rose-400"></i> Quitar Filtro (Ver Todo)
+        </button>
+      </div>
+    </div>
+
+    <!-- Power BI Top Gauges & KPI Row (Interactivas con Drilldown) -->
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       <!-- KPI 1: Promesa Total -->
-      <div class="glass-card p-4 flex flex-col justify-between">
-        <div class="text-xs font-semibold text-slate-400">Promesa Comercial Total</div>
-        <div class="text-2xl font-black text-white font-mono mt-1">S/ 166,810.00</div>
+      <div onclick="openPbiDrilldown('TODOS')" class="glass-card p-4 flex flex-col justify-between cursor-pointer hover:border-blue-500/60 transition group shadow-sm" title="Clic para ver los 295 alumnos matriculados">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-slate-400">Promesa Comercial Total</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-blue-400 transition"></i>
+        </div>
+        <div class="text-2xl font-black text-white font-mono mt-1" id="pbiKpiPromesa">S/ 166,810.00</div>
         <div class="mt-2 text-[10px] text-blue-400 font-semibold flex items-center justify-between border-t border-slate-800 pt-1.5">
-          <span>Target 100%</span>
-          <span>295 Alumnos</span>
+          <span id="pbiKpiPromesaTarget">Target 100%</span>
+          <span id="pbiKpiAlumnosCount">295 Alumnos</span>
         </div>
       </div>
 
       <!-- KPI 2: Semi-Circle Gauge Ingreso Inicial C1 -->
-      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-        <div class="text-xs font-semibold text-slate-400 w-full text-left">Monto de Ingreso (C1)</div>
-        <div class="text-xl font-black text-emerald-400 font-mono mt-1">S/ 104,763.00</div>
+      <div onclick="openPbiDrilldown('C1_PAGADO')" class="glass-card p-4 flex flex-col justify-between items-center text-center cursor-pointer hover:border-emerald-500/60 transition group shadow-sm" title="Clic para ver quiénes pagaron la Cuota 01 y los 3 faltantes">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs font-semibold text-slate-400 text-left">Monto de Ingreso (C1)</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-emerald-400 transition"></i>
+        </div>
+        <div class="text-xl font-black text-emerald-400 font-mono mt-1" id="pbiKpiC1">S/ 104,763.00</div>
         <!-- Gauge Canvas -->
         <div class="w-28 h-14 relative my-1">
           <canvas id="gaugeIngresoCanvas" width="112" height="56"></canvas>
         </div>
-        <div class="text-[10px] text-emerald-300 font-bold">62.8% de la Promesa</div>
+        <div class="text-[10px] text-emerald-300 font-bold" id="pbiKpiC1Pct">62.8% de la Promesa</div>
       </div>
 
       <!-- KPI 3: Semi-Circle Gauge Cuotas Financiadas -->
-      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-        <div class="text-xs font-semibold text-slate-400 w-full text-left">Cuotas Financiadas (C2-C4)</div>
-        <div class="text-xl font-black text-cyan-400 font-mono mt-1">S/ 30,042.00</div>
+      <div onclick="openPbiDrilldown('C2_PAGADO')" class="glass-card p-4 flex flex-col justify-between items-center text-center cursor-pointer hover:border-cyan-500/60 transition group shadow-sm" title="Clic para ver alumnos con cuotas financiadas pagadas">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs font-semibold text-slate-400 text-left">Cuotas Financiadas (C2-C4)</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-cyan-400 transition"></i>
+        </div>
+        <div class="text-xl font-black text-cyan-400 font-mono mt-1" id="pbiKpiCuotas">S/ 30,042.00</div>
         <!-- Gauge Canvas -->
         <div class="w-28 h-14 relative my-1">
           <canvas id="gaugeCuotasCanvas" width="112" height="56"></canvas>
         </div>
-        <div class="text-[10px] text-cyan-300 font-bold">18.0% Financiado</div>
+        <div class="text-[10px] text-cyan-300 font-bold" id="pbiKpiCuotasPct">18.0% Financiado</div>
       </div>
 
       <!-- KPI 4: Semi-Circle Gauge Recaudo Real Efectivo -->
-      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-        <div class="text-xs font-semibold text-slate-400 w-full text-left">Total Recaudado Real</div>
-        <div class="text-xl font-black text-white font-mono mt-1">S/ 134,805.00</div>
+      <div onclick="openPbiDrilldown('PAGADO_TOTAL')" class="glass-card p-4 flex flex-col justify-between items-center text-center cursor-pointer hover:border-blue-500/60 transition group shadow-sm" title="Clic para ver total de alumnos con pagos registrados">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs font-semibold text-slate-400 text-left">Total Recaudado Real</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-blue-400 transition"></i>
+        </div>
+        <div class="text-xl font-black text-white font-mono mt-1" id="pbiKpiPagado">S/ 134,805.00</div>
         <!-- Gauge Canvas -->
         <div class="w-28 h-14 relative my-1">
           <canvas id="gaugeRecaudoCanvas" width="112" height="56"></canvas>
         </div>
-        <div class="text-[10px] text-emerald-400 font-bold">80.8% Cobrado</div>
+        <div class="text-[10px] text-emerald-400 font-bold" id="pbiKpiPagadoPct">80.8% Cobrado</div>
       </div>
 
       <!-- KPI 5: Radial Donut Tasa de Cumplimiento -->
-      <div class="glass-card p-4 flex flex-col justify-between items-center text-center">
-        <div class="text-xs font-semibold text-slate-400 w-full text-left">Efectividad de Cartera</div>
+      <div onclick="openPbiDrilldown('CON_DEUDA')" class="glass-card p-4 flex flex-col justify-between items-center text-center cursor-pointer hover:border-rose-500/60 transition group shadow-sm" title="Clic para ver los 110 alumnos con saldo pendiente">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-xs font-semibold text-slate-400 text-left">Efectividad de Cartera</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-rose-400 transition"></i>
+        </div>
         <div class="w-20 h-20 relative my-0.5 flex items-center justify-center">
           <canvas id="donutEficCanvas" width="80" height="80"></canvas>
-          <div class="absolute text-xs font-black text-white font-mono">80.8%</div>
+          <div class="absolute text-xs font-black text-white font-mono" id="pbiKpiEficCenter">80.8%</div>
         </div>
-        <div class="text-[10px] text-rose-400 font-bold">Saldo: S/ 31,405.00</div>
+        <div class="text-[10px] text-rose-400 font-bold" id="pbiKpiDeuda">Saldo: S/ 31,405.00</div>
       </div>
     </div>
 
@@ -1971,7 +2004,7 @@
               <span class="w-2 h-2 rounded-full bg-[#7c3aed]"></span>
               <span>Monthly Revenue Trend (Evolución Mensual en Soles)</span>
             </div>
-            <p class="text-[10px] text-slate-400">Curva continua de recaudación real mensual en 2026</p>
+            <p class="text-[10px] text-slate-400">Curva continua de recaudación real mensual • <em>Clic en un mes para filtrar el informe</em></p>
           </div>
           <span class="text-[10px] text-indigo-300 font-mono font-bold">Ene - Nov 2026</span>
         </div>
@@ -1988,7 +2021,7 @@
               <i class="fa-solid fa-table-cells-large text-indigo-400"></i>
               <span>Revenue by Program (Treemap de Diplomados)</span>
             </div>
-            <p class="text-[10px] text-slate-400">Concentración de venta por diplomado</p>
+            <p class="text-[10px] text-slate-400">Concentración de venta • <em>Clic en un diplomado para filtrar o ver alumnos</em></p>
           </div>
           <span class="text-[10px] text-slate-400 font-mono">295 Alumnos</span>
         </div>
@@ -2001,7 +2034,7 @@
 
     <!-- Power BI Visuals Grid Row 2: Funnel Chart & 100% Stacked Bar -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-      <!-- Funnel Chart (like Image 1 & 2) -->
+      <!-- Funnel Chart (Interactive Drilldown on every step) -->
       <div class="lg:col-span-5 glass-card p-4 space-y-3">
         <div class="flex items-center justify-between border-b border-slate-800 pb-2">
           <div>
@@ -2009,61 +2042,65 @@
               <i class="fa-solid fa-filter text-amber-400"></i>
               <span>Recruitment & Payment Funnel (Embudo de Cartera)</span>
             </div>
-            <p class="text-[10px] text-slate-400">Tasa de conversión de matrícula a cancelación de cuotas</p>
+            <p class="text-[10px] text-slate-400">Haz clic en cualquier etapa para ver los alumnos que la componen</p>
           </div>
           <span class="text-[10px] text-emerald-400 font-bold font-mono">80.8% Recaudo</span>
         </div>
-        <!-- Funnel bars -->
+        <!-- Funnel bars clickable -->
         <div class="space-y-2 pt-2">
-          <div>
+          <div onclick="openPbiDrilldown('TODOS')" class="cursor-pointer group p-1 rounded hover:bg-slate-800/40 transition">
             <div class="flex justify-between text-[11px] mb-1 font-semibold">
-              <span class="text-slate-300">1. Alumnos Matriculados</span>
-              <span class="text-white font-mono">295 (100.0%)</span>
+              <span class="text-slate-300 group-hover:text-blue-300 transition">1. Alumnos Matriculados</span>
+              <span id="pbiFunnelCount1" class="text-white font-mono group-hover:text-blue-300 transition">295 (100.0%) <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
             </div>
-            <div class="w-full bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-700 shadow">
+            <div id="pbiFunnelVal1" class="w-full bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-700 shadow group-hover:brightness-110 transition">
               S/ 166,810.00
             </div>
           </div>
-          <div>
+
+          <div onclick="openPbiDrilldown('C1_PAGADO')" class="cursor-pointer group p-1 rounded hover:bg-slate-800/40 transition">
             <div class="flex justify-between text-[11px] mb-1 font-semibold">
-              <span class="text-slate-300">2. Cuota 01 Ingreso Pagada</span>
-              <span class="text-emerald-400 font-mono">292 (99.0%)</span>
+              <span class="text-slate-300 group-hover:text-emerald-300 transition">2. Cuota 01 Ingreso Pagada</span>
+              <span id="pbiFunnelCount2" class="text-emerald-400 font-mono group-hover:underline transition">292 (99.0%) • <span class="text-rose-400 font-bold">3 faltan</span> <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
             </div>
-            <div class="w-[90%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-600 shadow">
+            <div id="pbiFunnelVal2" class="w-[90%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-600 shadow group-hover:brightness-110 transition">
               S/ 104,763.00
             </div>
           </div>
-          <div>
+
+          <div onclick="openPbiDrilldown('C2_PAGADO')" class="cursor-pointer group p-1 rounded hover:bg-slate-800/40 transition">
             <div class="flex justify-between text-[11px] mb-1 font-semibold">
-              <span class="text-slate-300">3. Cuota 02 Financiada Pagada</span>
-              <span class="text-cyan-400 font-mono">109 (56.9%)</span>
+              <span class="text-slate-300 group-hover:text-cyan-300 transition">3. Cuota 02 Financiada Pagada</span>
+              <span id="pbiFunnelCount3" class="text-cyan-400 font-mono group-hover:underline transition">109 (56.9%) <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
             </div>
-            <div class="w-[75%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-500 shadow">
+            <div id="pbiFunnelVal3" class="w-[75%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-indigo-500 shadow group-hover:brightness-110 transition">
               S/ 19,742.00
             </div>
           </div>
-          <div>
+
+          <div onclick="openPbiDrilldown('SIN_DEUDA')" class="cursor-pointer group p-1 rounded hover:bg-slate-800/40 transition">
             <div class="flex justify-between text-[11px] mb-1 font-semibold">
-              <span class="text-slate-300">4. Alumnos 100% al Día (Saldo 0)</span>
-              <span class="text-emerald-300 font-mono">185 (62.7%)</span>
+              <span class="text-slate-300 group-hover:text-emerald-300 transition">4. Alumnos 100% al Día (Saldo 0)</span>
+              <span id="pbiFunnelCount4" class="text-emerald-300 font-mono group-hover:underline transition">185 (62.7%) <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
             </div>
-            <div class="w-[60%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-emerald-600 shadow">
+            <div id="pbiFunnelVal4" class="w-[60%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-emerald-600 shadow group-hover:brightness-110 transition">
               Sin Deuda
             </div>
           </div>
-          <div>
+
+          <div onclick="openPbiDrilldown('CON_DEUDA')" class="cursor-pointer group p-1 rounded hover:bg-slate-800/40 transition">
             <div class="flex justify-between text-[11px] mb-1 font-semibold">
-              <span class="text-slate-300">5. Alumnos con Saldo Pendiente</span>
-              <span class="text-rose-400 font-mono">110 (37.3%)</span>
+              <span class="text-slate-300 group-hover:text-rose-300 transition">5. Alumnos con Saldo Pendiente</span>
+              <span id="pbiFunnelCount5" class="text-rose-400 font-mono group-hover:underline transition">110 (37.3%) <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
             </div>
-            <div class="w-[45%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-rose-600 shadow">
+            <div id="pbiFunnelVal5" class="w-[45%] mx-auto bg-slate-800 h-6 rounded flex items-center justify-center font-black text-white text-[11px] bg-rose-600 shadow group-hover:brightness-110 transition">
               S/ 31,405.00
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 100% Stacked Bar Chart by Month (like Image 2 & 3) -->
+      <!-- 100% Stacked Bar Chart by Month (Interactive Cross-Filtering on Month Click) -->
       <div class="lg:col-span-7 glass-card p-4 space-y-3">
         <div class="flex items-center justify-between border-b border-slate-800 pb-2">
           <div>
@@ -2071,7 +2108,7 @@
               <i class="fa-solid fa-chart-column text-cyan-400"></i>
               <span>100% Stacked Monthly Composition (Proporción Relativa)</span>
             </div>
-            <p class="text-[10px] text-slate-400">Distribución porcentual: Ingreso Inicial (C1) vs Cuotas vs Saldo Deudor</p>
+            <p class="text-[10px] text-slate-400">Distribución porcentual por mes • <strong>Haz clic en cualquier mes para activar el filtrado cruzado</strong></p>
           </div>
           <span class="text-[10px] text-slate-400 font-mono">Ene - Nov</span>
         </div>
@@ -2090,7 +2127,7 @@
             <i class="fa-solid fa-user-tie text-blue-400"></i>
             <span>Ventas y Recaudación por Asesora Comercial</span>
           </div>
-          <span class="text-[10px] text-slate-400 font-mono">Yskelia vs Learsy</span>
+          <span class="text-[10px] text-slate-400 font-mono">Clic para filtrar por asesora</span>
         </div>
         <div class="h-56 w-full relative">
           <canvas id="pbiAsesoraChart"></canvas>
@@ -2104,7 +2141,7 @@
             <i class="fa-solid fa-magnifying-glass-chart text-rose-400"></i>
             <span>Conciliación Forense Q10 vs Administración</span>
           </div>
-          <span class="text-[10px] text-slate-400 font-mono">295 Casos</span>
+          <span class="text-[10px] text-slate-400 font-mono">Clic para ver alumnos por categoría</span>
         </div>
         <div class="h-56 w-full relative">
           <canvas id="pbiAuditoriaChart"></canvas>
@@ -2112,6 +2149,91 @@
       </div>
     </div>
   </section>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: POWER BI DRILL-DOWN / DETALLE DE ALUMNOS                           -->
+  <!-- ========================================================================= -->
+  <div id="pbiDrillModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5">
+    <div class="glass-card max-w-4xl w-full max-h-[90vh] flex flex-col border border-blue-500/40 shadow-2xl relative overflow-hidden bg-slate-900/95">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-800 flex items-start justify-between bg-slate-950/70 gap-3">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></span>
+            <h3 class="text-base font-bold text-white" id="pbiDrillModalTitle">Detalle de Alumnos</h3>
+            <span id="pbiDrillModalBadge" class="px-2 py-0.5 rounded text-[11px] font-black bg-blue-500/20 text-blue-300 border border-blue-500/40">295 Alumnos</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1" id="pbiDrillModalSubtitle">Expedientes filtrados de la base oficial Q10 y Administración</p>
+          
+          <!-- Special Toggle for C1 (Pagados vs Faltantes) -->
+          <div id="pbiC1ToggleContainer" class="hidden flex items-center gap-2 mt-2.5">
+            <button id="btnPbiC1Pagados" onclick="openPbiDrilldown('C1_PAGADO')" class="px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-emerald-600 text-white shadow">
+              <i class="fa-solid fa-check"></i> <span>Ver 292 con Cuota 01 Pagada</span>
+            </button>
+            <button id="btnPbiC1Faltantes" onclick="openPbiDrilldown('C1_FALTANTE')" class="px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white bg-slate-800 hover:bg-rose-900 border border-slate-700">
+              <i class="fa-solid fa-triangle-exclamation text-rose-400"></i> <span>⚠️ Ver los 03 Faltantes (Sin Cuota 01)</span>
+            </button>
+          </div>
+        </div>
+        <button onclick="closePbiDrillModal()" class="text-slate-400 hover:text-white text-xl p-1 transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Quick Summary KPI bar inside modal -->
+      <div class="px-5 py-2.5 bg-slate-950/50 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-4 text-[11px]">
+          <div>Promesa: <strong class="text-white font-mono" id="pbiDrillSumPactado">S/ 0.00</strong></div>
+          <div>Recaudado: <strong class="text-emerald-400 font-mono" id="pbiDrillSumPagado">S/ 0.00</strong></div>
+          <div>Saldo: <strong class="text-rose-400 font-mono" id="pbiDrillSumDeuda">S/ 0.00</strong></div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Search box -->
+          <div class="relative w-48 sm:w-56">
+            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-500 text-[11px]"></i>
+            <input type="text" id="pbiDrillSearchInput" oninput="filterPbiDrillTable()" placeholder="Buscar alumno o DNI..." class="w-full bg-slate-900 border border-slate-700 rounded text-xs pl-7 pr-2.5 py-1 text-white placeholder-slate-500 focus:outline-none focus:border-blue-400 font-mono" />
+          </div>
+          <!-- Export button -->
+          <button onclick="exportPbiDrillTable()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition cursor-pointer" title="Exportar esta lista a CSV">
+            <i class="fa-solid fa-download text-[10px]"></i> CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Table Body Scrollable -->
+      <div class="flex-1 overflow-y-auto custom-scrollbar p-1">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="sticky top-0 bg-slate-950 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800 z-10">
+              <th class="py-2.5 px-3">#</th>
+              <th class="py-2.5 px-3">DNI</th>
+              <th class="py-2.5 px-3">Alumno</th>
+              <th class="py-2.5 px-3">Diplomado</th>
+              <th class="py-2.5 px-3 text-center">Mes</th>
+              <th class="py-2.5 px-3 text-right">Promesa</th>
+              <th class="py-2.5 px-3 text-right text-emerald-400">Cuota 01</th>
+              <th class="py-2.5 px-3 text-right text-cyan-300">Cuotas 2-4</th>
+              <th class="py-2.5 px-3 text-right text-white font-bold">Total Pagado</th>
+              <th class="py-2.5 px-3 text-right text-rose-400 font-bold">Saldo Deudor</th>
+              <th class="py-2.5 px-3 text-center">Estado</th>
+            </tr>
+          </thead>
+          <tbody id="pbiDrillTableBody" class="divide-y divide-slate-800/60 font-mono">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-3 px-5 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between text-xs text-slate-400">
+        <span id="pbiDrillRowCount">Mostrando 0 alumnos</span>
+        <button onclick="closePbiDrillModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition cursor-pointer">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 
   <section id="viewFlujo" class="space-y-6 hidden">
     <div class="glass-card p-5 space-y-6">
@@ -4832,13 +4954,23 @@ function drilldownToCuadroGiganteFromBi() {
 
 
     // =========================================================================
-    // POWER BI VISUALS INITIALIZER & ENGINES
+    // POWER BI VISUALS INITIALIZER, CROSS-FILTERING & DRILL-DOWN ENGINES
     // =========================================================================
     let pbiGaugesInitialized = false;
     let pbiAreaChartInstance = null;
     let pbiStacked100Instance = null;
     let pbiAsesoraInstance = null;
     let pbiAuditoriaInstance = null;
+    let pbiCurrentFilter = null; // { type: 'mes'|'diplomado'|'asesora', value: string, originalValue: string }
+    let pbiCurrentDrillStudents = [];
+    let pbiCurrentActiveCriteria = 'TODOS';
+
+    const PBI_MONTH_MAP = {
+      'Ene': 'Enero', 'Feb': 'Febrero', 'Mar': 'Marzo', 'Abr': 'Abril',
+      'May': 'Mayo', 'Jun': 'Junio', 'Jul': 'Julio', 'Ago': 'Agosto',
+      'Set': 'Septiembre', 'Sep': 'Septiembre', 'Septiembre': 'Septiembre',
+      'Oct': 'Octubre', 'Nov': 'Noviembre'
+    };
 
     function initPowerBIView() {
       initPowerBIGauges();
@@ -4913,13 +5045,13 @@ function drilldownToCuadroGiganteFromBi() {
       }
     }
 
-    function initPowerBITreemap() {
+    function initPowerBITreemap(customDataset) {
       const container = document.getElementById('pbiTreemapContainer');
-      if (!container || container.children.length > 0) return;
+      if (!container) return;
 
-      // Group diplomados by total revenue
+      const dataset = customDataset || GIANT_DATA;
       const dipMap = {};
-      GIANT_DATA.forEach(s => {
+      dataset.forEach(s => {
         const dip = s.diplomado_comercial || s.diplomado_admin || s.diplomado || 'Otros';
         if (!dipMap[dip]) dipMap[dip] = { count: 0, total: 0 };
         dipMap[dip].count++;
@@ -4942,12 +5074,21 @@ function drilldownToCuadroGiganteFromBi() {
       const spans = ['col-span-2 row-span-2', 'col-span-1 row-span-2', 'col-span-1 row-span-1', 'col-span-1 row-span-1', 'col-span-1 row-span-1'];
 
       container.innerHTML = '';
+      if (sortedDips.length === 0) {
+        container.innerHTML = '<div class="col-span-3 row-span-3 flex items-center justify-center text-slate-500 text-xs">Sin datos para la selección</div>';
+        return;
+      }
+
       sortedDips.forEach(([name, data], idx) => {
         const spanClass = spans[idx] || 'col-span-1 row-span-1';
         const colorClass = colors[idx] || colors[colors.length - 1];
+        const isSelected = pbiCurrentFilter && pbiCurrentFilter.type === 'diplomado' && pbiCurrentFilter.value === name;
+        const borderClass = isSelected ? 'border-2 border-amber-400 ring-2 ring-amber-400/50' : 'border border-white/10';
+
         const div = document.createElement('div');
-        div.className = `${spanClass} ${colorClass} p-2.5 rounded flex flex-col justify-between transition cursor-pointer border border-white/10`;
-        div.title = `${name}: S/ ${data.total.toLocaleString('en-US', { minimumFractionDigits: 2 })} (${data.count} alumnos)`;
+        div.className = `${spanClass} ${colorClass} ${borderClass} p-2.5 rounded flex flex-col justify-between transition cursor-pointer`;
+        div.title = `${name}: S/ ${data.total.toLocaleString('en-US', { minimumFractionDigits: 2 })} (${data.count} alumnos) - Clic para filtrar`;
+        div.onclick = () => applyPbiCrossFilter('diplomado', name);
         div.innerHTML = `
           <div class="font-bold text-[11px] truncate leading-tight">${name}</div>
           <div class="mt-1">
@@ -4981,20 +5122,29 @@ function drilldownToCuadroGiganteFromBi() {
             tension: 0.42,
             pointBackgroundColor: '#8b5cf6',
             pointBorderColor: '#ffffff',
-            pointRadius: 4,
-            pointHoverRadius: 6
+            pointRadius: 5,
+            pointHoverRadius: 8
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          onClick: function(evt, elements) {
+            if (elements && elements.length > 0) {
+              const idx = elements[0].index;
+              applyPbiCrossFilter('mes', months[idx]);
+            }
+          },
+          onHover: function(evt, elements) {
+            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+          },
           plugins: {
             legend: { display: false },
             tooltip: {
               backgroundColor: 'rgba(24, 24, 27, 0.95)',
               titleColor: '#c4b5fd',
               callbacks: {
-                label: function(ctx) { return ' Recaudación: S/ ' + ctx.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2 }); }
+                label: function(ctx) { return ' Recaudación: S/ ' + ctx.parsed.y.toLocaleString('en-US', { minimumFractionDigits: 2 }) + ' (Clic para filtrar)'; }
               }
             }
           },
@@ -5018,7 +5168,6 @@ function drilldownToCuadroGiganteFromBi() {
       if (!ctx) return;
 
       const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov'];
-      // Exact percentages
       const c1Pct = [82, 53, 45, 42, 54, 68, 78, 86, 61, 66, 58];
       const c2_4Pct = [12, 39, 35, 27, 28, 13, 14, 10, 16, 11, 0];
       const saldoPct = [6, 8, 20, 31, 18, 19, 8, 4, 23, 23, 42];
@@ -5048,13 +5197,23 @@ function drilldownToCuadroGiganteFromBi() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          onClick: function(evt, elements) {
+            if (elements && elements.length > 0) {
+              const idx = elements[0].index;
+              applyPbiCrossFilter('mes', months[idx]);
+            }
+          },
+          onHover: function(evt, elements) {
+            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+          },
           plugins: {
             legend: { 
               labels: { color: '#cbd5e1', boxWidth: 12, font: { size: 10, weight: 'bold' } } 
             },
             tooltip: {
               callbacks: {
-                label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%'; }
+                label: function(ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%'; },
+                afterBody: function() { return ['💡 Clic en la barra para filtrar todo el informe por este mes']; }
               }
             }
           },
@@ -5079,10 +5238,11 @@ function drilldownToCuadroGiganteFromBi() {
       const ctx = document.getElementById('pbiAsesoraChart');
       if (!ctx) return;
 
+      const ases = ['YSKELIA', 'LEARSY'];
       pbiAsesoraInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['YSKELIA', 'LEARSY'],
+          labels: ases,
           datasets: [
             {
               label: 'Promesa Comercial (Pactado)',
@@ -5104,8 +5264,22 @@ function drilldownToCuadroGiganteFromBi() {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
+          onClick: function(evt, elements) {
+            if (elements && elements.length > 0) {
+              const idx = elements[0].index;
+              applyPbiCrossFilter('asesora', ases[idx]);
+            }
+          },
+          onHover: function(evt, elements) {
+            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+          },
           plugins: {
-            legend: { labels: { color: '#cbd5e1', boxWidth: 12 } }
+            legend: { labels: { color: '#cbd5e1', boxWidth: 12 } },
+            tooltip: {
+              callbacks: {
+                afterBody: function() { return ['💡 Clic para filtrar el informe por esta asesora']; }
+              }
+            }
           },
           scales: {
             x: { 
@@ -5126,6 +5300,7 @@ function drilldownToCuadroGiganteFromBi() {
       const ctx = document.getElementById('pbiAuditoriaChart');
       if (!ctx) return;
 
+      const cats = ['IDENTICOS', 'DIFERENCIAS', 'RETIRADOS', 'OMITIDOS'];
       pbiAuditoriaInstance = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -5140,7 +5315,23 @@ function drilldownToCuadroGiganteFromBi() {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          onClick: function(evt, elements) {
+            if (elements && elements.length > 0) {
+              const idx = elements[0].index;
+              openPbiDrilldown('AUDITORIA', cats[idx]);
+            }
+          },
+          onHover: function(evt, elements) {
+            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+          },
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterBody: function() { return ['🔍 Clic para inspeccionar los expedientes de este grupo']; }
+              }
+            }
+          },
           scales: {
             x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.06)' } },
             y: { ticks: { color: '#cbd5e1', font: { size: 11 } }, grid: { display: false } }
@@ -5149,7 +5340,446 @@ function drilldownToCuadroGiganteFromBi() {
       });
     }
 
-  </script>
+
+    // =========================================================================
+    // POWER BI CROSS-FILTERING ENGINE ("GRÁFICO TRAS GRÁFICO")
+    // =========================================================================
+    function applyPbiCrossFilter(type, rawValue) {
+      const normVal = (type === 'mes' && PBI_MONTH_MAP[rawValue]) ? PBI_MONTH_MAP[rawValue] : rawValue;
+
+      // Toggle off if clicking the active filter
+      if (pbiCurrentFilter && pbiCurrentFilter.type === type && pbiCurrentFilter.value === normVal) {
+        clearPbiCrossFilter();
+        return;
+      }
+
+      pbiCurrentFilter = { type: type, value: normVal, originalValue: rawValue };
+
+      // Filter GIANT_DATA
+      const filtered = GIANT_DATA.filter(s => {
+        if (type === 'mes') {
+          const m = (s.mes_ingreso || '').trim();
+          return m.toLowerCase() === normVal.toLowerCase();
+        }
+        if (type === 'diplomado') {
+          const dip = (s.diplomado_comercial || s.diplomado_admin || s.diplomado || '').trim();
+          return dip.toLowerCase().includes(normVal.toLowerCase());
+        }
+        if (type === 'asesora') {
+          const ase = (s.asesora || '').trim().toUpperCase();
+          return ase.includes(normVal.toUpperCase());
+        }
+        return true;
+      });
+
+      // Show Active Filter Ribbon
+      const ribbon = document.getElementById('pbiFilterRibbon');
+      if (ribbon) ribbon.classList.remove('hidden');
+
+      const badge = document.getElementById('pbiFilterBadge');
+      if (badge) badge.textContent = `${type.toUpperCase()}: ${normVal}`;
+
+      const countSpan = document.getElementById('pbiFilterCount');
+      if (countSpan) countSpan.textContent = `(${filtered.length} alumnos)`;
+
+      // Recalculate metrics
+      const nAlumnos = filtered.length;
+      const promesa = filtered.reduce((acc, s) => acc + Number(s.pactado_comercial || s.pactado_q10 || 0), 0);
+      const c1 = filtered.reduce((acc, s) => acc + Number(s.c1_pagado || 0), 0);
+      const c2_4 = filtered.reduce((acc, s) => acc + (Number(s.c2_pagado || 0) + Number(s.c3_pagado || 0) + Number(s.c4_pagado || 0)), 0);
+      const pagado = filtered.reduce((acc, s) => acc + Number(s.pagado_q10 || 0), 0);
+      const deuda = filtered.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
+      const c1PaidCount = filtered.filter(s => Number(s.c1_pagado || 0) > 0).length;
+      const c1MissingCount = filtered.filter(s => Number(s.c1_pagado || 0) <= 0).length;
+      const c2PaidCount = filtered.filter(s => Number(s.c2_pagado || 0) > 0).length;
+      const sinDeudaCount = filtered.filter(s => Number(s.deuda_q10 || 0) <= 0).length;
+      const conDeudaCount = filtered.filter(s => Number(s.deuda_q10 || 0) > 0).length;
+
+      // Update Top KPI Cards
+      const elPromesa = document.getElementById('pbiKpiPromesa');
+      if (elPromesa) elPromesa.textContent = 'S/ ' + promesa.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elAlumnos = document.getElementById('pbiKpiAlumnosCount');
+      if (elAlumnos) elAlumnos.textContent = nAlumnos + ' Alumnos';
+      const elC1 = document.getElementById('pbiKpiC1');
+      if (elC1) elC1.textContent = 'S/ ' + c1.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elC1Pct = document.getElementById('pbiKpiC1Pct');
+      if (elC1Pct) elC1Pct.textContent = (promesa > 0 ? (c1 / promesa * 100).toFixed(1) : '0.0') + '% de la Promesa';
+      const elCuotas = document.getElementById('pbiKpiCuotas');
+      if (elCuotas) elCuotas.textContent = 'S/ ' + c2_4.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elCuotasPct = document.getElementById('pbiKpiCuotasPct');
+      if (elCuotasPct) elCuotasPct.textContent = (promesa > 0 ? (c2_4 / promesa * 100).toFixed(1) : '0.0') + '% Financiado';
+      const elPagado = document.getElementById('pbiKpiPagado');
+      if (elPagado) elPagado.textContent = 'S/ ' + pagado.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elPagadoPct = document.getElementById('pbiKpiPagadoPct');
+      if (elPagadoPct) elPagadoPct.textContent = (promesa > 0 ? (pagado / promesa * 100).toFixed(1) : '0.0') + '% Cobrado';
+      const elEficCenter = document.getElementById('pbiKpiEficCenter');
+      if (elEficCenter) elEficCenter.textContent = (promesa > 0 ? (pagado / promesa * 100).toFixed(1) : '0.0') + '%';
+      const elDeuda = document.getElementById('pbiKpiDeuda');
+      if (elDeuda) elDeuda.textContent = 'Saldo: S/ ' + deuda.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      // Redraw Gauges
+      drawSemiCircleGauge('gaugeIngresoCanvas', promesa > 0 ? c1 / promesa : 0, '#10b981');
+      drawSemiCircleGauge('gaugeCuotasCanvas', promesa > 0 ? c2_4 / promesa : 0, '#06b6d4');
+      drawSemiCircleGauge('gaugeRecaudoCanvas', promesa > 0 ? pagado / promesa : 0, '#3b82f6');
+
+      // Update Funnel Bars
+      const fCount1 = document.getElementById('pbiFunnelCount1');
+      const fVal1 = document.getElementById('pbiFunnelVal1');
+      if (fCount1) fCount1.innerHTML = `${nAlumnos} (100.0%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal1) fVal1.textContent = 'S/ ' + promesa.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount2 = document.getElementById('pbiFunnelCount2');
+      const fVal2 = document.getElementById('pbiFunnelVal2');
+      const c1Pct = nAlumnos > 0 ? (c1PaidCount / nAlumnos * 100).toFixed(1) : 0;
+      if (fCount2) fCount2.innerHTML = `${c1PaidCount} (${c1Pct}%) ${c1MissingCount > 0 ? '• <span class="text-rose-400 font-bold">' + c1MissingCount + ' faltan</span>' : ''} <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal2) fVal2.textContent = 'S/ ' + c1.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount3 = document.getElementById('pbiFunnelCount3');
+      const fVal3 = document.getElementById('pbiFunnelVal3');
+      const c2Pct = nAlumnos > 0 ? (c2PaidCount / nAlumnos * 100).toFixed(1) : 0;
+      if (fCount3) fCount3.innerHTML = `${c2PaidCount} (${c2Pct}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal3) fVal3.textContent = 'S/ ' + c2_4.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      const fCount4 = document.getElementById('pbiFunnelCount4');
+      const sinPct = nAlumnos > 0 ? (sinDeudaCount / nAlumnos * 100).toFixed(1) : 0;
+      if (fCount4) fCount4.innerHTML = `${sinDeudaCount} (${sinPct}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+
+      const fCount5 = document.getElementById('pbiFunnelCount5');
+      const fVal5 = document.getElementById('pbiFunnelVal5');
+      const conPct = nAlumnos > 0 ? (conDeudaCount / nAlumnos * 100).toFixed(1) : 0;
+      if (fCount5) fCount5.innerHTML = `${conDeudaCount} (${conPct}%) <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
+      if (fVal5) fVal5.textContent = 'S/ ' + deuda.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      // Update Treemap for filtered students
+      initPowerBITreemap(filtered);
+    }
+
+    function clearPbiCrossFilter() {
+      pbiCurrentFilter = null;
+
+      // Hide Filter Ribbon
+      const ribbon = document.getElementById('pbiFilterRibbon');
+      if (ribbon) ribbon.classList.add('hidden');
+
+      // Reset Top KPIs to master figures
+      document.getElementById('pbiKpiPromesa').textContent = 'S/ 166,810.00';
+      document.getElementById('pbiKpiAlumnosCount').textContent = '295 Alumnos';
+      document.getElementById('pbiKpiC1').textContent = 'S/ 104,763.00';
+      document.getElementById('pbiKpiC1Pct').textContent = '62.8% de la Promesa';
+      document.getElementById('pbiKpiCuotas').textContent = 'S/ 30,042.00';
+      document.getElementById('pbiKpiCuotasPct').textContent = '18.0% Financiado';
+      document.getElementById('pbiKpiPagado').textContent = 'S/ 134,805.00';
+      document.getElementById('pbiKpiPagadoPct').textContent = '80.8% Cobrado';
+      document.getElementById('pbiKpiEficCenter').textContent = '80.8%';
+      document.getElementById('pbiKpiDeuda').textContent = 'Saldo: S/ 31,405.00';
+
+      // Redraw Gauges
+      drawSemiCircleGauge('gaugeIngresoCanvas', 104763 / 166810, '#10b981');
+      drawSemiCircleGauge('gaugeCuotasCanvas', 30042 / 166810, '#06b6d4');
+      drawSemiCircleGauge('gaugeRecaudoCanvas', 134805 / 166810, '#3b82f6');
+
+      // Reset Funnel
+      const fCount1 = document.getElementById('pbiFunnelCount1');
+      const fVal1 = document.getElementById('pbiFunnelVal1');
+      if (fCount1) fCount1.innerHTML = '295 (100.0%) <i class="fa-solid fa-arrow-right text-[9px]"></i>';
+      if (fVal1) fVal1.textContent = 'S/ 166,810.00';
+
+      const fCount2 = document.getElementById('pbiFunnelCount2');
+      const fVal2 = document.getElementById('pbiFunnelVal2');
+      if (fCount2) fCount2.innerHTML = '292 (99.0%) • <span class="text-rose-400 font-bold">3 faltan</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>';
+      if (fVal2) fVal2.textContent = 'S/ 104,763.00';
+
+      const fCount3 = document.getElementById('pbiFunnelCount3');
+      const fVal3 = document.getElementById('pbiFunnelVal3');
+      if (fCount3) fCount3.innerHTML = '109 (56.9%) <i class="fa-solid fa-arrow-right text-[9px]"></i>';
+      if (fVal3) fVal3.textContent = 'S/ 19,742.00';
+
+      const fCount4 = document.getElementById('pbiFunnelCount4');
+      if (fCount4) fCount4.innerHTML = '185 (62.7%) <i class="fa-solid fa-arrow-right text-[9px]"></i>';
+
+      const fCount5 = document.getElementById('pbiFunnelCount5');
+      const fVal5 = document.getElementById('pbiFunnelVal5');
+      if (fCount5) fCount5.innerHTML = '110 (37.3%) <i class="fa-solid fa-arrow-right text-[9px]"></i>';
+      if (fVal5) fVal5.textContent = 'S/ 31,405.00';
+
+      // Reset Treemap to full dataset
+      initPowerBITreemap(GIANT_DATA);
+    }
+
+    function openPbiCurrentFilterDrilldown() {
+      openPbiDrilldown('FILTER');
+    }
+
+
+    // =========================================================================
+    // POWER BI DRILL-DOWN / DRILL-THROUGH MODAL ("¿QUIÉNES SON?")
+    // =========================================================================
+    function openPbiDrilldown(criteria, extraParam) {
+      pbiCurrentActiveCriteria = criteria;
+      let targetList = [];
+      let title = 'Detalle de Alumnos';
+      let subtitle = 'Expedientes filtrados de la base oficial Q10 y Administración';
+      let showC1Toggle = false;
+
+      // Base filtered source if cross-filter is active and requested TODOS or FILTER
+      const getActiveFilteredSource = () => {
+        if (!pbiCurrentFilter) return GIANT_DATA;
+        return GIANT_DATA.filter(s => {
+          if (pbiCurrentFilter.type === 'mes') {
+            return (s.mes_ingreso || '').trim().toLowerCase() === pbiCurrentFilter.value.toLowerCase();
+          }
+          if (pbiCurrentFilter.type === 'diplomado') {
+            const dip = (s.diplomado_comercial || s.diplomado_admin || s.diplomado || '').trim();
+            return dip.toLowerCase().includes(pbiCurrentFilter.value.toLowerCase());
+          }
+          if (pbiCurrentFilter.type === 'asesora') {
+            return (s.asesora || '').toUpperCase().includes(pbiCurrentFilter.value.toUpperCase());
+          }
+          return true;
+        });
+      };
+
+      if (criteria === 'TODOS') {
+        targetList = pbiCurrentFilter ? getActiveFilteredSource() : GIANT_DATA;
+        title = pbiCurrentFilter ? `Alumnos Matriculados (${pbiCurrentFilter.type.toUpperCase()}: ${pbiCurrentFilter.value})` : 'Todos los Alumnos Matriculados';
+        subtitle = `Total de expedientes en esta vista: ${targetList.length} alumnos concilian con Q10`;
+      } else if (criteria === 'C1_PAGADO') {
+        targetList = GIANT_DATA.filter(s => Number(s.c1_pagado || 0) > 0);
+        title = 'Alumnos con Cuota 01 Ingreso Pagada (292 Alumnos)';
+        subtitle = 'Alumnos que abonaron su cuota de matrícula inicial (Monto Recaudado C1: S/ 104,763.00)';
+        showC1Toggle = true;
+      } else if (criteria === 'C1_FALTANTE') {
+        targetList = GIANT_DATA.filter(s => Number(s.c1_pagado || 0) <= 0);
+        title = '⚠️ Alumnos Faltantes de Cuota 01 (03 Alumnos Sin Matrícula)';
+        subtitle = 'Expedientes en Q10 con Cuota 01 en S/ 0.00 (Requieren regularización comercial o registro contable)';
+        showC1Toggle = true;
+      } else if (criteria === 'C2_PAGADO') {
+        targetList = GIANT_DATA.filter(s => Number(s.c2_pagado || 0) > 0);
+        title = 'Alumnos con Cuota 02 Financiada Pagada (109 Alumnos)';
+        subtitle = 'Alumnos que continúan su plan de cuotas financiadas posteriores en Q10';
+      } else if (criteria === 'SIN_DEUDA') {
+        targetList = GIANT_DATA.filter(s => Number(s.deuda_q10 || 0) <= 0);
+        title = 'Alumnos 100% al Día / Deuda Cero (185 Alumnos)';
+        subtitle = 'Expedientes liquidados sin saldo deudor pendiente en Q10';
+      } else if (criteria === 'CON_DEUDA') {
+        targetList = GIANT_DATA.filter(s => Number(s.deuda_q10 || 0) > 0);
+        title = 'Alumnos con Saldo Deudor Pendiente (110 Alumnos)';
+        subtitle = 'Cartera activa de cobranza (Saldo pendiente total: S/ 31,405.00)';
+      } else if (criteria === 'PAGADO_TOTAL') {
+        targetList = GIANT_DATA.filter(s => Number(s.pagado_q10 || 0) > 0);
+        title = 'Total de Alumnos con Pagos Registrados';
+        subtitle = 'Expedientes con recaudación real registrada en caja Q10';
+      } else if (criteria === 'FILTER') {
+        targetList = getActiveFilteredSource();
+        title = pbiCurrentFilter ? `Alumnos de ${pbiCurrentFilter.type.toUpperCase()}: ${pbiCurrentFilter.value}` : 'Alumnos Seleccionados';
+        subtitle = `Filtro cruzado activo: ${targetList.length} alumnos`;
+      } else if (criteria === 'DIPLOMADO') {
+        targetList = GIANT_DATA.filter(s => {
+          const dip = (s.diplomado_comercial || s.diplomado_admin || s.diplomado || '').toLowerCase();
+          return dip.includes((extraParam || '').toLowerCase());
+        });
+        title = `Alumnos del Diplomado: ${extraParam}`;
+        subtitle = `Total de alumnos matriculados en este programa: ${targetList.length}`;
+      } else if (criteria === 'AUDITORIA') {
+        const catMap = {
+          'IDENTICOS': ['IDENTICOS', 'CONCILIADO'],
+          'DIFERENCIAS': ['DIFERENCIAS', 'DIF_CUOTAS'],
+          'RETIRADOS': ['RETIRADOS', 'CONDONADOS'],
+          'OMITIDOS': ['OMITIDOS']
+        };
+        const keywords = catMap[extraParam] || [extraParam];
+        targetList = GIANT_DATA.filter(s => {
+          const cat = (s.categoria || s.categoria_label || '').toUpperCase();
+          return keywords.some(k => cat.includes(k));
+        });
+        title = `Auditoría Forense: ${extraParam} (${targetList.length} Alumnos)`;
+        subtitle = 'Expedientes clasificados según el análisis forense de conciliación Q10 vs Administración';
+      }
+
+      // Configure C1 Toggle Buttons
+      const toggleContainer = document.getElementById('pbiC1ToggleContainer');
+      const btnPagados = document.getElementById('btnPbiC1Pagados');
+      const btnFaltantes = document.getElementById('btnPbiC1Faltantes');
+
+      if (toggleContainer) {
+        if (showC1Toggle) {
+          toggleContainer.classList.remove('hidden');
+          if (criteria === 'C1_FALTANTE') {
+            btnFaltantes.className = 'px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-rose-600 text-white shadow';
+            btnPagados.className = 'px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white bg-slate-800 hover:bg-emerald-900 border border-slate-700';
+          } else {
+            btnPagados.className = 'px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-emerald-600 text-white shadow';
+            btnFaltantes.className = 'px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white bg-slate-800 hover:bg-rose-900 border border-slate-700';
+          }
+        } else {
+          toggleContainer.classList.add('hidden');
+        }
+      }
+
+      // Update Modal Header & Badge
+      document.getElementById('pbiDrillModalTitle').textContent = title;
+      document.getElementById('pbiDrillModalSubtitle').textContent = subtitle;
+      document.getElementById('pbiDrillModalBadge').textContent = `${targetList.length} Alumnos`;
+
+      // Update Summary KPI Bar inside modal
+      const sumPactado = targetList.reduce((acc, s) => acc + Number(s.pactado_comercial || s.pactado_q10 || 0), 0);
+      const sumPagado = targetList.reduce((acc, s) => acc + Number(s.pagado_q10 || 0), 0);
+      const sumDeuda = targetList.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
+
+      document.getElementById('pbiDrillSumPactado').textContent = 'S/ ' + sumPactado.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      document.getElementById('pbiDrillSumPagado').textContent = 'S/ ' + sumPagado.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      document.getElementById('pbiDrillSumDeuda').textContent = 'S/ ' + sumDeuda.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+      // Render Table Rows
+      pbiCurrentDrillStudents = targetList;
+      renderPbiDrillRows(targetList, criteria === 'C1_FALTANTE');
+
+      // Reset search box
+      const searchInput = document.getElementById('pbiDrillSearchInput');
+      if (searchInput) searchInput.value = '';
+
+      // Open Modal
+      document.getElementById('pbiDrillModal').classList.remove('hidden');
+    }
+
+    function renderPbiDrillRows(students, isC1Faltantes) {
+      const tbody = document.getElementById('pbiDrillTableBody');
+      if (!tbody) return;
+
+      if (!students || students.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="11" class="text-center py-8 text-slate-500 font-mono">No se encontraron alumnos para este criterio.</td></tr>';
+        document.getElementById('pbiDrillRowCount').textContent = 'Mostrando 0 alumnos';
+        return;
+      }
+
+      let html = '';
+      if (isC1Faltantes) {
+        html += `
+          <tr class="bg-rose-950/40 border-b border-rose-500/30">
+            <td colspan="11" class="py-2.5 px-3 text-rose-300 font-sans text-xs">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400 text-sm"></i>
+                <span><strong>Hallazgo Forense de Cuota 01:</strong> Estos 3 alumnos fueron ingresados formalmente pero en el sistema Q10 registran <strong>Cuota 01 = S/ 0.00</strong>. Requieren verificación comercial o asignación contable inmediata de su matrícula.</span>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+
+      students.forEach((s, idx) => {
+        const name = s.nombre_comercial || s.nombre_admin || s.nombre || 'Sin Nombre';
+        const dip = s.diplomado_comercial || s.diplomado_admin || s.diplomado || '-';
+        const mes = s.mes_ingreso || '-';
+        const pactado = Number(s.pactado_comercial || s.pactado_q10 || 0);
+        const c1 = Number(s.c1_pagado || 0);
+        const c2_4 = Number(s.c2_pagado || 0) + Number(s.c3_pagado || 0) + Number(s.c4_pagado || 0);
+        const pagado = Number(s.pagado_q10 || 0);
+        const deuda = Number(s.deuda_q10 || 0);
+
+        const c1Cell = c1 > 0 ? 
+          `<span class="text-emerald-400 font-bold">S/ ${c1.toFixed(2)}</span>` : 
+          `<span class="px-2 py-0.5 rounded bg-rose-500/25 text-rose-300 font-black border border-rose-500/40">⚠️ S/ 0.00 (FALTA)</span>`;
+
+        const deudaCell = deuda > 0 ? 
+          `<span class="text-rose-400 font-bold">S/ ${deuda.toFixed(2)}</span>` : 
+          `<span class="text-emerald-400 font-semibold">S/ 0.00</span>`;
+
+        let estadoBadge = '';
+        if (c1 <= 0) {
+          estadoBadge = `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-black">SIN C1</span>`;
+        } else if (deuda > 0) {
+          estadoBadge = `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">DEUDOR</span>`;
+        } else {
+          estadoBadge = `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">AL DÍA</span>`;
+        }
+
+        const rowBg = (isC1Faltantes || c1 <= 0) ? 'bg-rose-950/20 hover:bg-rose-900/30' : 'hover:bg-slate-800/40';
+
+        html += `
+          <tr class="${rowBg} transition border-b border-slate-800/50">
+            <td class="py-2 px-3 text-slate-500">${idx + 1}</td>
+            <td class="py-2 px-3 text-slate-300 font-mono font-bold">${s.dni || '-'}</td>
+            <td class="py-2 px-3 text-white font-medium font-sans max-w-[200px] truncate" title="${name}">${name}</td>
+            <td class="py-2 px-3 text-slate-300 font-sans max-w-[180px] truncate" title="${dip}">${dip}</td>
+            <td class="py-2 px-3 text-center text-slate-400 font-sans">${mes}</td>
+            <td class="py-2 px-3 text-right text-slate-200">S/ ${pactado.toFixed(2)}</td>
+            <td class="py-2 px-3 text-right">${c1Cell}</td>
+            <td class="py-2 px-3 text-right text-cyan-300">S/ ${c2_4.toFixed(2)}</td>
+            <td class="py-2 px-3 text-right text-white font-bold">S/ ${pagado.toFixed(2)}</td>
+            <td class="py-2 px-3 text-right">${deudaCell}</td>
+            <td class="py-2 px-3 text-center">${estadoBadge}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      document.getElementById('pbiDrillRowCount').textContent = `Mostrando ${students.length} alumnos`;
+    }
+
+    function closePbiDrillModal() {
+      const modal = document.getElementById('pbiDrillModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function filterPbiDrillTable() {
+      const query = (document.getElementById('pbiDrillSearchInput').value || '').trim().toLowerCase();
+      if (!query) {
+        renderPbiDrillRows(pbiCurrentDrillStudents, pbiCurrentActiveCriteria === 'C1_FALTANTE');
+        return;
+      }
+
+      const filtered = pbiCurrentDrillStudents.filter(s => {
+        const name = (s.nombre_comercial || s.nombre_admin || s.nombre || '').toLowerCase();
+        const dni = (s.dni || '').toLowerCase();
+        const dip = (s.diplomado_comercial || s.diplomado_admin || s.diplomado || '').toLowerCase();
+        const mes = (s.mes_ingreso || '').toLowerCase();
+        return name.includes(query) || dni.includes(query) || dip.includes(query) || mes.includes(query);
+      });
+
+      renderPbiDrillRows(filtered, pbiCurrentActiveCriteria === 'C1_FALTANTE');
+    }
+
+    function exportPbiDrillTable() {
+      if (!pbiCurrentDrillStudents || pbiCurrentDrillStudents.length === 0) {
+        alert('No hay alumnos para exportar.');
+        return;
+      }
+
+      const headers = ['#', 'DNI', 'Alumno', 'Diplomado', 'Mes Ingreso', 'Asesora', 'Promesa S/', 'Cuota 01 S/', 'Cuotas 2-4 S/', 'Total Pagado Q10 S/', 'Saldo Deudor S/', 'Estado'];
+      const rows = pbiCurrentDrillStudents.map((s, idx) => {
+        const name = (s.nombre_comercial || s.nombre_admin || s.nombre || '').replace(/"/g, '""');
+        const dip = (s.diplomado_comercial || s.diplomado_admin || s.diplomado || '').replace(/"/g, '""');
+        const c1 = Number(s.c1_pagado || 0);
+        const c2_4 = Number(s.c2_pagado || 0) + Number(s.c3_pagado || 0) + Number(s.c4_pagado || 0);
+        const deuda = Number(s.deuda_q10 || 0);
+        const estado = c1 <= 0 ? 'FALTA CUOTA 01' : (deuda > 0 ? 'DEUDOR' : 'AL DIA');
+        return [
+          idx + 1,
+          `"${s.dni || ''}"`,
+          `"${name}"`,
+          `"${dip}"`,
+          `"${s.mes_ingreso || ''}"`,
+          `"${s.asesora || ''}"`,
+          Number(s.pactado_comercial || s.pactado_q10 || 0).toFixed(2),
+          c1.toFixed(2),
+          c2_4.toFixed(2),
+          Number(s.pagado_q10 || 0).toFixed(2),
+          deuda.toFixed(2),
+          `"${estado}"`
+        ].join(',');
+      });
+
+      const csvContent = String.fromCharCode(0xFEFF) + [headers.join(','), ...rows].join(String.fromCharCode(13, 10));
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `EDUMIN_Alumnos_${pbiCurrentActiveCriteria}_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+</script>
   </div><!-- end #dashboardApp -->
 
   <!-- ========================================================================= -->
