@@ -329,8 +329,8 @@
       <button id="btnTabCartera" onclick="switchMainTab('cartera')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
         <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> Control Cartera & Deudores
       </button>
-      <button id="btnTabFlujo" onclick="switchMainTab('flujo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold">
-        <i class="fa-solid fa-chart-column text-cyan-400"></i> Flujo Mensual
+      <button id="btnTabFlujo" onclick="switchMainTab('flujo')" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold" title="Promesa Comercial vs Recaudo de Ingreso & Cuotas">
+        <i class="fa-solid fa-scale-balanced text-cyan-400"></i> Promesa vs Recaudo Real
       </button>
 
       <div class="h-6 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
@@ -1822,50 +1822,149 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- TAB 5: FLUJO MENSUAL DE CAJA                                              -->
+  <!-- TAB 5: PROMESA COMERCIAL VS RECAUDO REAL & CUOTAS                         -->
   <!-- ========================================================================= -->
   <section id="viewFlujo" class="space-y-6 hidden">
-    <div class="glass-card p-5 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div class="glass-card p-5 space-y-6">
+      <!-- Encabezado y Switch de Vistas -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-800 pb-5 gap-4">
         <div>
-          <h2 class="text-base font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-cyan-400"></i> Flujo Mensual de Cobranzas & Proyecciones
+          <h2 class="text-lg font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-scale-balanced text-cyan-400"></i> Promesa Comercial vs Recaudo de Ingreso & Cobranza de Cuotas
           </h2>
-          <p class="text-xs text-slate-400">Comportamiento mensual del recaudo real vs pactado en el año 2026</p>
+          <p class="text-xs text-slate-300 mt-1 max-w-4xl leading-relaxed">
+            <span class="text-blue-400 font-bold">Pactado Comercial:</span> Promesa de pago total que el alumno debe pagar (S/ 166,810.00) • 
+            <span class="text-emerald-400 font-bold">Recaudo de Ingreso:</span> Monto inicial (Cuota 01) con el que ingresaron para ser alumnos (S/ 104,763.00) • 
+            <span class="text-cyan-400 font-bold">Cuotas 2, 3 y 4:</span> Recaudación posterior al ingreso (S/ 30,042.00).
+          </p>
+        </div>
+
+        <!-- Botones de Modo -->
+        <div class="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 self-start lg:self-auto shadow-inner">
+          <button id="btnChartModeStacked" onclick="setFlujoChartMode('stacked')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow">
+            <i class="fa-solid fa-layer-group text-xs"></i> <span>Composición Promesa</span>
+          </button>
+          <button id="btnChartModeDirect" onclick="setFlujoChartMode('direct')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-chart-column text-xs"></i> <span>Comparativa Directa</span>
+          </button>
         </div>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-          <canvas id="flujoMonthlyChart" height="220"></canvas>
-        </div>
-        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 flex flex-col justify-center space-y-4">
-          <div class="text-sm font-bold text-slate-300">Resumen Financiero Consolidado</div>
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-              <span class="text-slate-400">Promesa Total Pactada:</span>
-              <span class="font-bold text-white font-mono">S/ 166,810.00</span>
-            </div>
-            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-              <span class="text-slate-400">1ra Cuota Comercial (Inicial):</span>
-              <span class="font-bold text-indigo-300 font-mono">S/ 105,268.00</span>
-            </div>
-            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-              <span class="text-slate-400">Financiamiento Cobrado (Q10):</span>
-              <span class="font-bold text-cyan-400 font-mono">S/ 30,082.00</span>
-            </div>
-            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-              <span class="text-slate-400">Total Recaudado Real Efectivo:</span>
-              <span class="font-bold text-emerald-400 font-mono">S/ 134,805.00</span>
-            </div>
-            <div class="flex justify-between border-b border-slate-800/80 pb-1.5">
-              <span class="text-slate-400">Saldo Deudor Pendiente en Q10:</span>
-              <span class="font-bold text-rose-400 font-mono">S/ 31,405.00</span>
-            </div>
-            <div class="flex justify-between pt-1">
-              <span class="text-slate-400 font-semibold">Tasa de Recaudación Efectiva:</span>
-              <span class="font-black text-emerald-400 font-mono">80.8%</span>
-            </div>
+
+      <!-- 4 Tarjetas de Métricas Ejecutivas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: Promesa Total Pactada -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-blue-500/30 flex flex-col justify-between shadow-sm hover:border-blue-500/50 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400">Promesa de Pago (Total)</span>
+            <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs"><i class="fa-solid fa-file-contract"></i></span>
           </div>
+          <div class="mt-2.5">
+            <div class="text-2xl font-black text-white font-mono">S/ 166,810.00</div>
+            <p class="text-[11px] text-slate-400 mt-1">Monto total que deben pagar los 295 alumnos</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-blue-300 font-semibold flex items-center justify-between">
+            <span>Pactado Comercial Total</span>
+            <span class="font-bold">100.0% Programa</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Monto de Ingreso -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30 flex flex-col justify-between shadow-sm hover:border-emerald-500/50 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Monto de Ingreso (Cuota 01)</span>
+            <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs"><i class="fa-solid fa-door-open"></i></span>
+          </div>
+          <div class="mt-2.5">
+            <div class="text-2xl font-black text-emerald-400 font-mono">S/ 104,763.00</div>
+            <p class="text-[11px] text-slate-400 mt-1">Monto con el que ingresaron para ser alumnos</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-emerald-300 font-semibold flex items-center justify-between">
+            <span>Matrícula Inicial Efectiva</span>
+            <span class="font-bold text-emerald-400 font-mono">62.8% de la promesa</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Cuotas Posteriores -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-cyan-500/30 flex flex-col justify-between shadow-sm hover:border-cyan-500/50 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Cobranza Posterior (C2, C3, C4)</span>
+            <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs"><i class="fa-solid fa-calendar-check"></i></span>
+          </div>
+          <div class="mt-2.5">
+            <div class="text-2xl font-black text-cyan-400 font-mono">S/ 30,042.00</div>
+            <p class="text-[11px] text-slate-400 mt-1">Cobranza realizada posterior al ingreso</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-cyan-300 font-semibold flex items-center justify-between">
+            <span>Cuotas Financiadas</span>
+            <span class="font-bold text-cyan-400 font-mono">18.0% de la promesa</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Total Recaudado vs Saldo -->
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-indigo-500/30 flex flex-col justify-between shadow-sm hover:border-indigo-500/50 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-300">Total Recaudado Real</span>
+            <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs"><i class="fa-solid fa-wallet"></i></span>
+          </div>
+          <div class="mt-2.5">
+            <div class="text-2xl font-black text-white font-mono">S/ 134,805.00</div>
+            <p class="text-[11px] text-rose-400 font-bold mt-1">
+              Saldo por cobrar: <span class="font-mono">S/ 31,405.00</span>
+            </p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-300 font-semibold flex items-center justify-between">
+            <span>Cumplimiento Total</span>
+            <span class="text-emerald-400 font-black font-mono">80.8%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfico Principal -->
+      <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-800 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="text-xs font-bold text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span id="flujoChartTitle">Composición Mensual: Promesa Comercial vs (Monto Ingreso + Cuotas Posteriores + Saldo)</span>
+          </div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-2">
+            <i class="fa-solid fa-circle-info text-cyan-400"></i>
+            <span>Cifras calculadas dinámicamente desde los 295 alumnos</span>
+          </div>
+        </div>
+        <div class="h-80 w-full relative">
+          <canvas id="flujoMonthlyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Tabla Detallada Mes a Mes -->
+      <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div class="text-xs font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table-list text-indigo-400"></i> Desglose Detallado por Mes de Ingreso (Enero a Noviembre 2026)
+          </div>
+          <span class="text-[11px] text-slate-400">Consolidado 100% Real</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider text-[10px] bg-slate-950/70">
+                <th class="py-2.5 px-3">Mes de Ingreso</th>
+                <th class="py-2.5 px-3 text-center">Alumnos</th>
+                <th class="py-2.5 px-3 text-right text-blue-300">Promesa de Pago (Pactado)</th>
+                <th class="py-2.5 px-3 text-right text-emerald-400">Monto de Ingreso (C1)</th>
+                <th class="py-2.5 px-3 text-right text-cyan-300">Cuotas 2, 3 y 4</th>
+                <th class="py-2.5 px-3 text-right text-white font-bold">Total Recaudado Real</th>
+                <th class="py-2.5 px-3 text-right text-rose-400 font-bold">Saldo Pendiente</th>
+                <th class="py-2.5 px-3 text-center">% Recaudo</th>
+              </tr>
+            </thead>
+            <tbody id="flujoMonthlyTableBody" class="divide-y divide-slate-800/60">
+              <!-- Renderizado dinámicamente desde GIANT_DATA -->
+            </tbody>
+            <tfoot id="flujoMonthlyTableFoot" class="border-t-2 border-slate-700 bg-slate-950/90 font-bold text-white">
+              <!-- Totales -->
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>
@@ -2638,45 +2737,256 @@
       renderCarteraTable(filtered);
     }
 
-    // Flujo Chart
+    // Flujo Chart & Dynamic Table Logic
     let flujoChartInstance = null;
+    let currentFlujoMode = 'stacked';
+
+    function setFlujoChartMode(mode) {
+      currentFlujoMode = mode;
+      const btnStacked = document.getElementById('btnChartModeStacked');
+      const btnDirect = document.getElementById('btnChartModeDirect');
+      const title = document.getElementById('flujoChartTitle');
+      
+      if (btnStacked && btnDirect) {
+        if (mode === 'stacked') {
+          btnStacked.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow';
+          btnDirect.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800';
+          if (title) title.innerText = 'Composición Mensual: Promesa Comercial vs (Monto Ingreso + Cuotas Posteriores + Saldo)';
+        } else {
+          btnDirect.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-cyan-600 text-white shadow';
+          btnStacked.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer text-slate-400 hover:text-white hover:bg-slate-800';
+          if (title) title.innerText = 'Comparativa Directa Mensual: Promesa de Pago Total vs Total Recaudado Real';
+        }
+      }
+      if (flujoChartInstance) {
+        flujoChartInstance.destroy();
+        flujoChartInstance = null;
+      }
+      initFlujoChart();
+    }
+
+    function calcFlujoMonthlyStats() {
+      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+      const stats = {};
+      months.forEach(m => {
+        stats[m] = { count: 0, pactado: 0, pagado: 0, c1: 0, c2_4: 0, deuda: 0 };
+      });
+
+      GIANT_DATA.forEach(r => {
+        let m = r.mes_ingreso;
+        if (m === 'Setiembre') m = 'Septiembre';
+        if (stats[m]) {
+          stats[m].count++;
+          const p = Number(r.pactado_comercial || r.pactado_q10 || 0);
+          stats[m].pactado += p;
+          stats[m].pagado += Number(r.pagado_q10 || 0);
+          const c1 = Number(r.c1_pagado || 0);
+          const c2 = Number(r.c2_pagado || 0);
+          const c3 = Number(r.c3_pagado || 0);
+          const c4 = Number(r.c4_pagado || 0);
+          stats[m].c1 += c1;
+          stats[m].c2_4 += (c2 + c3 + c4);
+          stats[m].deuda += Number(r.deuda_q10 || 0);
+        }
+      });
+      return { months, stats };
+    }
+
     function initFlujoChart() {
-      if (flujoChartInstance) return;
       const ctx = document.getElementById('flujoMonthlyChart');
       if (!ctx) return;
+      if (flujoChartInstance) {
+        flujoChartInstance.destroy();
+        flujoChartInstance = null;
+      }
+
+      const { months, stats } = calcFlujoMonthlyStats();
+      renderFlujoMonthlyTable(months, stats);
+
+      let datasets = [];
+      let scales = {
+        x: { 
+          ticks: { color: '#94a3b8', font: { weight: 'bold' } }, 
+          grid: { color: 'rgba(255,255,255,0.05)' } 
+        },
+        y: { 
+          ticks: { 
+            color: '#94a3b8', 
+            callback: function(v) { return 'S/ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v); } 
+          }, 
+          grid: { color: 'rgba(255,255,255,0.05)' } 
+        }
+      };
+
+      if (currentFlujoMode === 'stacked') {
+        scales.x.stacked = false;
+        scales.y.stacked = true;
+
+        datasets = [
+          {
+            label: 'Promesa Comercial (Monto Total a Pagar)',
+            data: months.map(m => stats[m].pactado),
+            backgroundColor: 'rgba(59, 130, 246, 0.45)',
+            borderColor: '#3b82f6',
+            borderWidth: 1.5,
+            stack: 'pactado_stack',
+            order: 2
+          },
+          {
+            label: 'Monto de Ingreso (Cuota 01)',
+            data: months.map(m => stats[m].c1),
+            backgroundColor: 'rgba(16, 185, 129, 0.85)',
+            borderColor: '#10b981',
+            borderWidth: 1,
+            stack: 'recaudo_stack',
+            order: 1
+          },
+          {
+            label: 'Cobranza Cuotas 2, 3 y 4',
+            data: months.map(m => stats[m].c2_4),
+            backgroundColor: 'rgba(6, 182, 212, 0.85)',
+            borderColor: '#06b6d4',
+            borderWidth: 1,
+            stack: 'recaudo_stack',
+            order: 1
+          },
+          {
+            label: 'Saldo Pendiente por Cobrar',
+            data: months.map(m => stats[m].deuda),
+            backgroundColor: 'rgba(244, 63, 94, 0.75)',
+            borderColor: '#f43f5e',
+            borderWidth: 1,
+            stack: 'recaudo_stack',
+            order: 1
+          }
+        ];
+      } else {
+        scales.y.stacked = false;
+        datasets = [
+          {
+            label: 'Promesa Comercial (Pactado Total)',
+            data: months.map(m => stats[m].pactado),
+            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+            borderColor: '#3b82f6',
+            borderWidth: 1.5
+          },
+          {
+            label: 'Total Recaudado Real (C1 + C2 + C3 + C4)',
+            data: months.map(m => stats[m].pagado),
+            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+            borderColor: '#10b981',
+            borderWidth: 1.5
+          },
+          {
+            label: 'Saldo Pendiente por Cobrar',
+            data: months.map(m => stats[m].deuda),
+            backgroundColor: 'rgba(244, 63, 94, 0.6)',
+            borderColor: '#f43f5e',
+            borderWidth: 1.5
+          }
+        ];
+      }
+
       flujoChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-          datasets: [
-            {
-              label: 'Pactado Comercial (S/)',
-              data: [15400, 18200, 22100, 19500, 16800, 14200, 17500, 13900, 12800, 8900, 7262, 0],
-              backgroundColor: 'rgba(59, 130, 246, 0.4)',
-              borderColor: '#3b82f6',
-              borderWidth: 1
-            },
-            {
-              label: 'Recaudado Real Q10 (S/)',
-              data: [12900, 15100, 18400, 16200, 14100, 11800, 14300, 11200, 10100, 6800, 3457, 0],
-              backgroundColor: 'rgba(16, 185, 129, 0.6)',
-              borderColor: '#10b981',
-              borderWidth: 1
-            }
-          ]
+          labels: months,
+          datasets: datasets
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { labels: { color: '#cbd5e1' } }
+          interaction: {
+            mode: 'index',
+            intersect: false
           },
-          scales: {
-            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
-          }
+          plugins: {
+            legend: { 
+              labels: { 
+                color: '#cbd5e1', 
+                boxWidth: 14, 
+                font: { size: 11, weight: 'bold' } 
+              } 
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#38bdf8',
+              bodyColor: '#f1f5f9',
+              borderColor: 'rgba(56, 189, 248, 0.3)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                label: function(context) {
+                  const val = context.parsed.y || 0;
+                  return ' ' + context.dataset.label + ': S/ ' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+              }
+            }
+          },
+          scales: scales
         }
       });
+    }
+
+    function renderFlujoMonthlyTable(months, stats) {
+      const tbody = document.getElementById('flujoMonthlyTableBody');
+      const tfoot = document.getElementById('flujoMonthlyTableFoot');
+      if (!tbody || !tfoot) return;
+
+      tbody.innerHTML = '';
+      tfoot.innerHTML = '';
+
+      let totCount = 0, totPact = 0, totC1 = 0, totC2_4 = 0, totPag = 0, totDeu = 0;
+
+      months.forEach(m => {
+        const d = stats[m];
+        totCount += d.count;
+        totPact += d.pactado;
+        totC1 += d.c1;
+        totC2_4 += d.c2_4;
+        totPag += d.pagado;
+        totDeu += d.deuda;
+
+        const efic = d.pactado > 0 ? ((d.pagado / d.pactado) * 100) : 0;
+        const eficBadge = efic >= 90 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' :
+                         (efic >= 75 ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' :
+                         'bg-rose-500/20 text-rose-300 border border-rose-500/40');
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <span>${m}</span>
+          </td>
+          <td class="py-2.5 px-3 text-center text-slate-300 font-semibold">${d.count}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-slate-200">${fmtPEN(d.pactado)}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-emerald-400 font-bold">${fmtPEN(d.c1)}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-cyan-300">${fmtPEN(d.c2_4)}</td>
+          <td class="py-2.5 px-3 text-right font-mono text-white font-bold bg-slate-800/30">${fmtPEN(d.pagado)}</td>
+          <td class="py-2.5 px-3 text-right font-mono ${d.deuda > 0 ? 'text-rose-400 font-bold' : 'text-slate-500'}">${fmtPEN(d.deuda)}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${eficBadge}">${efic.toFixed(1)}%</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totEfic = totPact > 0 ? ((totPag / totPact) * 100) : 0;
+      tfoot.innerHTML = `
+        <tr>
+          <td class="py-3 px-3 uppercase tracking-wider text-xs">TOTAL AÑO 2026</td>
+          <td class="py-3 px-3 text-center font-black">${totCount}</td>
+          <td class="py-3 px-3 text-right font-mono text-blue-300 font-bold">${fmtPEN(totPact)}</td>
+          <td class="py-3 px-3 text-right font-mono text-emerald-400 font-black">${fmtPEN(totC1)}</td>
+          <td class="py-3 px-3 text-right font-mono text-cyan-300 font-black">${fmtPEN(totC2_4)}</td>
+          <td class="py-3 px-3 text-right font-mono text-white text-sm bg-slate-900 font-black">${fmtPEN(totPag)}</td>
+          <td class="py-3 px-3 text-right font-mono text-rose-400 font-black">${fmtPEN(totDeu)}</td>
+          <td class="py-3 px-3 text-center">
+            <span class="px-2.5 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">${totEfic.toFixed(1)}%</span>
+          </td>
+        </tr>
+      `;
     }
 
     // Theme Toggle Logic (Light / Dark)
@@ -3843,6 +4153,7 @@ function drilldownToCuadroGiganteFromBi() {
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
       renderBiMonthlyMatrix();
+      initFlujoChart();
       initTheme();
       initBiDashboard();
       renderGiantTable(GIANT_DATA);
