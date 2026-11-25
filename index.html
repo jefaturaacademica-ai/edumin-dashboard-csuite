@@ -4415,17 +4415,21 @@ function drilldownToCuadroGiganteFromBi() {
       }
 
       // 2. Búsqueda por nombre de alumno (si incluye "buscar a", "alumno", o 2+ palabras)
-      if (q.includes('alumno') || q.includes('busca') || q.includes('quien es') || q.includes('quièn es') || q.includes('expediente')) {
+      if (q.includes('alumno') || q.includes('busca') || q.includes('quien es') || q.includes('quièn es') || q.includes('expediente') || q.length > 2) {
         const terms = q.replace(/buscar|busca|alumno|quien|quièn|es|a|el|de|expediente/gi, '').trim().split(' ').filter(w => w.length > 2);
         if (terms.length > 0) {
           const matches = GIANT_DATA.filter(s => {
-            const full = (s.nombre || '').toLowerCase();
+            const full = ((s.nombre_comercial || '') + ' ' + (s.nombre_admin || '') + ' ' + (s.nombre || '')).toLowerCase();
             return terms.every(t => full.includes(t));
           });
           if (matches.length === 1) {
             return formatStudentAuditResponse(matches[0]);
-          } else if (matches.length > 1) {
-            let list = matches.slice(0, 5).map(m => `• <strong>${m.nombre}</strong> (DNI: ${m.dni}) - ${m.diplomado} - Deuda: S/ ${Number(m.deuda_q10||0).toFixed(2)}`).join('<br>');
+          } else if (matches.length > 1 && matches.length <= 15) {
+            let list = matches.slice(0, 5).map(m => {
+              const name = m.nombre_comercial || m.nombre_admin || m.nombre || 'Alumno';
+              const dip = m.diplomado_comercial || m.diplomado_admin || m.diplomado || '-';
+              return `• <strong>${name}</strong> (DNI: ${m.dni}) - ${dip} - Deuda: <span class="text-rose-400 font-bold">S/ ${Number(m.deuda_q10||0).toFixed(2)}</span>`;
+            }).join('<br>');
             return `Encontré <strong>${matches.length} alumnos</strong> que coinciden con tu búsqueda:<br><br>${list}<br><br>Escribe el DNI específico para auditar su expediente completo.`;
           }
         }
@@ -4447,11 +4451,11 @@ function drilldownToCuadroGiganteFromBi() {
         const debtors = GIANT_DATA.filter(s => Number(s.deuda_q10 || 0) > 0)
                                  .sort((a, b) => Number(b.deuda_q10 || 0) - Number(a.deuda_q10 || 0));
         const totalDebt = debtors.reduce((acc, s) => acc + Number(s.deuda_q10 || 0), 0);
-        const top5 = debtors.slice(0, 5).map((s, idx) => `
-          <strong>${idx + 1}. ${s.nombre}</strong><br>
-          &nbsp;&nbsp;&nbsp;DNI: ${s.dni} • ${s.diplomado}<br>
-          &nbsp;&nbsp;&nbsp;Deuda: <span class="text-rose-400 font-bold">S/ ${Number(s.deuda_q10).toFixed(2)}</span> (Pactado: S/ ${Number(s.pactado_comercial||s.pactado_q10||0).toFixed(2)})
-        `).join('<br>');
+        const top5 = debtors.slice(0, 5).map((s, idx) => {
+          const name = s.nombre_comercial || s.nombre_admin || s.nombre || 'Alumno';
+          const dip = s.diplomado_comercial || s.diplomado_admin || s.diplomado || '-';
+          return `<strong>${idx + 1}. ${name}</strong><br>&nbsp;&nbsp;&nbsp;DNI: ${s.dni} • ${dip}<br>&nbsp;&nbsp;&nbsp;Deuda: <span class="text-rose-400 font-bold">S/ ${Number(s.deuda_q10).toFixed(2)}</span> (Pactado: S/ ${Number(s.pactado_comercial||s.pactado_q10||0).toFixed(2)})`;
+        }).join('<br>');
 
         return `Auditoría de Cartera Deudora:<br><br>
           🚨 <strong>Total Deuda Pendiente:</strong> S/ ${totalDebt.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
@@ -4461,11 +4465,11 @@ function drilldownToCuadroGiganteFromBi() {
       }
 
       // 5. Preguntas sobre Diplomados específicos
-      const dipNames = [...new Set(GIANT_DATA.map(s => s.diplomado).filter(Boolean))];
+        const dipNames = [...new Set(GIANT_DATA.map(s => s.diplomado_comercial || s.diplomado_admin || s.diplomado).filter(Boolean))];
       const matchedDip = dipNames.find(d => q.includes(d.toLowerCase()));
       if (matchedDip || q.includes('diplomado') || q.includes('programa')) {
         const targetDip = matchedDip || dipNames[0];
-        const dipStudents = GIANT_DATA.filter(s => s.diplomado === targetDip);
+        const dipStudents = GIANT_DATA.filter(s => (s.diplomado_comercial === targetDip || s.diplomado_admin === targetDip || s.diplomado === targetDip));
         const count = dipStudents.length;
         const pactado = dipStudents.reduce((acc, s) => acc + Number(s.pactado_comercial || s.pactado_q10 || 0), 0);
         const pagado = dipStudents.reduce((acc, s) => acc + Number(s.pagado_q10 || 0), 0);
@@ -4526,6 +4530,8 @@ function drilldownToCuadroGiganteFromBi() {
     }
 
     function formatStudentAuditResponse(s) {
+      const name = s.nombre_comercial || s.nombre_admin || s.nombre || 'Alumno';
+      const dip = s.diplomado_comercial || s.diplomado_admin || s.diplomado || '-';
       const pactado = Number(s.pactado_comercial || s.pactado_q10 || 0);
       const c1 = Number(s.c1_pagado || 0);
       const c2 = Number(s.c2_pagado || 0);
@@ -4539,11 +4545,11 @@ function drilldownToCuadroGiganteFromBi() {
         `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">AL DÍA (100% Pagado)</span>`;
 
       return `<strong>Expediente Forense de Alumno:</strong><br><br>
-        👤 <strong>Nombre:</strong> ${s.nombre}<br>
+        👤 <strong>Nombre:</strong> ${name}<br>
         🆔 <strong>DNI:</strong> ${s.dni} • 📅 <strong>Ingreso:</strong> ${s.mes_ingreso||'-'}<br>
-        🎓 <strong>Diplomado:</strong> ${s.diplomado||'-'}<br>
+        🎓 <strong>Diplomado:</strong> ${dip}<br>
         🏷️ <strong>Pagaré Q10:</strong> ${s.pagare_q10||'N/A'}<br>
-        📋 <strong>Categoría:</strong> ${s.categoria||'-'}<br><br>
+        📋 <strong>Categoría:</strong> ${s.categoria_label || s.categoria || '-'}<br><br>
         <strong>Desglose Financiero:</strong><br>
         • Promesa Total Pactada: <strong>S/ ${pactado.toFixed(2)}</strong><br>
         • Monto de Ingreso (C1): <strong class="text-emerald-400">S/ ${c1.toFixed(2)}</strong><br>
