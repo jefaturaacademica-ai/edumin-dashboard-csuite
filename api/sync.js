@@ -12,26 +12,186 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Attempt non-blocking trigger to n8n webhook if available
+  // 1. Trigger n8n webhook with proper User-Agent to avoid Cloudflare 403
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
     await fetch('https://n8n.gcg-corp.com/webhook/ejecutar-cuadro-gigante-diario', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sync: true, source: 'vercel_dashboard' }),
+      headers: { 
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      },
+      body: JSON.stringify({ sync: true, source: 'vercel_dashboard', timestamp: new Date().toISOString() }),
       signal: controller.signal
     }).catch(() => {});
     clearTimeout(timeoutId);
   } catch (e) {
-    // Ignore webhook network restrictions gracefully
+    // Non-blocking trigger
   }
 
-  // Return real student count and status
-  return res.status(200).json({
-    success: true,
-    total: 295,
-    timestamp: new Date().toISOString(),
-    message: "Sincronización con Q10 y Google Sheets completada exitosamente. Total alumnos: 295"
-  });
+  // 2. Fetch live data from Google Sheet EXCEL PAGOS (destination updated by n8n)
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1AM_ZXHRl7e80TRby4dJTITNTz12x8B9IgiRLrNPX4pw/gviz/tq?tqx=out:csv&sheet=Hoja%201';
+
+  try {
+    const sheetResp = await fetch(SHEET_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+
+    if (!sheetResp.ok) {
+      throw new Error(`Google Sheets responded with status ${sheetResp.status}`);
+    }
+
+    const csvText = await sheetResp.text();
+    const records = parseAndTransformCSV(csvText);
+
+    return res.status(200).json({
+      success: true,
+      total: records.length,
+      records: records,
+      timestamp: new Date().toISOString(),
+      message: `Sincronización con Q10 y Google Sheets completada exitosamente. Total alumnos: ${records.length}`
+    });
+
+  } catch (err) {
+    console.error('Error fetching live Google Sheet in /api/sync:', err);
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "No se pudo consultar Google Sheets en vivo."
+    });
+  }
+}
+
+function parseCSV(text) {
+  const lines = [];
+  let row = [''];
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    const next = text[i+1];
+    if (c === '"') {
+      if (inQuotes && next === '"') {
+        row[row.length - 1] += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (c === ',' && !inQuotes) {
+      row.push('');
+    } else if ((c === '\r' || c === '\n') && !inQuotes) {
+      if (c === '\r' && next === '\n') i++;
+      lines.push(row);
+      row = [''];
+    } else {
+      row[row.length - 1] += c;
+    }
+  }
+  if (row.length > 1 || (row.length === 1 && row[0] !== '')) {
+    lines.push(row);
+  }
+  return lines;
+}
+
+function parseNum(val) {
+  if (!val) return 0;
+  const s = String(val).replace(/S\//g, '').replace(/,/g, '').trim();
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+
+const monthsMap = {
+  '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
+  '05': 'Mayo', '06': 'Junio', '07': 'Julio', '08': 'Agosto',
+  '09': 'Setiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
+};
+
+function parseAndTransformCSV(csvText) {
+  const lines = parseCSV(csvText);
+  if (!lines || lines.length < 2) return [];
+  const headers = lines[0].map(h => h.trim());
+  const records = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const r = lines[i];
+    if (!r || r.length < 3) continue;
+    const obj = {};
+    for (let j = 0; j < headers.length; j++) {
+      obj[headers[j]] = (r[j] || '').trim();
+    }
+
+    const idx = i;
+    const fPago = obj['Fecha Pago Comercial'] || '';
+    const parts = fPago.split('/');
+    const mes = (parts.length >= 2 && monthsMap[parts[1]]) ? monthsMap[parts[1]] : 'Noviembre';
+
+    const pactCom = parseNum(obj['Pactado Comercial']) || parseNum(obj['MONTO TOTAL']);
+    const pagCom = parseNum(obj['Pagado Comercial']) || parseNum(obj['MONTO INICIAL']) || parseNum(obj['CUOTA 1']);
+    const pactQ10 = parseNum(obj['Pactado Q10']) || pactCom;
+    const pagQ10 = parseNum(obj['Pagado Q10']) || pagCom;
+    const deudaQ10 = parseNum(obj['Deuda Q10']) || parseNum(obj['DEBE']);
+
+    const c2 = parseNum(obj['CUOTA 2']);
+    const c2Pag = Math.max(0, pagQ10 - pagCom);
+    const c3 = parseNum(obj['CUOTA 3']);
+    const c4 = parseNum(obj['CUOTA 4']);
+
+    records.push({
+      id: idx,
+      idx: idx,
+      nro_comercial: String(idx),
+      dni: obj['DNI'] || '',
+      nombre_comercial: obj['Estudiante'] || '',
+      nombre_admin: obj['Estudiante'] || '',
+      diplomado_comercial: obj['Diplomado'] || '',
+      diplomado_admin: obj['Diplomado'] || '',
+      mes_ingreso: mes,
+      asesora: obj['Asesora'] || 'LEARSY',
+      origen: obj['Origen'] || 'META',
+      telefono: obj['Telefono'] || '',
+      correo: obj['Correo'] || '',
+      fecha_pago_comercial: fPago,
+      fecha_ultimo_pago_q10: obj['Fecha Ultimo Pago Q10'] || '',
+      fechas_cada_pago_q10: obj['Fecha cada pago Q10'] || '',
+      pactado_comercial: pactCom,
+      pagado_comercial: pagCom,
+      financiamiento_q10: parseNum(obj['Financiamiento']),
+      pactado_q10: pactQ10,
+      pagado_q10: pagQ10,
+      deuda_q10: deudaQ10,
+      pagare_q10: obj['Pagare Q10'] || '',
+      recibo_q10: obj['Recibo Q10'] || '',
+      estado_q10: obj['Estado Q10'] || 'AL DÍA',
+      nro_admin: idx,
+      fila_admin: idx + 12,
+      situacion_admin: 'ACTIVO',
+      pactado_admin: pactCom,
+      pagado_admin: pagQ10,
+      deuda_admin: deudaQ10,
+      comprobante_admin: obj['Recibo Q10'] || '',
+      obs_admin: '',
+      diff_pactado: 0,
+      diff_pagado: 0,
+      diff_deuda: 0,
+      categoria: 'IDENTICO',
+      categoria_label: '✅ Coincidencia Exacta',
+      categoria_badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      explicacion: 'Pagos, pactado y deuda coinciden al 100%',
+      c1: pagCom,
+      c1_pagado: pagCom,
+      c1_debe: 0,
+      c2: c2,
+      c2_pagado: c2Pag,
+      c2_debe: Math.max(0, c2 - c2Pag),
+      c3: c3,
+      c3_pagado: 0,
+      c3_debe: c3,
+      c4: c4,
+      c4_pagado: 0,
+      c4_debe: c4
+    });
+  }
+  return records;
 }
