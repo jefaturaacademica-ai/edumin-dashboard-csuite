@@ -122,6 +122,10 @@ function parseAndTransformCSV(csvText) {
       obj[headers[j]] = (r[j] || '').trim();
     }
 
+    const dniVal = (obj['DNI'] || '').trim();
+    const estVal = (obj['Estudiante'] || '').trim();
+    if (!dniVal || !estVal || dniVal.toLowerCase() === 'dni' || estVal.toLowerCase().includes('total')) continue;
+
     const idx = i;
     const fPago = obj['Fecha Pago Comercial'] || '';
     const parts = fPago.split('/');
