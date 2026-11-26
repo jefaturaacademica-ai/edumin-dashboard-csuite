@@ -29,6 +29,10 @@
     {
       "source": "/bi-gerencial",
       "destination": "/bi-gerencial.html"
+    },
+    {
+      "source": "/analitica-avanzada",
+      "destination": "/analitica-avanzada.html"
     }
   ],
   "headers": [

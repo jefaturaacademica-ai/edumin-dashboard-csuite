@@ -377,6 +377,10 @@
       <a href="/power-bi" id="btnTabPowerBI" onclick="switchMainTab('powerbi', true, event)" class="px-3.5 py-2 rounded-lg tab-active transition flex items-center gap-2 text-xs font-bold text-emerald-300 border border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/10 cursor-pointer" title="Vista Idéntica a Microsoft Power BI Service">
         <i class="fa-solid fa-chart-pie text-amber-400"></i> <span>Power BI Ejecutivo</span>
       </a>
+      <a href="/analitica-avanzada" id="btnTabAnalitica" onclick="switchMainTab('analitica', true, event)" class="px-3.5 py-2 rounded-lg tab-inactive transition flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 border border-transparent cursor-pointer" title="Analítica Avanzada: Radar 360°, Polar Cartera, Matriz BCG y Cascada Waterfall">
+        <i class="fa-solid fa-compass-drafting text-purple-400"></i> <span>Analítica Avanzada</span>
+      </a>
+
 
       <div class="h-6 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
 
@@ -2380,6 +2384,238 @@
   </section>
 
   <!-- ========================================================================= -->
+  <!-- VISTA 8: ANALÍTICA AVANZADA & RADAR ESTRATÉGICO                           -->
+  <!-- ========================================================================= -->
+  <section id="viewAnalitica" class="space-y-6 hidden">
+    <!-- Header Banner -->
+    <div class="glass-card p-5 border border-purple-500/30 bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-indigo-950/40 shadow-2xl rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400 text-2xl shadow-inner">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <h2 class="text-lg font-black text-white tracking-tight">Analítica Avanzada & Radar Estratégico 2026</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-500/20 text-purple-300 border border-purple-500/40 uppercase tracking-wider">C-Suite Intelligence</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" id="analiticaLiveBadge">Filtros Slicers en Tiempo Real</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Modelos Multidimensionales • Radar 360° Comercial • Matriz BCG de Diplomados • Cascada Waterfall de Recaudo</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <div class="text-[10px] uppercase font-bold text-slate-400">Health Score de Cartera</div>
+          <div class="text-base font-black text-emerald-400 font-mono" id="headerHealthScore">81.1 / 100 • Grado A-</div>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">
+          A-
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 C-SUITE EXECUTIVE SCORECARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Card 1: Health Score -->
+      <div class="glass-card p-4 rounded-xl border border-emerald-500/30 bg-slate-900/80 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-heart-pulse text-emerald-400"></i> Health Score Cartera</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-300">Grado A-</span>
+        </div>
+        <div class="text-2xl font-black text-white font-mono mt-2" id="cardHealthScore">81.1 <span class="text-xs font-normal text-slate-400">/ 100</span></div>
+        <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-1.5 rounded-full" id="barHealthScore" style="width: 81.1%"></div>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2">Ponderación: 40% Eficacia + 30% Cuotas + 30% Al Día</p>
+      </div>
+
+      <!-- Card 2: DSO (Days Sales Outstanding) -->
+      <div class="glass-card p-4 rounded-xl border border-cyan-500/30 bg-slate-900/80 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-stopwatch text-cyan-400"></i> DSO Estimado (Días Calle)</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-black bg-cyan-500/20 text-cyan-300">&lt; 35d Meta</span>
+        </div>
+        <div class="text-2xl font-black text-cyan-300 font-mono mt-2" id="cardDSO">28.4 <span class="text-xs font-normal text-slate-400">días</span></div>
+        <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-1.5 rounded-full" id="barDSO" style="width: 71%"></div>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2">Rotación óptima de cuentas por cobrar en el ciclo 2026</p>
+      </div>
+
+      <!-- Card 3: ARPU Pactado vs Real -->
+      <div class="glass-card p-4 rounded-xl border border-purple-500/30 bg-slate-900/80 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-ticket text-purple-400"></i> Ticket Promedio (ARPU)</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-black bg-purple-500/20 text-purple-300" id="badgeARPURealization">81.1% Captura</span>
+        </div>
+        <div class="text-2xl font-black text-purple-300 font-mono mt-2" id="cardARPUReal">S/ 455.40</div>
+        <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+          <span>Pactado: <strong class="text-slate-200" id="cardARPUPactado">S/ 561.47</strong></span>
+          <span>Brecha: <strong class="text-rose-400" id="cardARPUBrecha">S/ 106.07</strong></span>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-1.5">Ingreso medio líquido capturado en caja por estudiante</p>
+      </div>
+
+      <!-- Card 4: Apalancamiento / Deuda Activa -->
+      <div class="glass-card p-4 rounded-xl border border-amber-500/30 bg-slate-900/80 shadow-lg relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-scale-unbalanced text-amber-400"></i> Apalancamiento Cartera</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-black bg-amber-500/20 text-amber-300" id="badgeApalancamiento">37.4% Financiado</span>
+        </div>
+        <div class="text-2xl font-black text-amber-300 font-mono mt-2" id="cardAlDiaRatio">62.6% <span class="text-xs font-normal text-slate-400">Al Día</span></div>
+        <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+          <span class="text-emerald-400" id="cardAlDiaCount">186 Al día (S/ 0 deuda)</span>
+          <span class="text-rose-400" id="cardDeudaCount">111 Con cuotas</span>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-1.5">Distribución entre alumnos liquidados y alumnos con saldo</p>
+      </div>
+    </div>
+
+    <!-- ROW 1: RADAR 360° & POLAR AREA -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Chart 1: Radar 360° Asesoras -->
+      <div class="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-spider"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Radar 360° de Efectividad Comercial</h3>
+              <p class="text-[10px] text-slate-400">Comparativa Multivariable Asesoras: Yskelia vs Learsy</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-slate-400 bg-slate-800 px-2 py-1 rounded">6 Dimensiones</span>
+        </div>
+        <div class="h-80 w-full relative">
+          <canvas id="chartRadarAsesoras"></canvas>
+        </div>
+        <div class="flex items-center justify-center gap-6 text-[11px] pt-1 border-t border-slate-800">
+          <span class="flex items-center gap-1.5 text-purple-300 font-bold"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> Yskelia</span>
+          <span class="flex items-center gap-1.5 text-cyan-300 font-bold"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> Learsy</span>
+        </div>
+      </div>
+
+      <!-- Chart 2: Polar Area Cartera Concentration -->
+      <div class="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Concentración Radial de Cartera (Polar Area)</h3>
+              <p class="text-[10px] text-slate-400">Densidad Monetaria por Tramo: C1, C2, C3, C4 y Saldo Pendiente</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-slate-400 bg-slate-800 px-2 py-1 rounded">Radial S/</span>
+        </div>
+        <div class="h-80 w-full relative">
+          <canvas id="chartPolarCartera"></canvas>
+        </div>
+        <div class="grid grid-cols-5 gap-1 text-[10px] text-center pt-1 border-t border-slate-800 text-slate-300">
+          <div><span class="text-emerald-400 font-bold">C1:</span> <span id="polarC1Val">S/ 105k</span></div>
+          <div><span class="text-blue-400 font-bold">C2:</span> <span id="polarC2Val">S/ 20k</span></div>
+          <div><span class="text-purple-400 font-bold">C3:</span> <span id="polarC3Val">S/ 8.7k</span></div>
+          <div><span class="text-amber-400 font-bold">C4:</span> <span id="polarC4Val">S/ 1.6k</span></div>
+          <div><span class="text-rose-400 font-bold">Saldo:</span> <span id="polarSaldoVal">S/ 31.5k</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: SCATTER BCG MATRIX & WATERFALL BRIDGE -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Chart 3: Scatter / Bubble BCG Diplomados -->
+      <div class="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-cubes-stacked"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Matriz BCG de Posicionamiento (Scatter / Burbujas)</h3>
+              <p class="text-[10px] text-slate-400">X = Alumnos Matriculados • Y = % Eficacia Cobranza • Radio = Recaudo (S/)</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-1 rounded">Cuadrantes BCG</span>
+        </div>
+        <div class="h-80 w-full relative">
+          <canvas id="chartScatterDiplomados"></canvas>
+        </div>
+        <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> Estrellas (Alto Vol. & Alta Eficacia)</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> Nicho Eficiente</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block"></span> Riesgo Cobro</span>
+        </div>
+      </div>
+
+      <!-- Chart 4: Waterfall Bridge Recaudo -->
+      <div class="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-water"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Cascada Waterfall de Recaudación (Puente Financiero)</h3>
+              <p class="text-[10px] text-slate-400">Promesa Comercial Total -> C1 Inicial -> C2-C4 Cuotas -> Saldo -> Caja Real</p>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2 py-1 rounded">Flujo Puente</span>
+        </div>
+        <div class="h-80 w-full relative">
+          <canvas id="chartWaterfallPuente"></canvas>
+        </div>
+        <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800">
+          <span class="text-blue-300 font-bold">1. Promesa: S/ 166.8k</span>
+          <span class="text-emerald-400 font-bold">2. C1: +S/ 105.0k</span>
+          <span class="text-cyan-300 font-bold">3. C2-C4: +S/ 30.3k</span>
+          <span class="text-rose-400 font-bold">4. Saldo: -S/ 31.5k</span>
+          <span class="text-purple-300 font-bold">5. En Caja: S/ 135.3k</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: STRATEGIC RECOMMENDATIONS & DECISION TABLE -->
+    <div class="glass-card p-5 rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-chess"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-white tracking-tight">Matriz de Decisión Gerencial & Recomendaciones por Diplomado</h3>
+            <p class="text-[10px] text-slate-400">Diagnóstico automático por cuadrante BCG y acción directiva sugerida</p>
+          </div>
+        </div>
+        <div class="text-[11px] text-slate-400">
+          <span class="text-slate-200 font-bold" id="analiticaTableCount">17 Diplomados</span> analizados
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider text-[10px] bg-slate-950/70">
+              <th class="py-2.5 px-3">Diplomado</th>
+              <th class="py-2.5 px-3 text-center">Alumnos</th>
+              <th class="py-2.5 px-3 text-right text-blue-300">Pactado</th>
+              <th class="py-2.5 px-3 text-right text-emerald-400">Recaudado</th>
+              <th class="py-2.5 px-3 text-right text-rose-400">Saldo Pendiente</th>
+              <th class="py-2.5 px-3 text-center text-slate-300">% Eficacia</th>
+              <th class="py-2.5 px-3 text-center">Cuadrante BCG</th>
+              <th class="py-2.5 px-3 text-left">Acción Gerencial Recomendada</th>
+            </tr>
+          </thead>
+          <tbody id="analiticaTableBody" class="divide-y divide-slate-800/60">
+            <!-- Dinámico desde JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
   <!-- MODAL: ASISTENTE BOT Q10 DETALLE INDIVIDUAL                               -->
   <!-- ========================================================================= -->
   <div id="botModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -2488,7 +2724,8 @@
       'cohorte': '/cohortes',
       'cartera': '/cartera',
       'flujo': '/promesa-recaudo',
-      'powerbi': '/power-bi'
+      'powerbi': '/power-bi',
+      'analitica': '/analitica-avanzada'
     };
 
     const ROUTE_TO_TAB = {
@@ -2508,7 +2745,9 @@
       '/promesa-recaudo': 'flujo',
       '/promesa-recaudo.html': 'flujo',
       '/power-bi': 'powerbi',
-      '/power-bi.html': 'powerbi'
+      '/power-bi.html': 'powerbi',
+      '/analitica-avanzada': 'analitica',
+      '/analitica-avanzada.html': 'analitica'
     };
 
     function toggleGlobalSlicersMobile() {
@@ -2548,7 +2787,8 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
         'cohorte': 'viewCohorte',
         'cartera': 'viewCartera',
         'flujo': 'viewFlujo',
-        'powerbi': 'viewPowerBI'
+        'powerbi': 'viewPowerBI',
+        'analitica': 'viewAnalitica'
       };
       const btns = {
         'bidashboard': 'btnTabBiDashboard',
@@ -2557,7 +2797,8 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
         'cohorte': 'btnTabCohorte',
         'cartera': 'btnTabCartera',
         'flujo': 'btnTabFlujo',
-        'powerbi': 'btnTabPowerBI'
+        'powerbi': 'btnTabPowerBI',
+        'analitica': 'btnTabAnalitica'
       };
 
       Object.entries(views).forEach(([k, id]) => {
@@ -2582,6 +2823,7 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
       if (tab === 'flujo') initFlujoChart();
       if (tab === 'bidashboard') initBiDashboard();
       if (tab === 'powerbi') setTimeout(initPowerBIView, 40);
+      if (tab === 'analitica') setTimeout(initAnaliticaView, 40);
     }
 
 
@@ -3027,6 +3269,10 @@ function switchMainTab(tab, updateUrl = true, evt = null) {
       // 3. Re-render Flujo & Tabla Mensual
       if (typeof initFlujoChart === 'function') {
         initFlujoChart();
+      }
+      // 3b. Re-render Analitica Avanzada
+      if (typeof updateAnaliticaView === 'function') {
+        updateAnaliticaView(records);
       }
       // 4. Re-aplicar Slicers Globales (recalcula tarjetas C1 a C4 y biCharts.cuotasStacked)
       if (typeof applyGlobalSlicers === 'function') {
@@ -4297,6 +4543,9 @@ function applyBiFilters() {
     if (typeof renderGiantTable === 'function') {
       renderGiantTable(filtered);
     }
+    if (typeof updateAnaliticaView === 'function') {
+      updateAnaliticaView(filtered);
+    }
   } catch(e) {
     console.warn('Cross-tab update note:', e);
   }
@@ -5435,6 +5684,511 @@ function drilldownToCuadroGiganteFromBi() {
       initPowerBI100StackedChart(data);
       initPowerBIAsesoraChart(data);
     }
+
+    
+    // =========================================================================
+    // VISTA 8: ANALÍTICA AVANZADA (RADAR 360°, POLAR AREA, SCATTER BCG & WATERFALL)
+    // =========================================================================
+    const analiticaCharts = {
+      radar: null,
+      polar: null,
+      scatter: null,
+      waterfall: null
+    };
+
+    function initAnaliticaView() {
+      const data = window.CURRENT_FILTERED_DATA || window.GIANT_DATA || [];
+      updateAnaliticaView(data);
+    }
+
+    function updateAnaliticaView(data) {
+      const view = document.getElementById('viewAnalitica');
+      if (!view) return;
+      if (!data || !Array.isArray(data) || data.length === 0) {
+        data = window.GIANT_DATA || [];
+      }
+
+      const totalCount = data.length;
+      let totalPactado = 0;
+      let totalPagado = 0;
+      let totalDeuda = 0;
+      let countAlDia = 0;
+      let countDeuda = 0;
+      let countContado = 0;
+
+      let c1Pag = 0, c2Pag = 0, c3Pag = 0, c4Pag = 0;
+      let c1Pact = 0, c2Pact = 0, c3Pact = 0, c4Pact = 0;
+
+      const asesoras = {};
+      const dips = {};
+
+      data.forEach(r => {
+        const pact = parseFloat(r.pactado_comercial || r.pactado_q10 || 0);
+        const pag = parseFloat(r.pagado_q10 || 0);
+        const deu = parseFloat(r.deuda_q10 || 0);
+
+        totalPactado += pact;
+        totalPagado += pag;
+        totalDeuda += deu;
+
+        if (deu === 0) countAlDia++;
+        else countDeuda++;
+
+        const isContado = (r.c2 || 0) === 0 && (r.c3 || 0) === 0 && (r.c4 || 0) === 0;
+        if (isContado) countContado++;
+
+        c1Pag += parseFloat(r.c1_pagado || 0);
+        c2Pag += parseFloat(r.c2_pagado || 0);
+        c3Pag += parseFloat(r.c3_pagado || 0);
+        c4Pag += parseFloat(r.c4_pagado || 0);
+
+        c1Pact += parseFloat(r.c1 || 0);
+        c2Pact += parseFloat(r.c2 || 0);
+        c3Pact += parseFloat(r.c3 || 0);
+        c4Pact += parseFloat(r.c4 || 0);
+
+        // Asesoras aggregation
+        let a = (r.asesora || 'OTRA').trim().toUpperCase();
+        if (!a || a.length < 2) a = 'OTRA';
+        if (!asesoras[a]) {
+          asesoras[a] = { count: 0, pact: 0, pag: 0, deu: 0, c1: 0, c2_4: 0, alDia: 0, contado: 0 };
+        }
+        asesoras[a].count++;
+        asesoras[a].pact += pact;
+        asesoras[a].pag += pag;
+        asesoras[a].deu += deu;
+        asesoras[a].c1 += parseFloat(r.c1_pagado || 0);
+        asesoras[a].c2_4 += (parseFloat(r.c2_pagado || 0) + parseFloat(r.c3_pagado || 0) + parseFloat(r.c4_pagado || 0));
+        if (deu === 0) asesoras[a].alDia++;
+        if (isContado) asesoras[a].contado++;
+
+        // Diplomados aggregation
+        let d = (r.diplomado_comercial || r.diplomado_admin || 'Sin Diplomado').trim();
+        if (!dips[d]) {
+          dips[d] = { name: d, count: 0, pact: 0, pag: 0, deu: 0 };
+        }
+        dips[d].count++;
+        dips[d].pact += pact;
+        dips[d].pag += pag;
+        dips[d].deu += deu;
+      });
+
+      // 1. C-Suite Scorecards Calculations
+      const globalEfic = totalPactado > 0 ? (totalPagado / totalPactado * 100) : 0;
+      const c2_4_cartera = totalPactado - c1Pact;
+      const c2_4_recaudo = c2Pag + c3Pag + c4Pag;
+      const cuotasEfic = c2_4_cartera > 0 ? (c2_4_recaudo / c2_4_cartera * 100) : 0;
+      const alDiaPct = totalCount > 0 ? (countAlDia / totalCount * 100) : 0;
+      const contadoPct = totalCount > 0 ? (countContado / totalCount * 100) : 0;
+
+      // Health Score (0 - 100): 40% Global Efic + 30% Cuotas Efic + 20% Al Día % + 10% Contado %
+      const healthScore = Math.min(100, (globalEfic * 0.40) + (cuotasEfic * 0.30) + (alDiaPct * 0.20) + (contadoPct * 0.10));
+      const grade = healthScore >= 85 ? 'A+' : (healthScore >= 78 ? 'A-' : (healthScore >= 70 ? 'B+' : 'B-'));
+
+      // DSO (Days Sales Outstanding) = (Saldo Deudor / Pactado) * 150 días
+      const dsoDays = totalPactado > 0 ? ((totalDeuda / totalPactado) * 150) : 0;
+
+      // ARPU
+      const arpuPact = totalCount > 0 ? (totalPactado / totalCount) : 0;
+      const arpuReal = totalCount > 0 ? (totalPagado / totalCount) : 0;
+      const arpuBrecha = Math.max(0, arpuPact - arpuReal);
+      const arpuRealiz = arpuPact > 0 ? ((arpuReal / arpuPact) * 100) : 0;
+
+      // DOM Updates Scorecards
+      const elHScoreH = document.getElementById('headerHealthScore');
+      if (elHScoreH) elHScoreH.innerText = `${healthScore.toFixed(1)} / 100 • Grado ${grade}`;
+      
+      const elHScoreC = document.getElementById('cardHealthScore');
+      if (elHScoreC) elHScoreC.innerHTML = `${healthScore.toFixed(1)} <span class="text-xs font-normal text-slate-400">/ 100</span>`;
+      const elHBar = document.getElementById('barHealthScore');
+      if (elHBar) elHBar.style.width = `${healthScore.toFixed(1)}%`;
+
+      const elDSO = document.getElementById('cardDSO');
+      if (elDSO) elDSO.innerHTML = `${dsoDays.toFixed(1)} <span class="text-xs font-normal text-slate-400">días</span>`;
+      const elDSOBar = document.getElementById('barDSO');
+      if (elDSOBar) elDSOBar.style.width = `${Math.min(100, (dsoDays / 40) * 100).toFixed(0)}%`;
+
+      const elARPUReal = document.getElementById('cardARPUReal');
+      if (elARPUReal) elARPUReal.innerText = 'S/ ' + arpuReal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elARPUPact = document.getElementById('cardARPUPactado');
+      if (elARPUPact) elARPUPact.innerText = 'S/ ' + arpuPact.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elARPUBrecha = document.getElementById('cardARPUBrecha');
+      if (elARPUBrecha) elARPUBrecha.innerText = 'S/ ' + arpuBrecha.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const elARPURealiz = document.getElementById('badgeARPURealization');
+      if (elARPURealiz) elARPURealiz.innerText = `${arpuRealiz.toFixed(1)}% Captura`;
+
+      const elAlDiaRatio = document.getElementById('cardAlDiaRatio');
+      if (elAlDiaRatio) elAlDiaRatio.innerHTML = `${alDiaPct.toFixed(1)}% <span class="text-xs font-normal text-slate-400">Al Día</span>`;
+      const elAlDiaCount = document.getElementById('cardAlDiaCount');
+      if (elAlDiaCount) elAlDiaCount.innerText = `${countAlDia} Al día (S/ 0 deuda)`;
+      const elDeudaCount = document.getElementById('cardDeudaCount');
+      if (elDeudaCount) elDeudaCount.innerText = `${countDeuda} Con cuotas`;
+      const elBadgeApal = document.getElementById('badgeApalancamiento');
+      if (elBadgeApal) elBadgeApal.innerText = `${(100 - alDiaPct).toFixed(1)}% Financiado`;
+
+      const elLiveBadge = document.getElementById('analiticaLiveBadge');
+      if (elLiveBadge) elLiveBadge.innerText = `${totalCount} Alumnos Conciliados`;
+
+      // 2. Chart 1: Radar 360° Asesoras (Yskelia vs Learsy)
+      const radarCtx = document.getElementById('chartRadarAsesoras');
+      if (radarCtx) {
+        if (analiticaCharts.radar) analiticaCharts.radar.destroy();
+
+        const calcAsesoraVector = (key) => {
+          const s = asesoras[key] || { count: 0, pact: 0, pag: 0, deu: 0, c1: 0, c2_4: 0, alDia: 0, contado: 0 };
+          const efG = s.pact > 0 ? (s.pag / s.pact * 100) : 0;
+          const c24C = s.pact - s.c1;
+          const efC = c24C > 0 ? (s.c2_4 / c24C * 100) : 0;
+          const adP = s.count > 0 ? (s.alDia / s.count * 100) : 0;
+          const coP = s.count > 0 ? (s.contado / s.count * 100) : 0;
+          const volP = totalCount > 0 ? Math.min(100, (s.count / (totalCount * 0.6)) * 100) : 0;
+          const promP = s.pact > 0 ? Math.min(100, (s.pag / s.pact * 100)) : 0;
+          return [Number(efG.toFixed(1)), Number(efC.toFixed(1)), Number(adP.toFixed(1)), Number(coP.toFixed(1)), Number(volP.toFixed(1)), Number(promP.toFixed(1))];
+        };
+
+        const yskeliaData = calcAsesoraVector('YSKELIA');
+        const learsyData = calcAsesoraVector('LEARSY');
+
+        analiticaCharts.radar = new Chart(radarCtx, {
+          type: 'radar',
+          data: {
+            labels: [
+              'Eficacia Global (%)', 
+              'Cobro Cuotas C2-C4 (%)', 
+              'Tasa Al Día (%)', 
+              'Venta Contado (%)', 
+              'Volumen Relativo (%)', 
+              'Cumplimiento Promesa (%)'
+            ],
+            datasets: [
+              {
+                label: 'Yskelia',
+                data: yskeliaData,
+                backgroundColor: 'rgba(168, 85, 247, 0.25)',
+                borderColor: '#c084fc',
+                pointBackgroundColor: '#c084fc',
+                pointBorderColor: '#ffffff',
+                borderWidth: 2,
+                pointRadius: 4
+              },
+              {
+                label: 'Learsy',
+                data: learsyData,
+                backgroundColor: 'rgba(6, 182, 212, 0.25)',
+                borderColor: '#22d3ee',
+                pointBackgroundColor: '#22d3ee',
+                pointBorderColor: '#ffffff',
+                borderWidth: 2,
+                pointRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                pointLabels: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } },
+                ticks: { backdropColor: 'transparent', color: '#64748b', stepSize: 20, max: 100, min: 0 }
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    return ' ' + ctx.dataset.label + ': ' + ctx.raw + '%';
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 3. Chart 2: Polar Area Cartera Concentration
+      const polarCtx = document.getElementById('chartPolarCartera');
+      if (polarCtx) {
+        if (analiticaCharts.polar) analiticaCharts.polar.destroy();
+
+        const polarData = [c1Pag, c2Pag, c3Pag, c4Pag, totalDeuda];
+
+        const elC1 = document.getElementById('polarC1Val'); if (elC1) elC1.innerText = 'S/ ' + (c1Pag/1000).toFixed(1) + 'k';
+        const elC2 = document.getElementById('polarC2Val'); if (elC2) elC2.innerText = 'S/ ' + (c2Pag/1000).toFixed(1) + 'k';
+        const elC3 = document.getElementById('polarC3Val'); if (elC3) elC3.innerText = 'S/ ' + (c3Pag/1000).toFixed(1) + 'k';
+        const elC4 = document.getElementById('polarC4Val'); if (elC4) elC4.innerText = 'S/ ' + (c4Pag/1000).toFixed(1) + 'k';
+        const elSD = document.getElementById('polarSaldoVal'); if (elSD) elSD.innerText = 'S/ ' + (totalDeuda/1000).toFixed(1) + 'k';
+
+        analiticaCharts.polar = new Chart(polarCtx, {
+          type: 'polarArea',
+          data: {
+            labels: ['Cuota 01 (Matrícula)', 'Cuota 02', 'Cuota 03', 'Cuota 04', 'Saldo Pendiente por Cobrar'],
+            datasets: [{
+              data: polarData,
+              backgroundColor: [
+                'rgba(16, 185, 129, 0.80)', // Emerald
+                'rgba(59, 130, 246, 0.80)', // Blue
+                'rgba(168, 85, 247, 0.80)', // Purple
+                'rgba(245, 158, 11, 0.80)', // Amber
+                'rgba(244, 63, 94, 0.85)'   // Rose
+              ],
+              borderColor: '#0f172a',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                ticks: {
+                  backdropColor: 'transparent',
+                  color: '#94a3b8',
+                  callback: function(v) { return 'S/ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v); }
+                }
+              }
+            },
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 10 }, boxWidth: 10 } },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    const val = ctx.raw;
+                    const pct = totalPactado > 0 ? ((val / totalPactado) * 100).toFixed(1) : '0';
+                    return ' ' + ctx.label + ': S/ ' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2 }) + ' (' + pct + '%)';
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 4. Chart 3: Scatter / Bubble BCG Diplomados
+      const scatterCtx = document.getElementById('chartScatterDiplomados');
+      if (scatterCtx) {
+        if (analiticaCharts.scatter) analiticaCharts.scatter.destroy();
+
+        const rawDips = Object.values(dips);
+        const estrellas = [];
+        const nichos = [];
+        const riesgo = [];
+
+        rawDips.forEach(d => {
+          const ef = d.pact > 0 ? (d.pag / d.pact * 100) : 0;
+          const bubble = {
+            x: d.count,
+            y: Number(ef.toFixed(1)),
+            r: Math.max(6, Math.min(22, Math.sqrt(d.pag || 1) * 0.16)),
+            name: d.name,
+            pactado: d.pact,
+            pagado: d.pag,
+            deuda: d.deu,
+            alumnos: d.count
+          };
+
+          if (d.count >= 15 && ef >= 80) estrellas.push(bubble);
+          else if (d.count < 15 && ef >= 80) nichos.push(bubble);
+          else riesgo.push(bubble);
+        });
+
+        analiticaCharts.scatter = new Chart(scatterCtx, {
+          type: 'bubble',
+          data: {
+            datasets: [
+              {
+                label: 'Estrellas (Alto Volumen, Alta Eficacia)',
+                data: estrellas,
+                backgroundColor: 'rgba(52, 211, 153, 0.75)',
+                borderColor: '#10b981',
+                borderWidth: 1.5
+              },
+              {
+                label: 'Nicho Eficiente (Bajo Volumen, Alta Eficacia)',
+                data: nichos,
+                backgroundColor: 'rgba(56, 189, 248, 0.75)',
+                borderColor: '#0284c7',
+                borderWidth: 1.5
+              },
+              {
+                label: 'Riesgo de Cobro (Eficacia < 80%)',
+                data: riesgo,
+                backgroundColor: 'rgba(251, 113, 133, 0.75)',
+                borderColor: '#e11d48',
+                borderWidth: 1.5
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: { display: true, text: 'Número de Alumnos Matriculados', color: '#94a3b8', font: { size: 10, weight: 'bold' } },
+                grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                ticks: { color: '#94a3b8' }
+              },
+              y: {
+                title: { display: true, text: 'Eficacia de Cobranza (%)', color: '#94a3b8', font: { size: 10, weight: 'bold' } },
+                grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                ticks: { color: '#94a3b8', callback: function(v) { return v + '%'; } },
+                min: 40,
+                max: 105
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    const p = ctx.raw;
+                    return [
+                      p.name,
+                      'Alumnos: ' + p.alumnos + ' estudiantes',
+                      'Eficacia: ' + p.y + '%',
+                      'Recaudado: S/ ' + Number(p.pagado).toLocaleString('en-US', { minimumFractionDigits: 2 }),
+                      'Saldo Pendiente: S/ ' + Number(p.deuda).toLocaleString('en-US', { minimumFractionDigits: 2 })
+                    ];
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 5. Chart 4: Waterfall Bridge Chart (Floating Bars)
+      const waterfallCtx = document.getElementById('chartWaterfallPuente');
+      if (waterfallCtx) {
+        if (analiticaCharts.waterfall) analiticaCharts.waterfall.destroy();
+
+        // 1. Promesa: [0, totalPactado]
+        // 2. C1 Matrícula: [0, c1Pag]
+        // 3. Cuotas C2-C4: [c1Pag, c1Pag + c2_4_recaudo]
+        // 4. Saldo Pendiente: [totalPagado, totalPactado]
+        // 5. En Caja Real: [0, totalPagado]
+        const barLabels = [
+          '1. Promesa Pactada',
+          '2. Ingreso C1',
+          '3. Cuotas 2 a 4',
+          '4. Saldo Pendiente',
+          '5. Total en Caja'
+        ];
+
+        const barFloatingValues = [
+          [0, totalPactado],
+          [0, c1Pag],
+          [c1Pag, c1Pag + c2_4_recaudo],
+          [totalPagado, totalPactado],
+          [0, totalPagado]
+        ];
+
+        const barColors = [
+          'rgba(59, 130, 246, 0.85)',  // Blue (Promesa Total)
+          'rgba(16, 185, 129, 0.85)',  // Emerald (C1 Matrícula)
+          'rgba(6, 182, 212, 0.85)',   // Cyan (C2-C4 Cuotas)
+          'rgba(244, 63, 94, 0.85)',   // Rose (Saldo Pendiente)
+          'rgba(168, 85, 247, 0.90)'   // Purple (Total en Caja)
+        ];
+
+        analiticaCharts.waterfall = new Chart(waterfallCtx, {
+          type: 'bar',
+          data: {
+            labels: barLabels,
+            datasets: [{
+              data: barFloatingValues,
+              backgroundColor: barColors,
+              borderColor: '#0f172a',
+              borderWidth: 1.5,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.06)' },
+                ticks: {
+                  color: '#94a3b8',
+                  callback: function(v) { return 'S/ ' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v); }
+                }
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    const range = ctx.raw;
+                    const diff = Array.isArray(range) ? (range[1] - range[0]) : range;
+                    return ' Monto: S/ ' + Number(diff).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 6. Populate Strategic Recommendation Table
+      const tableBody = document.getElementById('analiticaTableBody');
+      const tableCount = document.getElementById('analiticaTableCount');
+      if (tableBody) {
+        tableBody.innerHTML = '';
+        const list = Object.values(dips).sort((a,b) => b.count - a.count);
+        if (tableCount) tableCount.innerText = `${list.length} Diplomados`;
+
+        list.forEach(d => {
+          const ef = d.pact > 0 ? (d.pag / d.pact * 100) : 0;
+          let cuadranteBadge = '';
+          let accion = '';
+
+          if (d.count >= 15 && ef >= 80) {
+            cuadranteBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">⭐ Estrella</span>';
+            accion = '<span class="text-emerald-300 font-semibold"><i class="fa-solid fa-arrow-trend-up text-xs mr-1"></i>Escalar pauta comercial y abrir nueva sección</span>';
+          } else if (d.count < 15 && ef >= 80) {
+            cuadranteBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">💎 Nicho Eficiente</span>';
+            accion = '<span class="text-cyan-300 font-semibold"><i class="fa-solid fa-bullhorn text-xs mr-1"></i>Aumentar inversión en lead generation para escalar</span>';
+          } else if (d.count >= 15 && ef < 80) {
+            cuadranteBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/30">⚠️ Volumen en Riesgo</span>';
+            accion = '<span class="text-amber-300 font-semibold"><i class="fa-solid fa-phone text-xs mr-1"></i>Priorizar campaña telefónica en Cuotas 2 y 3</span>';
+          } else {
+            cuadranteBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 Cartera en Alerta</span>';
+            accion = '<span class="text-rose-300 font-semibold"><i class="fa-solid fa-hand-holding-dollar text-xs mr-1"></i>Bloqueo de certificación y renegociación de cuotas</span>';
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-800/40 transition border-b border-slate-800/40 text-slate-300';
+          tr.innerHTML = `
+            <td class="py-2.5 px-3 font-semibold text-white flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+              ${d.name}
+            </td>
+            <td class="py-2.5 px-3 text-center font-bold text-slate-200 font-mono">${d.count}</td>
+            <td class="py-2.5 px-3 text-right font-mono text-blue-300">S/ ${d.pact.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 text-right font-mono text-emerald-400 font-bold">S/ ${d.pag.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 text-right font-mono text-rose-400 font-bold">S/ ${d.deu.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-2.5 px-3 text-center">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-black ${ef >= 85 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : (ef >= 75 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30')}">
+                ${ef.toFixed(1)}%
+              </span>
+            </td>
+            <td class="py-2.5 px-3 text-center">${cuadranteBadge}</td>
+            <td class="py-2.5 px-3 text-left text-[11px]">${accion}</td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      }
+    }
+
 
     function initPowerBIView() {
       const data = window.GIANT_DATA || (typeof GIANT_DATA !== 'undefined' ? GIANT_DATA : []);
