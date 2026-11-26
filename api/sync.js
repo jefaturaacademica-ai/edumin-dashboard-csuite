@@ -105,7 +105,7 @@ function parseNum(val) {
 const monthsMap = {
   '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
   '05': 'Mayo', '06': 'Junio', '07': 'Julio', '08': 'Agosto',
-  '09': 'Setiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
+  '09': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
 };
 
 function parseAndTransformCSV(csvText) {
@@ -133,10 +133,35 @@ function parseAndTransformCSV(csvText) {
     const pagQ10 = parseNum(obj['Pagado Q10']) || pagCom;
     const deudaQ10 = parseNum(obj['Deuda Q10']) || parseNum(obj['DEBE']);
 
+    const c1 = pagCom > 0 ? pagCom : parseNum(obj['CUOTA 1']);
     const c2 = parseNum(obj['CUOTA 2']);
-    const c2Pag = Math.max(0, pagQ10 - pagCom);
     const c3 = parseNum(obj['CUOTA 3']);
     const c4 = parseNum(obj['CUOTA 4']);
+
+    // Progressive payment distribution C1 -> C2 -> C3 -> C4
+    let c1Pag = Math.min(pagQ10, c1);
+    let cuotasRem = Math.max(0, pagQ10 - c1);
+
+    let c2Pag = Math.min(cuotasRem, c2);
+    cuotasRem = Math.max(0, cuotasRem - c2Pag);
+
+    let c3Pag = Math.min(cuotasRem, c3);
+    cuotasRem = Math.max(0, cuotasRem - c3Pag);
+
+    let c4Pag = Math.min(cuotasRem, c4);
+    cuotasRem = Math.max(0, cuotasRem - c4Pag);
+
+    if (cuotasRem > 0) {
+      if (c4 > 0) c4Pag += cuotasRem;
+      else if (c3 > 0) c3Pag += cuotasRem;
+      else if (c2 > 0) c2Pag += cuotasRem;
+      else c1Pag += cuotasRem;
+    }
+
+    const c1Debe = Math.max(0, c1 - c1Pag);
+    const c2Debe = Math.max(0, c2 - c2Pag);
+    const c3Debe = Math.max(0, c3 - c3Pag);
+    const c4Debe = Math.max(0, c4 - c4Pag);
 
     records.push({
       id: idx,
@@ -163,7 +188,7 @@ function parseAndTransformCSV(csvText) {
       deuda_q10: deudaQ10,
       pagare_q10: obj['Pagare Q10'] || '',
       recibo_q10: obj['Recibo Q10'] || '',
-      estado_q10: obj['Estado Q10'] || 'AL DÍA',
+      estado_q10: obj['Estado Q10'] || (deudaQ10 > 0 ? 'DEUDOR' : 'AL DÍA'),
       nro_admin: idx,
       fila_admin: idx + 12,
       situacion_admin: 'ACTIVO',
@@ -179,18 +204,18 @@ function parseAndTransformCSV(csvText) {
       categoria_label: '✅ Coincidencia Exacta',
       categoria_badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
       explicacion: 'Pagos, pactado y deuda coinciden al 100%',
-      c1: pagCom,
-      c1_pagado: pagCom,
-      c1_debe: 0,
+      c1: c1,
+      c1_pagado: c1Pag,
+      c1_debe: c1Debe,
       c2: c2,
       c2_pagado: c2Pag,
-      c2_debe: Math.max(0, c2 - c2Pag),
+      c2_debe: c2Debe,
       c3: c3,
-      c3_pagado: 0,
-      c3_debe: c3,
+      c3_pagado: c3Pag,
+      c3_debe: c3Debe,
       c4: c4,
-      c4_pagado: 0,
-      c4_debe: c4
+      c4_pagado: c4Pag,
+      c4_debe: c4Debe
     });
   }
   return records;
