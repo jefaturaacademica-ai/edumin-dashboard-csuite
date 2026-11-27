@@ -1,3 +1,15 @@
+function cleanDiplomadoName(name) {
+  if (!name || name === '-') return '-';
+  let s = String(name).trim();
+  s = s.replace(/\s*\((?:EN VIVO|VIVO|ASINCR[OÓ]NICO|ASINCRONICOS|ASINCR[OÓ]NICOS|\d+\s*M[OÓ]DULOS?)\)/gi, '');
+  s = s.replace(/\s*\((?:EN VIVO|VIVO|ASINCR[OÓ]NICO|ASINCRONICOS|ASINCR[OÓ]NICOS|\d+\s*M[OÓ]DULOS?)\)/gi, '');
+  s = s.replace(/\s*-\s*\d+\s*M[OÓ]DULOS?/gi, '');
+  s = s.replace(/\s+EN VIVO$/gi, '');
+  s = s.replace(/\s+VIVO$/gi, '');
+  s = s.replace(/\s+ASINCR[OÓ]NICO$/gi, '');
+  return s.replace(/\s+/g, ' ').trim();
+}
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -156,8 +168,8 @@ function parseAndTransformCSV(csvText) {
       dni: obj['DNI'] || '',
       nombre_comercial: obj['Estudiante'] || '',
       nombre_admin: obj['Estudiante'] || '',
-      diplomado_comercial: obj['Diplomado'] || '',
-      diplomado_admin: obj['Diplomado'] || '',
+      diplomado_comercial: cleanDiplomadoName(obj['Diplomado'] || ''),
+      diplomado_admin: cleanDiplomadoName(obj['Diplomado'] || ''),
       mes_ingreso: mes,
       asesora: obj['Asesora'] || 'LEARSY',
       origen: obj['Origen'] || 'META',
