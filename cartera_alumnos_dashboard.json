@@ -6248,6 +6248,24 @@
       "c2_pagado": 0.0,
       "c3_pagado": 0.0,
       "c4_pagado": 0.0
+    },
+    {
+      "id": 299,
+      "dni": "9676953",
+      "estudiante": "Esperanza Diaz Huaman",
+      "diplomado": "CURSO IA DE 0 A 100",
+      "asesora": "LEARSY",
+      "origen": "META F",
+      "telefono": "996 330 061",
+      "correo": "ediazh06@hotmail.com",
+      "mes": "Noviembre",
+      "pactado": 99.0,
+      "pagado": 99.0,
+      "deuda": 0.0,
+      "c1_pagado": 99.0,
+      "c2_pagado": 0.0,
+      "c3_pagado": 0.0,
+      "c4_pagado": 0.0
     }
   ],
   "diplomados": [
