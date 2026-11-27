@@ -1848,7 +1848,7 @@
               <th class="py-2.5 px-3">#</th>
               <th class="py-2.5 px-3">DNI</th>
               <th class="py-2.5 px-3">Estudiante</th>
-              <th class="py-2.5 px-3">Diplomado</th>
+              <th class="py-2.5 px-3">Diplomado <i class="fa-solid fa-arrow-down-a-z text-cyan-400 text-[10px] ml-1" title="Orden Alfabético"></i></th>
               <th class="py-2.5 px-3">Celular</th>
               <th class="py-2.5 px-3 text-right">Pactado</th>
               <th class="py-2.5 px-3 text-right">1ra Cuota</th>
@@ -2210,7 +2210,7 @@
               <th class="py-2.5 px-3">#</th>
               <th class="py-2.5 px-3">DNI</th>
               <th class="py-2.5 px-3">Alumno</th>
-              <th class="py-2.5 px-3">Diplomado</th>
+              <th class="py-2.5 px-3">Diplomado <i class="fa-solid fa-arrow-down-a-z text-cyan-400 text-[10px] ml-1" title="Orden Alfabético"></i></th>
               <th class="py-2.5 px-3 text-center">Mes</th>
               <th class="py-2.5 px-3 text-right">Promesa</th>
               <th class="py-2.5 px-3 text-right text-emerald-400">Cuota 01</th>
@@ -2599,7 +2599,7 @@
         <table class="w-full text-xs text-left border-collapse">
           <thead>
             <tr class="border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider text-[10px] bg-slate-950/70">
-              <th class="py-2.5 px-3">Diplomado</th>
+              <th class="py-2.5 px-3">Diplomado <i class="fa-solid fa-arrow-down-a-z text-cyan-400 text-[10px] ml-1" title="Orden Alfabético"></i></th>
               <th class="py-2.5 px-3 text-center">Alumnos</th>
               <th class="py-2.5 px-3 text-right text-slate-300">Pactado</th>
               <th class="py-2.5 px-3 text-right text-slate-200 font-bold">Recaudado</th>
@@ -6245,8 +6245,8 @@ function drilldownToCuadroGiganteFromBi() {
       const tableCount = document.getElementById('analiticaTableCount');
       if (tableBody) {
         tableBody.innerHTML = '';
-        const list = Object.values(dips).sort((a,b) => b.count - a.count);
-        if (tableCount) tableCount.innerText = `${list.length} Diplomados`;
+        const list = Object.values(dips).sort((a,b) => (a.name || '').localeCompare(b.name || '', 'es', { sensitivity: 'base' }));
+        if (tableCount) tableCount.innerHTML = `<span class="text-slate-200 font-bold">${list.length} Diplomados</span> analizados <span class="text-[10px] text-cyan-400 font-medium ml-1.5"><i class="fa-solid fa-arrow-down-a-z mr-0.5"></i>(A - Z)</span>`;
 
         list.forEach(d => {
           const ef = d.pact > 0 ? (d.pag / d.pact * 100) : 0;
